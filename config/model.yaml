@@ -8,15 +8,26 @@ import: # Import other files from paths relative to this file, or absolute paths
   - "scenarios_countries.yaml" 
 
 config:
-  name: uhs_cem_representation
-  calliope_version: 0.7.0
-  mode: base
-  broadcast_input_data: true
-  math_paths:
+  init:
+    name: uhs_cem_representation
+    calliope_version: "0.7.0"
+    mode: base
+    broadcast_input_data: true
+
+    math_paths:
       uhs_storage_formulations: "custom_mathematics/uhs_storage_formulations.yaml"
-  extra_math:
+
+    extra_math:
       - uhs_storage_formulations
-  pre_validate_math_strings: true
+
+    pre_validate_math_strings: true
+
+  # build:
+  #   ensure_feasibility: false
+
+  solve:
+    solver: gurobi
+    solver_io: python
 
 data_definitions:
   objective_cost_weights: 

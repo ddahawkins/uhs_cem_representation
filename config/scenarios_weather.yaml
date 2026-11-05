@@ -40,56 +40,56 @@ scenarios:
 overrides:
   # One-year weather windows (April-March).
   weather_2009:
-    init.subset.timesteps: ['2009-04-01', '2010-03-31']
+    config.init.subset.timesteps: ['2009-04-01', '2010-03-31']
   weather_2010:
-    init.subset.timesteps: ['2010-04-01', '2011-03-31']
+    config.init.subset.timesteps: ['2010-04-01', '2011-03-31']
   weather_2011:
-    init.subset.timesteps: ['2011-04-01', '2012-03-31']
+    config.init.subset.timesteps: ['2011-04-01', '2012-03-31']
   weather_2012:
-    init.subset.timesteps: ['2012-04-01', '2013-03-31']
+    config.init.subset.timesteps: ['2012-04-01', '2013-03-31']
   weather_2013:
-    init.subset.timesteps: ['2013-04-01', '2014-03-31']
+    config.init.subset.timesteps: ['2013-04-01', '2014-03-31']
   weather_2014:
-    init.subset.timesteps: ['2014-04-01', '2015-03-31']
+    config.init.subset.timesteps: ['2014-04-01', '2015-03-31']
   weather_2015:
-    init.subset.timesteps: ['2015-04-01', '2016-03-31']
+    config.init.subset.timesteps: ['2015-04-01', '2016-03-31']
   weather_2016:
-    init.subset.timesteps: ['2016-04-01', '2017-03-31']
+    config.init.subset.timesteps: ['2016-04-01', '2017-03-31']
   weather_2017:
-    init.subset.timesteps: ['2017-04-01', '2018-03-31']
+    config.init.subset.timesteps: ['2017-04-01', '2018-03-31']
   weather_2018:
-    init.subset.timesteps: ['2018-04-01', '2019-03-31']
+    config.init.subset.timesteps: ['2018-04-01', '2019-03-31']
   weather_2019:
-    init.subset.timesteps: ['2019-04-01', '2020-03-31']
+    config.init.subset.timesteps: ['2019-04-01', '2020-03-31']
   weather_2020:
-    init.subset.timesteps: ['2020-04-01', '2021-03-31']
+    config.init.subset.timesteps: ['2020-04-01', '2021-03-31']
   weather_2021:
-    init.subset.timesteps: ['2021-04-01', '2022-03-31']
+    config.init.subset.timesteps: ['2021-04-01', '2022-03-31']
   weather_2022:
-    init.subset.timesteps: ['2022-04-01', '2023-03-31']
+    config.init.subset.timesteps: ['2022-04-01', '2023-03-31']
   weather_2023:
-    init.subset.timesteps: ['2023-04-01', '2024-03-31']
+    config.init.subset.timesteps: ['2023-04-01', '2024-03-31']
 
   # Short debugging windows (starting at the same point as weather_2016_1y).
   subset_2016_1m:
-    init.subset.timesteps: ['2016-04-01', '2016-04-30']
+    config.init.subset.timesteps: ['2016-04-01', '2016-04-30']
   subset_2016_3m:
-    init.subset.timesteps: ['2016-04-01', '2016-06-30']
+    config.init.subset.timesteps: ['2016-04-01', '2016-06-30']
   subset_2016_6m:
-    init.subset.timesteps: ['2016-04-01', '2016-09-30']
+    config.init.subset.timesteps: ['2016-04-01', '2016-09-30']
 
   # Five-year windows covering the whole 15-year time series without gaps.
   subset_2009_5y:
-    init.subset.timesteps: ['2009-04-01', '2014-03-31']
+    config.init.subset.timesteps: ['2009-04-01', '2014-03-31']
   subset_2014_5y:
-    init.subset.timesteps: ['2014-04-01', '2019-03-31']
+    config.init.subset.timesteps: ['2014-04-01', '2019-03-31']
   subset_2019_5y:
-    init.subset.timesteps: ['2019-04-01', '2024-03-31']
+    config.init.subset.timesteps: ['2019-04-01', '2024-03-31']
 
   # Ten-year windows and entire available period.
   subset_2009_10y:
-    init.subset.timesteps: ['2009-04-01', '2019-03-31']
+    config.init.subset.timesteps: ['2009-04-01', '2019-03-31']
   subset_2014_10y:
-    init.subset.timesteps: ['2014-04-01', '2024-03-31']
+    config.init.subset.timesteps: ['2014-04-01', '2024-03-31']
   subset_2009_15y:
-    init.subset.timesteps: ['2009-04-01', '2024-03-31']
+    config.init.subset.timesteps: ['2009-04-01', '2024-03-31']
