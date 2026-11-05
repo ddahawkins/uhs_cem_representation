@@ -4,3 +4,7 @@
 
 results/
 temp/
+
+__pycache__
+
+*dev*
