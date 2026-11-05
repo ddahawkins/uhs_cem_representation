@@ -1,6 +1,7 @@
 
 import: # Import other files from paths relative to this file, or absolute paths
   - "technologies.yaml" 
+  # - "uhs_technologies.yaml"  #uhs representations are created via scenarios/overrides
   - "locations.yaml" 
   - "scenarios.yaml" 
 

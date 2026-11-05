@@ -1,0 +1,26 @@
+# =============================================================================
+# TECHNOLOGY DEFINITIONS
+# =============================================================================
+#
+# Cost convention used throughout this file:
+#   power CAPEX:        million EUR / MW
+#   energy CAPEX:       million EUR / MWh
+#   fixed O&M (power):  million EUR / MW / year
+#   fixed O&M (energy): million EUR / MWh / year
+#   variable OPEX:      million EUR / MWh throughput
+#
+# Primary source for non-UHS techno-economic assumptions:
+#   PyPSA technology-data, 2030 output (used by the PyPSA model family)
+#   https://github.com/PyPSA/technology-data
+#   https://raw.githubusercontent.com/PyPSA/technology-data/master/outputs/costs_2030.csv
+#   Accessed 2026-10-08.
+#
+# Values from PyPSA which are quoted as FOM [% of CAPEX/year] are converted
+# here to absolute annual O&M because Calliope's `cost_om_annual` is an
+# absolute cost per unit of installed capacity.
+#
+# =============================================================================
+
+techs:
+
+  

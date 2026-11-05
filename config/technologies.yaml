@@ -438,200 +438,6 @@ techs:
         index: monetary
         dims: costs
 
-
-  # ===========================================================================
-  # UNDERGROUND HYDROGEN STORAGE
-  #
-  # These use the custom `uhs_storage_formulations.yaml` math.
-  # Techno-economic parameters intentionally remain TODO pending the dedicated
-  # UHS evidence synthesis.
-  # ===========================================================================
-
-  salt_cavern:
-    name: "Salt Cavern Storage"
-    base_tech: storage
-    carrier_in: hydrogen
-    carrier_out: hydrogen
-    lifetime: # TODO
-    storage_formulation: bundled
-    cyclic_storage: true
-    withdrawal_to_injection_ratio: # TODO
-    energy_to_power_ratio: # TODO
-    flow_in_eff: # TODO
-    flow_out_eff: # TODO
-    storage_loss: # TODO
-    cost_flow_in_cap:
-      data: # TODO - injection CAPEX
-      index: monetary
-      dims: costs
-    cost_om_annual_flow_in_cap:
-      data: # TODO - injection fixed O&M
-      index: monetary
-      dims: costs
-    cost_flow_in:
-      data: # TODO - injection variable OPEX
-      index: monetary
-      dims: costs
-    cost_flow_out_cap:
-      data: # TODO - withdrawal CAPEX
-      index: monetary
-      dims: costs
-    cost_om_annual_flow_out_cap:
-      data: # TODO - withdrawal fixed O&M
-      index: monetary
-      dims: costs
-    cost_flow_out:
-      data: # TODO - withdrawal variable OPEX
-      index: monetary
-      dims: costs
-    cost_storage_cap:
-      data: # TODO - reservoir CAPEX
-      index: monetary
-      dims: costs
-    cost_om_annual_storage_cap:
-      data: # TODO - reservoir fixed O&M
-      index: monetary
-      dims: costs
-
-  depleted_gas_field:
-    name: "Depleted Gas Field Storage"
-    base_tech: storage
-    carrier_in: hydrogen
-    carrier_out: hydrogen
-    lifetime: # TODO
-    storage_formulation: bundled
-    cyclic_storage: true
-    withdrawal_to_injection_ratio: # TODO
-    energy_to_power_ratio: # TODO
-    flow_in_eff: # TODO
-    flow_out_eff: # TODO
-    storage_loss: # TODO
-    cost_flow_in_cap:
-      data: # TODO
-      index: monetary
-      dims: costs
-    cost_om_annual_flow_in_cap:
-      data: # TODO
-      index: monetary
-      dims: costs
-    cost_flow_in:
-      data: # TODO
-      index: monetary
-      dims: costs
-    cost_flow_out_cap:
-      data: # TODO
-      index: monetary
-      dims: costs
-    cost_om_annual_flow_out_cap:
-      data: # TODO
-      index: monetary
-      dims: costs
-    cost_flow_out:
-      data: # TODO
-      index: monetary
-      dims: costs
-    cost_storage_cap:
-      data: # TODO
-      index: monetary
-      dims: costs
-    cost_om_annual_storage_cap:
-      data: # TODO
-      index: monetary
-      dims: costs
-
-  saline_aquifer:
-    name: "Saline Aquifer Storage"
-    base_tech: storage
-    carrier_in: hydrogen
-    carrier_out: hydrogen
-    lifetime: # TODO
-    storage_formulation: bundled
-    cyclic_storage: true
-    withdrawal_to_injection_ratio: # TODO
-    energy_to_power_ratio: # TODO
-    flow_in_eff: # TODO
-    flow_out_eff: # TODO
-    storage_loss: # TODO
-    cost_flow_in_cap:
-      data: # TODO
-      index: monetary
-      dims: costs
-    cost_om_annual_flow_in_cap:
-      data: # TODO
-      index: monetary
-      dims: costs
-    cost_flow_in:
-      data: # TODO
-      index: monetary
-      dims: costs
-    cost_flow_out_cap:
-      data: # TODO
-      index: monetary
-      dims: costs
-    cost_om_annual_flow_out_cap:
-      data: # TODO
-      index: monetary
-      dims: costs
-    cost_flow_out:
-      data: # TODO
-      index: monetary
-      dims: costs
-    cost_storage_cap:
-      data: # TODO
-      index: monetary
-      dims: costs
-    cost_om_annual_storage_cap:
-      data: # TODO
-      index: monetary
-      dims: costs
-
-  lined_rock_cavern:
-    name: "Lined Rock Cavern Storage"
-    base_tech: storage
-    carrier_in: hydrogen
-    carrier_out: hydrogen
-    lifetime: # TODO
-    storage_formulation: bundled
-    cyclic_storage: true
-    withdrawal_to_injection_ratio: # TODO
-    energy_to_power_ratio: # TODO
-    flow_in_eff: # TODO
-    flow_out_eff: # TODO
-    storage_loss: # TODO
-    cost_flow_in_cap:
-      data: # TODO
-      index: monetary
-      dims: costs
-    cost_om_annual_flow_in_cap:
-      data: # TODO
-      index: monetary
-      dims: costs
-    cost_flow_in:
-      data: # TODO
-      index: monetary
-      dims: costs
-    cost_flow_out_cap:
-      data: # TODO
-      index: monetary
-      dims: costs
-    cost_om_annual_flow_out_cap:
-      data: # TODO
-      index: monetary
-      dims: costs
-    cost_flow_out:
-      data: # TODO
-      index: monetary
-      dims: costs
-    cost_storage_cap:
-      data: # TODO
-      index: monetary
-      dims: costs
-    cost_om_annual_storage_cap:
-      data: # TODO
-      index: monetary
-      dims: costs
-
-
   # ===========================================================================
   # HYDROGEN CONVERSION
   # ===========================================================================
@@ -683,6 +489,198 @@ techs:
       dims: costs
 
   # ===========================================================================
+  # UNDERGROUND HYDROGEN STORAGE
+  #
+  # These use the custom `uhs_storage_formulations.yaml` math.
+  # Techno-economic parameters intentionally remain TODO pending the dedicated
+  # UHS evidence synthesis.
+  # ===========================================================================
+
+  # salt_cavern:
+  #   name: "Salt Cavern Storage"
+  #   base_tech: storage
+  #   carrier_in: hydrogen
+  #   carrier_out: hydrogen
+  #   lifetime: # TODO
+  #   storage_formulation: bundled
+  #   cyclic_storage: true
+  #   withdrawal_to_injection_ratio: # TODO
+  #   energy_to_power_ratio: # TODO
+  #   flow_in_eff: # TODO
+  #   flow_out_eff: # TODO
+  #   storage_loss: # TODO
+  #   cost_flow_in_cap:
+  #     data: # TODO - injection CAPEX
+  #     index: monetary
+  #     dims: costs
+  #   cost_om_annual_flow_in_cap:
+  #     data: # TODO - injection fixed O&M
+  #     index: monetary
+  #     dims: costs
+  #   cost_flow_in:
+  #     data: # TODO - injection variable OPEX
+  #     index: monetary
+  #     dims: costs
+  #   cost_flow_out_cap:
+  #     data: # TODO - withdrawal CAPEX
+  #     index: monetary
+  #     dims: costs
+  #   cost_om_annual_flow_out_cap:
+  #     data: # TODO - withdrawal fixed O&M
+  #     index: monetary
+  #     dims: costs
+  #   cost_flow_out:
+  #     data: # TODO - withdrawal variable OPEX
+  #     index: monetary
+  #     dims: costs
+  #   cost_storage_cap:
+  #     data: # TODO - reservoir CAPEX
+  #     index: monetary
+  #     dims: costs
+  #   cost_om_annual_storage_cap:
+  #     data: # TODO - reservoir fixed O&M
+  #     index: monetary
+  #     dims: costs
+
+  # depleted_gas_field:
+  #   name: "Depleted Gas Field Storage"
+  #   base_tech: storage
+  #   carrier_in: hydrogen
+  #   carrier_out: hydrogen
+  #   lifetime: # TODO
+  #   storage_formulation: bundled
+  #   cyclic_storage: true
+  #   withdrawal_to_injection_ratio: # TODO
+  #   energy_to_power_ratio: # TODO
+  #   flow_in_eff: # TODO
+  #   flow_out_eff: # TODO
+  #   storage_loss: # TODO
+  #   cost_flow_in_cap:
+  #     data: # TODO
+  #     index: monetary
+  #     dims: costs
+  #   cost_om_annual_flow_in_cap:
+  #     data: # TODO
+  #     index: monetary
+  #     dims: costs
+  #   cost_flow_in:
+  #     data: # TODO
+  #     index: monetary
+  #     dims: costs
+  #   cost_flow_out_cap:
+  #     data: # TODO
+  #     index: monetary
+  #     dims: costs
+  #   cost_om_annual_flow_out_cap:
+  #     data: # TODO
+  #     index: monetary
+  #     dims: costs
+  #   cost_flow_out:
+  #     data: # TODO
+  #     index: monetary
+  #     dims: costs
+  #   cost_storage_cap:
+  #     data: # TODO
+  #     index: monetary
+  #     dims: costs
+  #   cost_om_annual_storage_cap:
+  #     data: # TODO
+  #     index: monetary
+  #     dims: costs
+
+  # saline_aquifer:
+  #   name: "Saline Aquifer Storage"
+  #   base_tech: storage
+  #   carrier_in: hydrogen
+  #   carrier_out: hydrogen
+  #   lifetime: # TODO
+  #   storage_formulation: bundled
+  #   cyclic_storage: true
+  #   withdrawal_to_injection_ratio: # TODO
+  #   energy_to_power_ratio: # TODO
+  #   flow_in_eff: # TODO
+  #   flow_out_eff: # TODO
+  #   storage_loss: # TODO
+  #   cost_flow_in_cap:
+  #     data: # TODO
+  #     index: monetary
+  #     dims: costs
+  #   cost_om_annual_flow_in_cap:
+  #     data: # TODO
+  #     index: monetary
+  #     dims: costs
+  #   cost_flow_in:
+  #     data: # TODO
+  #     index: monetary
+  #     dims: costs
+  #   cost_flow_out_cap:
+  #     data: # TODO
+  #     index: monetary
+  #     dims: costs
+  #   cost_om_annual_flow_out_cap:
+  #     data: # TODO
+  #     index: monetary
+  #     dims: costs
+  #   cost_flow_out:
+  #     data: # TODO
+  #     index: monetary
+  #     dims: costs
+  #   cost_storage_cap:
+  #     data: # TODO
+  #     index: monetary
+  #     dims: costs
+  #   cost_om_annual_storage_cap:
+  #     data: # TODO
+  #     index: monetary
+  #     dims: costs
+
+  # lined_rock_cavern:
+  #   name: "Lined Rock Cavern Storage"
+  #   base_tech: storage
+  #   carrier_in: hydrogen
+  #   carrier_out: hydrogen
+  #   lifetime: # TODO
+  #   storage_formulation: bundled
+  #   cyclic_storage: true
+  #   withdrawal_to_injection_ratio: # TODO
+  #   energy_to_power_ratio: # TODO
+  #   flow_in_eff: # TODO
+  #   flow_out_eff: # TODO
+  #   storage_loss: # TODO
+  #   cost_flow_in_cap:
+  #     data: # TODO
+  #     index: monetary
+  #     dims: costs
+  #   cost_om_annual_flow_in_cap:
+  #     data: # TODO
+  #     index: monetary
+  #     dims: costs
+  #   cost_flow_in:
+  #     data: # TODO
+  #     index: monetary
+  #     dims: costs
+  #   cost_flow_out_cap:
+  #     data: # TODO
+  #     index: monetary
+  #     dims: costs
+  #   cost_om_annual_flow_out_cap:
+  #     data: # TODO
+  #     index: monetary
+  #     dims: costs
+  #   cost_flow_out:
+  #     data: # TODO
+  #     index: monetary
+  #     dims: costs
+  #   cost_storage_cap:
+  #     data: # TODO
+  #     index: monetary
+  #     dims: costs
+  #   cost_om_annual_storage_cap:
+  #     data: # TODO
+  #     index: monetary
+  #     dims: costs
+
+  # ===========================================================================
   # DEMAND
   # ===========================================================================
 
@@ -690,3 +688,4 @@ demand_power:
     name: "Electricity Demand"
     base_tech: demand
     carrier_in: power
+
