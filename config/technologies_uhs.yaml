@@ -19,7 +19,6 @@ templates:
     base_tech: storage
     carrier_in: hydrogen
     carrier_out: hydrogen
-    flow_in_eff: 1.0
     cost_storage_cap:
       data: null
       index: monetary
@@ -76,10 +75,10 @@ techs:
     energy_to_power_ratio: 288
     withdrawal_to_injection_ratio: 3
     flow_out_eff: 1
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.00978356
-    withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
-    injection_compression_equivalent_efficiency: 0.990311
-    withdrawal_compression_equivalent_efficiency: 1
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.00978356
+    # withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
+    flow_in_eff: 0.990311
+    # withdrawal_compression_equivalent_efficiency: 1
     soc_24h_a_min: -0.064838
     soc_24h_b_min: 1.01149
     soc_24h_a_max: 0.0640983
@@ -99,8 +98,8 @@ techs:
     withdrawal_to_injection_ratio: 3
     flow_out_eff: 0.95
     storage_loss: 1.7253e-06
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.00624323
-    injection_compression_equivalent_efficiency: 0.993796
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.00624323
+    flow_in_eff: 0.993796
   b1_depleted_gas_field_epr01_wtir01:
     template: uhs_bundled
     name: 'B1: Depleted Gas Field (epr01_wtir01)'
@@ -116,8 +115,8 @@ techs:
     withdrawal_to_injection_ratio: 3
     flow_out_eff: 0.8996
     storage_loss: 1.7253e-06
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.0091902
-    injection_compression_equivalent_efficiency: 0.990893
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.0091902
+    flow_in_eff: 0.990893
   b1_lined_rock_cavern_epr01_wtir01:
     template: uhs_bundled
     name: 'B1: Lined Rock Cavern (epr01_wtir01)'
@@ -132,10 +131,10 @@ techs:
     energy_to_power_ratio: 180
     withdrawal_to_injection_ratio: 3
     flow_out_eff: 1
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.010042
-    withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
-    injection_compression_equivalent_efficiency: 0.990058
-    withdrawal_compression_equivalent_efficiency: 1
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.010042
+    # withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
+    flow_in_eff: 0.990058
+    # withdrawal_compression_equivalent_efficiency: 1
   b30_salt_cavern_epr01_wtir01:
     template: uhs_bundled
     name: 'B30: Salt Cavern (epr01_wtir01)'
@@ -150,10 +149,10 @@ techs:
     energy_to_power_ratio: 168
     withdrawal_to_injection_ratio: 1.4
     flow_out_eff: 1
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.00978356
-    withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
-    injection_compression_equivalent_efficiency: 0.990311
-    withdrawal_compression_equivalent_efficiency: 1
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.00978356
+    # withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
+    flow_in_eff: 0.990311
+    # withdrawal_compression_equivalent_efficiency: 1
     soc_24h_a_min: -0.064838
     soc_24h_b_min: 1.01149
     soc_24h_a_max: 0.0640983
@@ -173,8 +172,8 @@ techs:
     withdrawal_to_injection_ratio: 1.4
     flow_out_eff: 0.95
     storage_loss: 1.7253e-06
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.00624323
-    injection_compression_equivalent_efficiency: 0.993796
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.00624323
+    flow_in_eff: 0.993796
   b30_depleted_gas_field_epr01_wtir01:
     template: uhs_bundled
     name: 'B30: Depleted Gas Field (epr01_wtir01)'
@@ -190,8 +189,8 @@ techs:
     withdrawal_to_injection_ratio: 1.4
     flow_out_eff: 0.8996
     storage_loss: 1.7253e-06
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.0091902
-    injection_compression_equivalent_efficiency: 0.990893
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.0091902
+    flow_in_eff: 0.990893
   b30_lined_rock_cavern_epr01_wtir01:
     template: uhs_bundled
     name: 'B30: Lined Rock Cavern (epr01_wtir01)'
@@ -206,10 +205,10 @@ techs:
     energy_to_power_ratio: 105
     withdrawal_to_injection_ratio: 1.4
     flow_out_eff: 1
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.010042
-    withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
-    injection_compression_equivalent_efficiency: 0.990058
-    withdrawal_compression_equivalent_efficiency: 1
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.010042
+    # withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
+    flow_in_eff: 0.990058
+    # withdrawal_compression_equivalent_efficiency: 1
   b30_salt_cavern_epr02_wtir01:
     template: uhs_bundled
     name: 'B30: Salt Cavern (epr02_wtir01)'
@@ -224,10 +223,10 @@ techs:
     energy_to_power_ratio: 216
     withdrawal_to_injection_ratio: 1.4
     flow_out_eff: 1
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.00978356
-    withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
-    injection_compression_equivalent_efficiency: 0.990311
-    withdrawal_compression_equivalent_efficiency: 1
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.00978356
+    # withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
+    flow_in_eff: 0.990311
+    # withdrawal_compression_equivalent_efficiency: 1
     soc_24h_a_min: -0.064838
     soc_24h_b_min: 1.01149
     soc_24h_a_max: 0.0640983
@@ -247,8 +246,8 @@ techs:
     withdrawal_to_injection_ratio: 1.4
     flow_out_eff: 0.95
     storage_loss: 1.7253e-06
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.00624323
-    injection_compression_equivalent_efficiency: 0.993796
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.00624323
+    flow_in_eff: 0.993796
   b30_depleted_gas_field_epr02_wtir01:
     template: uhs_bundled
     name: 'B30: Depleted Gas Field (epr02_wtir01)'
@@ -264,8 +263,8 @@ techs:
     withdrawal_to_injection_ratio: 1.4
     flow_out_eff: 0.8996
     storage_loss: 1.7253e-06
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.0091902
-    injection_compression_equivalent_efficiency: 0.990893
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.0091902
+    flow_in_eff: 0.990893
   b30_lined_rock_cavern_epr02_wtir01:
     template: uhs_bundled
     name: 'B30: Lined Rock Cavern (epr02_wtir01)'
@@ -280,10 +279,10 @@ techs:
     energy_to_power_ratio: 135
     withdrawal_to_injection_ratio: 1.4
     flow_out_eff: 1
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.010042
-    withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
-    injection_compression_equivalent_efficiency: 0.990058
-    withdrawal_compression_equivalent_efficiency: 1
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.010042
+    # withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
+    flow_in_eff: 0.990058
+    # withdrawal_compression_equivalent_efficiency: 1
   b30_salt_cavern_epr03_wtir01:
     template: uhs_bundled
     name: 'B30: Salt Cavern (epr03_wtir01)'
@@ -298,10 +297,10 @@ techs:
     energy_to_power_ratio: 264
     withdrawal_to_injection_ratio: 1.4
     flow_out_eff: 1
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.00978356
-    withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
-    injection_compression_equivalent_efficiency: 0.990311
-    withdrawal_compression_equivalent_efficiency: 1
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.00978356
+    # withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
+    flow_in_eff: 0.990311
+    # withdrawal_compression_equivalent_efficiency: 1
     soc_24h_a_min: -0.064838
     soc_24h_b_min: 1.01149
     soc_24h_a_max: 0.0640983
@@ -321,8 +320,8 @@ techs:
     withdrawal_to_injection_ratio: 1.4
     flow_out_eff: 0.95
     storage_loss: 1.7253e-06
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.00624323
-    injection_compression_equivalent_efficiency: 0.993796
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.00624323
+    flow_in_eff: 0.993796
   b30_depleted_gas_field_epr03_wtir01:
     template: uhs_bundled
     name: 'B30: Depleted Gas Field (epr03_wtir01)'
@@ -338,8 +337,8 @@ techs:
     withdrawal_to_injection_ratio: 1.4
     flow_out_eff: 0.8996
     storage_loss: 1.7253e-06
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.0091902
-    injection_compression_equivalent_efficiency: 0.990893
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.0091902
+    flow_in_eff: 0.990893
   b30_lined_rock_cavern_epr03_wtir01:
     template: uhs_bundled
     name: 'B30: Lined Rock Cavern (epr03_wtir01)'
@@ -354,10 +353,10 @@ techs:
     energy_to_power_ratio: 165
     withdrawal_to_injection_ratio: 1.4
     flow_out_eff: 1
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.010042
-    withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
-    injection_compression_equivalent_efficiency: 0.990058
-    withdrawal_compression_equivalent_efficiency: 1
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.010042
+    # withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
+    flow_in_eff: 0.990058
+    # withdrawal_compression_equivalent_efficiency: 1
   b30_salt_cavern_epr04_wtir01:
     template: uhs_bundled
     name: 'B30: Salt Cavern (epr04_wtir01)'
@@ -372,10 +371,10 @@ techs:
     energy_to_power_ratio: 312
     withdrawal_to_injection_ratio: 1.4
     flow_out_eff: 1
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.00978356
-    withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
-    injection_compression_equivalent_efficiency: 0.990311
-    withdrawal_compression_equivalent_efficiency: 1
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.00978356
+    # withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
+    flow_in_eff: 0.990311
+    # withdrawal_compression_equivalent_efficiency: 1
     soc_24h_a_min: -0.064838
     soc_24h_b_min: 1.01149
     soc_24h_a_max: 0.0640983
@@ -395,8 +394,8 @@ techs:
     withdrawal_to_injection_ratio: 1.4
     flow_out_eff: 0.95
     storage_loss: 1.7253e-06
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.00624323
-    injection_compression_equivalent_efficiency: 0.993796
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.00624323
+    flow_in_eff: 0.993796
   b30_depleted_gas_field_epr04_wtir01:
     template: uhs_bundled
     name: 'B30: Depleted Gas Field (epr04_wtir01)'
@@ -412,8 +411,8 @@ techs:
     withdrawal_to_injection_ratio: 1.4
     flow_out_eff: 0.8996
     storage_loss: 1.7253e-06
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.0091902
-    injection_compression_equivalent_efficiency: 0.990893
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.0091902
+    flow_in_eff: 0.990893
   b30_lined_rock_cavern_epr04_wtir01:
     template: uhs_bundled
     name: 'B30: Lined Rock Cavern (epr04_wtir01)'
@@ -428,10 +427,10 @@ techs:
     energy_to_power_ratio: 195
     withdrawal_to_injection_ratio: 1.4
     flow_out_eff: 1
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.010042
-    withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
-    injection_compression_equivalent_efficiency: 0.990058
-    withdrawal_compression_equivalent_efficiency: 1
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.010042
+    # withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
+    flow_in_eff: 0.990058
+    # withdrawal_compression_equivalent_efficiency: 1
   b30_salt_cavern_epr05_wtir01:
     template: uhs_bundled
     name: 'B30: Salt Cavern (epr05_wtir01)'
@@ -446,10 +445,10 @@ techs:
     energy_to_power_ratio: 360
     withdrawal_to_injection_ratio: 1.4
     flow_out_eff: 1
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.00978356
-    withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
-    injection_compression_equivalent_efficiency: 0.990311
-    withdrawal_compression_equivalent_efficiency: 1
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.00978356
+    # withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
+    flow_in_eff: 0.990311
+    # withdrawal_compression_equivalent_efficiency: 1
     soc_24h_a_min: -0.064838
     soc_24h_b_min: 1.01149
     soc_24h_a_max: 0.0640983
@@ -469,8 +468,8 @@ techs:
     withdrawal_to_injection_ratio: 1.4
     flow_out_eff: 0.95
     storage_loss: 1.7253e-06
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.00624323
-    injection_compression_equivalent_efficiency: 0.993796
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.00624323
+    flow_in_eff: 0.993796
   b30_depleted_gas_field_epr05_wtir01:
     template: uhs_bundled
     name: 'B30: Depleted Gas Field (epr05_wtir01)'
@@ -486,8 +485,8 @@ techs:
     withdrawal_to_injection_ratio: 1.4
     flow_out_eff: 0.8996
     storage_loss: 1.7253e-06
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.0091902
-    injection_compression_equivalent_efficiency: 0.990893
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.0091902
+    flow_in_eff: 0.990893
   b30_lined_rock_cavern_epr05_wtir01:
     template: uhs_bundled
     name: 'B30: Lined Rock Cavern (epr05_wtir01)'
@@ -502,10 +501,10 @@ techs:
     energy_to_power_ratio: 225
     withdrawal_to_injection_ratio: 1.4
     flow_out_eff: 1
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.010042
-    withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
-    injection_compression_equivalent_efficiency: 0.990058
-    withdrawal_compression_equivalent_efficiency: 1
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.010042
+    # withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
+    flow_in_eff: 0.990058
+    # withdrawal_compression_equivalent_efficiency: 1
   b30_salt_cavern_epr06_wtir01:
     template: uhs_bundled
     name: 'B30: Salt Cavern (epr06_wtir01)'
@@ -520,10 +519,10 @@ techs:
     energy_to_power_ratio: 408
     withdrawal_to_injection_ratio: 1.4
     flow_out_eff: 1
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.00978356
-    withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
-    injection_compression_equivalent_efficiency: 0.990311
-    withdrawal_compression_equivalent_efficiency: 1
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.00978356
+    # withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
+    flow_in_eff: 0.990311
+    # withdrawal_compression_equivalent_efficiency: 1
     soc_24h_a_min: -0.064838
     soc_24h_b_min: 1.01149
     soc_24h_a_max: 0.0640983
@@ -543,8 +542,8 @@ techs:
     withdrawal_to_injection_ratio: 1.4
     flow_out_eff: 0.95
     storage_loss: 1.7253e-06
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.00624323
-    injection_compression_equivalent_efficiency: 0.993796
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.00624323
+    flow_in_eff: 0.993796
   b30_depleted_gas_field_epr06_wtir01:
     template: uhs_bundled
     name: 'B30: Depleted Gas Field (epr06_wtir01)'
@@ -560,8 +559,8 @@ techs:
     withdrawal_to_injection_ratio: 1.4
     flow_out_eff: 0.8996
     storage_loss: 1.7253e-06
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.0091902
-    injection_compression_equivalent_efficiency: 0.990893
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.0091902
+    flow_in_eff: 0.990893
   b30_lined_rock_cavern_epr06_wtir01:
     template: uhs_bundled
     name: 'B30: Lined Rock Cavern (epr06_wtir01)'
@@ -576,10 +575,10 @@ techs:
     energy_to_power_ratio: 255
     withdrawal_to_injection_ratio: 1.4
     flow_out_eff: 1
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.010042
-    withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
-    injection_compression_equivalent_efficiency: 0.990058
-    withdrawal_compression_equivalent_efficiency: 1
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.010042
+    # withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
+    flow_in_eff: 0.990058
+    # withdrawal_compression_equivalent_efficiency: 1
   b30_salt_cavern_epr01_wtir02:
     template: uhs_bundled
     name: 'B30: Salt Cavern (epr01_wtir02)'
@@ -594,10 +593,10 @@ techs:
     energy_to_power_ratio: 168
     withdrawal_to_injection_ratio: 2.2
     flow_out_eff: 1
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.00978356
-    withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
-    injection_compression_equivalent_efficiency: 0.990311
-    withdrawal_compression_equivalent_efficiency: 1
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.00978356
+    # withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
+    flow_in_eff: 0.990311
+    # withdrawal_compression_equivalent_efficiency: 1
     soc_24h_a_min: -0.064838
     soc_24h_b_min: 1.01149
     soc_24h_a_max: 0.0640983
@@ -617,8 +616,8 @@ techs:
     withdrawal_to_injection_ratio: 2.2
     flow_out_eff: 0.95
     storage_loss: 1.7253e-06
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.00624323
-    injection_compression_equivalent_efficiency: 0.993796
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.00624323
+    flow_in_eff: 0.993796
   b30_depleted_gas_field_epr01_wtir02:
     template: uhs_bundled
     name: 'B30: Depleted Gas Field (epr01_wtir02)'
@@ -634,8 +633,8 @@ techs:
     withdrawal_to_injection_ratio: 2.2
     flow_out_eff: 0.8996
     storage_loss: 1.7253e-06
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.0091902
-    injection_compression_equivalent_efficiency: 0.990893
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.0091902
+    flow_in_eff: 0.990893
   b30_lined_rock_cavern_epr01_wtir02:
     template: uhs_bundled
     name: 'B30: Lined Rock Cavern (epr01_wtir02)'
@@ -650,10 +649,10 @@ techs:
     energy_to_power_ratio: 105
     withdrawal_to_injection_ratio: 2.2
     flow_out_eff: 1
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.010042
-    withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
-    injection_compression_equivalent_efficiency: 0.990058
-    withdrawal_compression_equivalent_efficiency: 1
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.010042
+    # withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
+    flow_in_eff: 0.990058
+    # withdrawal_compression_equivalent_efficiency: 1
   b30_salt_cavern_epr02_wtir02:
     template: uhs_bundled
     name: 'B30: Salt Cavern (epr02_wtir02)'
@@ -668,10 +667,10 @@ techs:
     energy_to_power_ratio: 216
     withdrawal_to_injection_ratio: 2.2
     flow_out_eff: 1
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.00978356
-    withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
-    injection_compression_equivalent_efficiency: 0.990311
-    withdrawal_compression_equivalent_efficiency: 1
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.00978356
+    # withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
+    flow_in_eff: 0.990311
+    # withdrawal_compression_equivalent_efficiency: 1
     soc_24h_a_min: -0.064838
     soc_24h_b_min: 1.01149
     soc_24h_a_max: 0.0640983
@@ -691,8 +690,8 @@ techs:
     withdrawal_to_injection_ratio: 2.2
     flow_out_eff: 0.95
     storage_loss: 1.7253e-06
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.00624323
-    injection_compression_equivalent_efficiency: 0.993796
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.00624323
+    flow_in_eff: 0.993796
   b30_depleted_gas_field_epr02_wtir02:
     template: uhs_bundled
     name: 'B30: Depleted Gas Field (epr02_wtir02)'
@@ -708,8 +707,8 @@ techs:
     withdrawal_to_injection_ratio: 2.2
     flow_out_eff: 0.8996
     storage_loss: 1.7253e-06
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.0091902
-    injection_compression_equivalent_efficiency: 0.990893
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.0091902
+    flow_in_eff: 0.990893
   b30_lined_rock_cavern_epr02_wtir02:
     template: uhs_bundled
     name: 'B30: Lined Rock Cavern (epr02_wtir02)'
@@ -724,10 +723,10 @@ techs:
     energy_to_power_ratio: 135
     withdrawal_to_injection_ratio: 2.2
     flow_out_eff: 1
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.010042
-    withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
-    injection_compression_equivalent_efficiency: 0.990058
-    withdrawal_compression_equivalent_efficiency: 1
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.010042
+    # withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
+    flow_in_eff: 0.990058
+    # withdrawal_compression_equivalent_efficiency: 1
   b30_salt_cavern_epr03_wtir02:
     template: uhs_bundled
     name: 'B30: Salt Cavern (epr03_wtir02)'
@@ -742,10 +741,10 @@ techs:
     energy_to_power_ratio: 264
     withdrawal_to_injection_ratio: 2.2
     flow_out_eff: 1
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.00978356
-    withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
-    injection_compression_equivalent_efficiency: 0.990311
-    withdrawal_compression_equivalent_efficiency: 1
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.00978356
+    # withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
+    flow_in_eff: 0.990311
+    # withdrawal_compression_equivalent_efficiency: 1
     soc_24h_a_min: -0.064838
     soc_24h_b_min: 1.01149
     soc_24h_a_max: 0.0640983
@@ -765,8 +764,8 @@ techs:
     withdrawal_to_injection_ratio: 2.2
     flow_out_eff: 0.95
     storage_loss: 1.7253e-06
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.00624323
-    injection_compression_equivalent_efficiency: 0.993796
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.00624323
+    flow_in_eff: 0.993796
   b30_depleted_gas_field_epr03_wtir02:
     template: uhs_bundled
     name: 'B30: Depleted Gas Field (epr03_wtir02)'
@@ -782,8 +781,8 @@ techs:
     withdrawal_to_injection_ratio: 2.2
     flow_out_eff: 0.8996
     storage_loss: 1.7253e-06
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.0091902
-    injection_compression_equivalent_efficiency: 0.990893
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.0091902
+    flow_in_eff: 0.990893
   b30_lined_rock_cavern_epr03_wtir02:
     template: uhs_bundled
     name: 'B30: Lined Rock Cavern (epr03_wtir02)'
@@ -798,10 +797,10 @@ techs:
     energy_to_power_ratio: 165
     withdrawal_to_injection_ratio: 2.2
     flow_out_eff: 1
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.010042
-    withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
-    injection_compression_equivalent_efficiency: 0.990058
-    withdrawal_compression_equivalent_efficiency: 1
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.010042
+    # withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
+    flow_in_eff: 0.990058
+    # withdrawal_compression_equivalent_efficiency: 1
   b30_salt_cavern_epr04_wtir02:
     template: uhs_bundled
     name: 'B30: Salt Cavern (epr04_wtir02)'
@@ -816,10 +815,10 @@ techs:
     energy_to_power_ratio: 312
     withdrawal_to_injection_ratio: 2.2
     flow_out_eff: 1
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.00978356
-    withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
-    injection_compression_equivalent_efficiency: 0.990311
-    withdrawal_compression_equivalent_efficiency: 1
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.00978356
+    # withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
+    flow_in_eff: 0.990311
+    # withdrawal_compression_equivalent_efficiency: 1
     soc_24h_a_min: -0.064838
     soc_24h_b_min: 1.01149
     soc_24h_a_max: 0.0640983
@@ -839,8 +838,8 @@ techs:
     withdrawal_to_injection_ratio: 2.2
     flow_out_eff: 0.95
     storage_loss: 1.7253e-06
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.00624323
-    injection_compression_equivalent_efficiency: 0.993796
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.00624323
+    flow_in_eff: 0.993796
   b30_depleted_gas_field_epr04_wtir02:
     template: uhs_bundled
     name: 'B30: Depleted Gas Field (epr04_wtir02)'
@@ -856,8 +855,8 @@ techs:
     withdrawal_to_injection_ratio: 2.2
     flow_out_eff: 0.8996
     storage_loss: 1.7253e-06
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.0091902
-    injection_compression_equivalent_efficiency: 0.990893
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.0091902
+    flow_in_eff: 0.990893
   b30_lined_rock_cavern_epr04_wtir02:
     template: uhs_bundled
     name: 'B30: Lined Rock Cavern (epr04_wtir02)'
@@ -872,10 +871,10 @@ techs:
     energy_to_power_ratio: 195
     withdrawal_to_injection_ratio: 2.2
     flow_out_eff: 1
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.010042
-    withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
-    injection_compression_equivalent_efficiency: 0.990058
-    withdrawal_compression_equivalent_efficiency: 1
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.010042
+    # withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
+    flow_in_eff: 0.990058
+    # withdrawal_compression_equivalent_efficiency: 1
   b30_salt_cavern_epr05_wtir02:
     template: uhs_bundled
     name: 'B30: Salt Cavern (epr05_wtir02)'
@@ -890,10 +889,10 @@ techs:
     energy_to_power_ratio: 360
     withdrawal_to_injection_ratio: 2.2
     flow_out_eff: 1
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.00978356
-    withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
-    injection_compression_equivalent_efficiency: 0.990311
-    withdrawal_compression_equivalent_efficiency: 1
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.00978356
+    # withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
+    flow_in_eff: 0.990311
+    # withdrawal_compression_equivalent_efficiency: 1
     soc_24h_a_min: -0.064838
     soc_24h_b_min: 1.01149
     soc_24h_a_max: 0.0640983
@@ -913,8 +912,8 @@ techs:
     withdrawal_to_injection_ratio: 2.2
     flow_out_eff: 0.95
     storage_loss: 1.7253e-06
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.00624323
-    injection_compression_equivalent_efficiency: 0.993796
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.00624323
+    flow_in_eff: 0.993796
   b30_depleted_gas_field_epr05_wtir02:
     template: uhs_bundled
     name: 'B30: Depleted Gas Field (epr05_wtir02)'
@@ -930,8 +929,8 @@ techs:
     withdrawal_to_injection_ratio: 2.2
     flow_out_eff: 0.8996
     storage_loss: 1.7253e-06
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.0091902
-    injection_compression_equivalent_efficiency: 0.990893
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.0091902
+    flow_in_eff: 0.990893
   b30_lined_rock_cavern_epr05_wtir02:
     template: uhs_bundled
     name: 'B30: Lined Rock Cavern (epr05_wtir02)'
@@ -946,10 +945,10 @@ techs:
     energy_to_power_ratio: 225
     withdrawal_to_injection_ratio: 2.2
     flow_out_eff: 1
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.010042
-    withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
-    injection_compression_equivalent_efficiency: 0.990058
-    withdrawal_compression_equivalent_efficiency: 1
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.010042
+    # withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
+    flow_in_eff: 0.990058
+    # withdrawal_compression_equivalent_efficiency: 1
   b30_salt_cavern_epr06_wtir02:
     template: uhs_bundled
     name: 'B30: Salt Cavern (epr06_wtir02)'
@@ -964,10 +963,10 @@ techs:
     energy_to_power_ratio: 408
     withdrawal_to_injection_ratio: 2.2
     flow_out_eff: 1
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.00978356
-    withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
-    injection_compression_equivalent_efficiency: 0.990311
-    withdrawal_compression_equivalent_efficiency: 1
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.00978356
+    # withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
+    flow_in_eff: 0.990311
+    # withdrawal_compression_equivalent_efficiency: 1
     soc_24h_a_min: -0.064838
     soc_24h_b_min: 1.01149
     soc_24h_a_max: 0.0640983
@@ -987,8 +986,8 @@ techs:
     withdrawal_to_injection_ratio: 2.2
     flow_out_eff: 0.95
     storage_loss: 1.7253e-06
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.00624323
-    injection_compression_equivalent_efficiency: 0.993796
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.00624323
+    flow_in_eff: 0.993796
   b30_depleted_gas_field_epr06_wtir02:
     template: uhs_bundled
     name: 'B30: Depleted Gas Field (epr06_wtir02)'
@@ -1004,8 +1003,8 @@ techs:
     withdrawal_to_injection_ratio: 2.2
     flow_out_eff: 0.8996
     storage_loss: 1.7253e-06
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.0091902
-    injection_compression_equivalent_efficiency: 0.990893
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.0091902
+    flow_in_eff: 0.990893
   b30_lined_rock_cavern_epr06_wtir02:
     template: uhs_bundled
     name: 'B30: Lined Rock Cavern (epr06_wtir02)'
@@ -1020,10 +1019,10 @@ techs:
     energy_to_power_ratio: 255
     withdrawal_to_injection_ratio: 2.2
     flow_out_eff: 1
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.010042
-    withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
-    injection_compression_equivalent_efficiency: 0.990058
-    withdrawal_compression_equivalent_efficiency: 1
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.010042
+    # withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
+    flow_in_eff: 0.990058
+    # withdrawal_compression_equivalent_efficiency: 1
   b30_salt_cavern_epr01_wtir03:
     template: uhs_bundled
     name: 'B30: Salt Cavern (epr01_wtir03)'
@@ -1038,10 +1037,10 @@ techs:
     energy_to_power_ratio: 168
     withdrawal_to_injection_ratio: 3
     flow_out_eff: 1
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.00978356
-    withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
-    injection_compression_equivalent_efficiency: 0.990311
-    withdrawal_compression_equivalent_efficiency: 1
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.00978356
+    # withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
+    flow_in_eff: 0.990311
+    # withdrawal_compression_equivalent_efficiency: 1
     soc_24h_a_min: -0.064838
     soc_24h_b_min: 1.01149
     soc_24h_a_max: 0.0640983
@@ -1061,8 +1060,8 @@ techs:
     withdrawal_to_injection_ratio: 3
     flow_out_eff: 0.95
     storage_loss: 1.7253e-06
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.00624323
-    injection_compression_equivalent_efficiency: 0.993796
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.00624323
+    flow_in_eff: 0.993796
   b30_depleted_gas_field_epr01_wtir03:
     template: uhs_bundled
     name: 'B30: Depleted Gas Field (epr01_wtir03)'
@@ -1078,8 +1077,8 @@ techs:
     withdrawal_to_injection_ratio: 3
     flow_out_eff: 0.8996
     storage_loss: 1.7253e-06
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.0091902
-    injection_compression_equivalent_efficiency: 0.990893
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.0091902
+    flow_in_eff: 0.990893
   b30_lined_rock_cavern_epr01_wtir03:
     template: uhs_bundled
     name: 'B30: Lined Rock Cavern (epr01_wtir03)'
@@ -1094,10 +1093,10 @@ techs:
     energy_to_power_ratio: 105
     withdrawal_to_injection_ratio: 3
     flow_out_eff: 1
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.010042
-    withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
-    injection_compression_equivalent_efficiency: 0.990058
-    withdrawal_compression_equivalent_efficiency: 1
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.010042
+    # withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
+    flow_in_eff: 0.990058
+    # withdrawal_compression_equivalent_efficiency: 1
   b30_salt_cavern_epr02_wtir03:
     template: uhs_bundled
     name: 'B30: Salt Cavern (epr02_wtir03)'
@@ -1112,10 +1111,10 @@ techs:
     energy_to_power_ratio: 216
     withdrawal_to_injection_ratio: 3
     flow_out_eff: 1
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.00978356
-    withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
-    injection_compression_equivalent_efficiency: 0.990311
-    withdrawal_compression_equivalent_efficiency: 1
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.00978356
+    # withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
+    flow_in_eff: 0.990311
+    # withdrawal_compression_equivalent_efficiency: 1
     soc_24h_a_min: -0.064838
     soc_24h_b_min: 1.01149
     soc_24h_a_max: 0.0640983
@@ -1135,8 +1134,8 @@ techs:
     withdrawal_to_injection_ratio: 3
     flow_out_eff: 0.95
     storage_loss: 1.7253e-06
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.00624323
-    injection_compression_equivalent_efficiency: 0.993796
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.00624323
+    flow_in_eff: 0.993796
   b30_depleted_gas_field_epr02_wtir03:
     template: uhs_bundled
     name: 'B30: Depleted Gas Field (epr02_wtir03)'
@@ -1152,8 +1151,8 @@ techs:
     withdrawal_to_injection_ratio: 3
     flow_out_eff: 0.8996
     storage_loss: 1.7253e-06
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.0091902
-    injection_compression_equivalent_efficiency: 0.990893
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.0091902
+    flow_in_eff: 0.990893
   b30_lined_rock_cavern_epr02_wtir03:
     template: uhs_bundled
     name: 'B30: Lined Rock Cavern (epr02_wtir03)'
@@ -1168,10 +1167,10 @@ techs:
     energy_to_power_ratio: 135
     withdrawal_to_injection_ratio: 3
     flow_out_eff: 1
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.010042
-    withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
-    injection_compression_equivalent_efficiency: 0.990058
-    withdrawal_compression_equivalent_efficiency: 1
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.010042
+    # withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
+    flow_in_eff: 0.990058
+    # withdrawal_compression_equivalent_efficiency: 1
   b30_salt_cavern_epr03_wtir03:
     template: uhs_bundled
     name: 'B30: Salt Cavern (epr03_wtir03)'
@@ -1186,10 +1185,10 @@ techs:
     energy_to_power_ratio: 264
     withdrawal_to_injection_ratio: 3
     flow_out_eff: 1
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.00978356
-    withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
-    injection_compression_equivalent_efficiency: 0.990311
-    withdrawal_compression_equivalent_efficiency: 1
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.00978356
+    # withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
+    flow_in_eff: 0.990311
+    # withdrawal_compression_equivalent_efficiency: 1
     soc_24h_a_min: -0.064838
     soc_24h_b_min: 1.01149
     soc_24h_a_max: 0.0640983
@@ -1209,8 +1208,8 @@ techs:
     withdrawal_to_injection_ratio: 3
     flow_out_eff: 0.95
     storage_loss: 1.7253e-06
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.00624323
-    injection_compression_equivalent_efficiency: 0.993796
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.00624323
+    flow_in_eff: 0.993796
   b30_depleted_gas_field_epr03_wtir03:
     template: uhs_bundled
     name: 'B30: Depleted Gas Field (epr03_wtir03)'
@@ -1226,8 +1225,8 @@ techs:
     withdrawal_to_injection_ratio: 3
     flow_out_eff: 0.8996
     storage_loss: 1.7253e-06
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.0091902
-    injection_compression_equivalent_efficiency: 0.990893
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.0091902
+    flow_in_eff: 0.990893
   b30_lined_rock_cavern_epr03_wtir03:
     template: uhs_bundled
     name: 'B30: Lined Rock Cavern (epr03_wtir03)'
@@ -1242,10 +1241,10 @@ techs:
     energy_to_power_ratio: 165
     withdrawal_to_injection_ratio: 3
     flow_out_eff: 1
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.010042
-    withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
-    injection_compression_equivalent_efficiency: 0.990058
-    withdrawal_compression_equivalent_efficiency: 1
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.010042
+    # withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
+    flow_in_eff: 0.990058
+    # withdrawal_compression_equivalent_efficiency: 1
   b30_salt_cavern_epr04_wtir03:
     template: uhs_bundled
     name: 'B30: Salt Cavern (epr04_wtir03)'
@@ -1260,10 +1259,10 @@ techs:
     energy_to_power_ratio: 312
     withdrawal_to_injection_ratio: 3
     flow_out_eff: 1
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.00978356
-    withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
-    injection_compression_equivalent_efficiency: 0.990311
-    withdrawal_compression_equivalent_efficiency: 1
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.00978356
+    # withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
+    flow_in_eff: 0.990311
+    # withdrawal_compression_equivalent_efficiency: 1
     soc_24h_a_min: -0.064838
     soc_24h_b_min: 1.01149
     soc_24h_a_max: 0.0640983
@@ -1283,8 +1282,8 @@ techs:
     withdrawal_to_injection_ratio: 3
     flow_out_eff: 0.95
     storage_loss: 1.7253e-06
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.00624323
-    injection_compression_equivalent_efficiency: 0.993796
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.00624323
+    flow_in_eff: 0.993796
   b30_depleted_gas_field_epr04_wtir03:
     template: uhs_bundled
     name: 'B30: Depleted Gas Field (epr04_wtir03)'
@@ -1300,8 +1299,8 @@ techs:
     withdrawal_to_injection_ratio: 3
     flow_out_eff: 0.8996
     storage_loss: 1.7253e-06
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.0091902
-    injection_compression_equivalent_efficiency: 0.990893
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.0091902
+    flow_in_eff: 0.990893
   b30_lined_rock_cavern_epr04_wtir03:
     template: uhs_bundled
     name: 'B30: Lined Rock Cavern (epr04_wtir03)'
@@ -1316,10 +1315,10 @@ techs:
     energy_to_power_ratio: 195
     withdrawal_to_injection_ratio: 3
     flow_out_eff: 1
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.010042
-    withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
-    injection_compression_equivalent_efficiency: 0.990058
-    withdrawal_compression_equivalent_efficiency: 1
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.010042
+    # withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
+    flow_in_eff: 0.990058
+    # withdrawal_compression_equivalent_efficiency: 1
   b30_salt_cavern_epr05_wtir03:
     template: uhs_bundled
     name: 'B30: Salt Cavern (epr05_wtir03)'
@@ -1334,10 +1333,10 @@ techs:
     energy_to_power_ratio: 360
     withdrawal_to_injection_ratio: 3
     flow_out_eff: 1
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.00978356
-    withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
-    injection_compression_equivalent_efficiency: 0.990311
-    withdrawal_compression_equivalent_efficiency: 1
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.00978356
+    # withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
+    flow_in_eff: 0.990311
+    # withdrawal_compression_equivalent_efficiency: 1
     soc_24h_a_min: -0.064838
     soc_24h_b_min: 1.01149
     soc_24h_a_max: 0.0640983
@@ -1357,8 +1356,8 @@ techs:
     withdrawal_to_injection_ratio: 3
     flow_out_eff: 0.95
     storage_loss: 1.7253e-06
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.00624323
-    injection_compression_equivalent_efficiency: 0.993796
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.00624323
+    flow_in_eff: 0.993796
   b30_depleted_gas_field_epr05_wtir03:
     template: uhs_bundled
     name: 'B30: Depleted Gas Field (epr05_wtir03)'
@@ -1374,8 +1373,8 @@ techs:
     withdrawal_to_injection_ratio: 3
     flow_out_eff: 0.8996
     storage_loss: 1.7253e-06
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.0091902
-    injection_compression_equivalent_efficiency: 0.990893
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.0091902
+    flow_in_eff: 0.990893
   b30_lined_rock_cavern_epr05_wtir03:
     template: uhs_bundled
     name: 'B30: Lined Rock Cavern (epr05_wtir03)'
@@ -1390,10 +1389,10 @@ techs:
     energy_to_power_ratio: 225
     withdrawal_to_injection_ratio: 3
     flow_out_eff: 1
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.010042
-    withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
-    injection_compression_equivalent_efficiency: 0.990058
-    withdrawal_compression_equivalent_efficiency: 1
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.010042
+    # withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
+    flow_in_eff: 0.990058
+    # withdrawal_compression_equivalent_efficiency: 1
   b30_salt_cavern_epr06_wtir03:
     template: uhs_bundled
     name: 'B30: Salt Cavern (epr06_wtir03)'
@@ -1408,10 +1407,10 @@ techs:
     energy_to_power_ratio: 408
     withdrawal_to_injection_ratio: 3
     flow_out_eff: 1
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.00978356
-    withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
-    injection_compression_equivalent_efficiency: 0.990311
-    withdrawal_compression_equivalent_efficiency: 1
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.00978356
+    # withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
+    flow_in_eff: 0.990311
+    # withdrawal_compression_equivalent_efficiency: 1
     soc_24h_a_min: -0.064838
     soc_24h_b_min: 1.01149
     soc_24h_a_max: 0.0640983
@@ -1431,8 +1430,8 @@ techs:
     withdrawal_to_injection_ratio: 3
     flow_out_eff: 0.95
     storage_loss: 1.7253e-06
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.00624323
-    injection_compression_equivalent_efficiency: 0.993796
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.00624323
+    flow_in_eff: 0.993796
   b30_depleted_gas_field_epr06_wtir03:
     template: uhs_bundled
     name: 'B30: Depleted Gas Field (epr06_wtir03)'
@@ -1448,8 +1447,8 @@ techs:
     withdrawal_to_injection_ratio: 3
     flow_out_eff: 0.8996
     storage_loss: 1.7253e-06
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.0091902
-    injection_compression_equivalent_efficiency: 0.990893
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.0091902
+    flow_in_eff: 0.990893
   b30_lined_rock_cavern_epr06_wtir03:
     template: uhs_bundled
     name: 'B30: Lined Rock Cavern (epr06_wtir03)'
@@ -1464,10 +1463,10 @@ techs:
     energy_to_power_ratio: 255
     withdrawal_to_injection_ratio: 3
     flow_out_eff: 1
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.010042
-    withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
-    injection_compression_equivalent_efficiency: 0.990058
-    withdrawal_compression_equivalent_efficiency: 1
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.010042
+    # withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
+    flow_in_eff: 0.990058
+    # withdrawal_compression_equivalent_efficiency: 1
   b30_salt_cavern_epr01_wtir04:
     template: uhs_bundled
     name: 'B30: Salt Cavern (epr01_wtir04)'
@@ -1482,10 +1481,10 @@ techs:
     energy_to_power_ratio: 168
     withdrawal_to_injection_ratio: 3.8
     flow_out_eff: 1
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.00978356
-    withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
-    injection_compression_equivalent_efficiency: 0.990311
-    withdrawal_compression_equivalent_efficiency: 1
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.00978356
+    # withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
+    flow_in_eff: 0.990311
+    # withdrawal_compression_equivalent_efficiency: 1
     soc_24h_a_min: -0.064838
     soc_24h_b_min: 1.01149
     soc_24h_a_max: 0.0640983
@@ -1505,8 +1504,8 @@ techs:
     withdrawal_to_injection_ratio: 3.8
     flow_out_eff: 0.95
     storage_loss: 1.7253e-06
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.00624323
-    injection_compression_equivalent_efficiency: 0.993796
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.00624323
+    flow_in_eff: 0.993796
   b30_depleted_gas_field_epr01_wtir04:
     template: uhs_bundled
     name: 'B30: Depleted Gas Field (epr01_wtir04)'
@@ -1522,8 +1521,8 @@ techs:
     withdrawal_to_injection_ratio: 3.8
     flow_out_eff: 0.8996
     storage_loss: 1.7253e-06
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.0091902
-    injection_compression_equivalent_efficiency: 0.990893
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.0091902
+    flow_in_eff: 0.990893
   b30_lined_rock_cavern_epr01_wtir04:
     template: uhs_bundled
     name: 'B30: Lined Rock Cavern (epr01_wtir04)'
@@ -1538,10 +1537,10 @@ techs:
     energy_to_power_ratio: 105
     withdrawal_to_injection_ratio: 3.8
     flow_out_eff: 1
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.010042
-    withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
-    injection_compression_equivalent_efficiency: 0.990058
-    withdrawal_compression_equivalent_efficiency: 1
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.010042
+    # withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
+    flow_in_eff: 0.990058
+    # withdrawal_compression_equivalent_efficiency: 1
   b30_salt_cavern_epr02_wtir04:
     template: uhs_bundled
     name: 'B30: Salt Cavern (epr02_wtir04)'
@@ -1556,10 +1555,10 @@ techs:
     energy_to_power_ratio: 216
     withdrawal_to_injection_ratio: 3.8
     flow_out_eff: 1
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.00978356
-    withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
-    injection_compression_equivalent_efficiency: 0.990311
-    withdrawal_compression_equivalent_efficiency: 1
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.00978356
+    # withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
+    flow_in_eff: 0.990311
+    # withdrawal_compression_equivalent_efficiency: 1
     soc_24h_a_min: -0.064838
     soc_24h_b_min: 1.01149
     soc_24h_a_max: 0.0640983
@@ -1579,8 +1578,8 @@ techs:
     withdrawal_to_injection_ratio: 3.8
     flow_out_eff: 0.95
     storage_loss: 1.7253e-06
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.00624323
-    injection_compression_equivalent_efficiency: 0.993796
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.00624323
+    flow_in_eff: 0.993796
   b30_depleted_gas_field_epr02_wtir04:
     template: uhs_bundled
     name: 'B30: Depleted Gas Field (epr02_wtir04)'
@@ -1596,8 +1595,8 @@ techs:
     withdrawal_to_injection_ratio: 3.8
     flow_out_eff: 0.8996
     storage_loss: 1.7253e-06
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.0091902
-    injection_compression_equivalent_efficiency: 0.990893
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.0091902
+    flow_in_eff: 0.990893
   b30_lined_rock_cavern_epr02_wtir04:
     template: uhs_bundled
     name: 'B30: Lined Rock Cavern (epr02_wtir04)'
@@ -1612,10 +1611,10 @@ techs:
     energy_to_power_ratio: 135
     withdrawal_to_injection_ratio: 3.8
     flow_out_eff: 1
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.010042
-    withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
-    injection_compression_equivalent_efficiency: 0.990058
-    withdrawal_compression_equivalent_efficiency: 1
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.010042
+    # withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
+    flow_in_eff: 0.990058
+    # withdrawal_compression_equivalent_efficiency: 1
   b30_salt_cavern_epr03_wtir04:
     template: uhs_bundled
     name: 'B30: Salt Cavern (epr03_wtir04)'
@@ -1630,10 +1629,10 @@ techs:
     energy_to_power_ratio: 264
     withdrawal_to_injection_ratio: 3.8
     flow_out_eff: 1
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.00978356
-    withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
-    injection_compression_equivalent_efficiency: 0.990311
-    withdrawal_compression_equivalent_efficiency: 1
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.00978356
+    # withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
+    flow_in_eff: 0.990311
+    # withdrawal_compression_equivalent_efficiency: 1
     soc_24h_a_min: -0.064838
     soc_24h_b_min: 1.01149
     soc_24h_a_max: 0.0640983
@@ -1653,8 +1652,8 @@ techs:
     withdrawal_to_injection_ratio: 3.8
     flow_out_eff: 0.95
     storage_loss: 1.7253e-06
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.00624323
-    injection_compression_equivalent_efficiency: 0.993796
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.00624323
+    flow_in_eff: 0.993796
   b30_depleted_gas_field_epr03_wtir04:
     template: uhs_bundled
     name: 'B30: Depleted Gas Field (epr03_wtir04)'
@@ -1670,8 +1669,8 @@ techs:
     withdrawal_to_injection_ratio: 3.8
     flow_out_eff: 0.8996
     storage_loss: 1.7253e-06
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.0091902
-    injection_compression_equivalent_efficiency: 0.990893
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.0091902
+    flow_in_eff: 0.990893
   b30_lined_rock_cavern_epr03_wtir04:
     template: uhs_bundled
     name: 'B30: Lined Rock Cavern (epr03_wtir04)'
@@ -1686,10 +1685,10 @@ techs:
     energy_to_power_ratio: 165
     withdrawal_to_injection_ratio: 3.8
     flow_out_eff: 1
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.010042
-    withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
-    injection_compression_equivalent_efficiency: 0.990058
-    withdrawal_compression_equivalent_efficiency: 1
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.010042
+    # withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
+    flow_in_eff: 0.990058
+    # withdrawal_compression_equivalent_efficiency: 1
   b30_salt_cavern_epr04_wtir04:
     template: uhs_bundled
     name: 'B30: Salt Cavern (epr04_wtir04)'
@@ -1704,10 +1703,10 @@ techs:
     energy_to_power_ratio: 312
     withdrawal_to_injection_ratio: 3.8
     flow_out_eff: 1
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.00978356
-    withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
-    injection_compression_equivalent_efficiency: 0.990311
-    withdrawal_compression_equivalent_efficiency: 1
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.00978356
+    # withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
+    flow_in_eff: 0.990311
+    # withdrawal_compression_equivalent_efficiency: 1
     soc_24h_a_min: -0.064838
     soc_24h_b_min: 1.01149
     soc_24h_a_max: 0.0640983
@@ -1727,8 +1726,8 @@ techs:
     withdrawal_to_injection_ratio: 3.8
     flow_out_eff: 0.95
     storage_loss: 1.7253e-06
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.00624323
-    injection_compression_equivalent_efficiency: 0.993796
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.00624323
+    flow_in_eff: 0.993796
   b30_depleted_gas_field_epr04_wtir04:
     template: uhs_bundled
     name: 'B30: Depleted Gas Field (epr04_wtir04)'
@@ -1744,8 +1743,8 @@ techs:
     withdrawal_to_injection_ratio: 3.8
     flow_out_eff: 0.8996
     storage_loss: 1.7253e-06
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.0091902
-    injection_compression_equivalent_efficiency: 0.990893
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.0091902
+    flow_in_eff: 0.990893
   b30_lined_rock_cavern_epr04_wtir04:
     template: uhs_bundled
     name: 'B30: Lined Rock Cavern (epr04_wtir04)'
@@ -1760,10 +1759,10 @@ techs:
     energy_to_power_ratio: 195
     withdrawal_to_injection_ratio: 3.8
     flow_out_eff: 1
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.010042
-    withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
-    injection_compression_equivalent_efficiency: 0.990058
-    withdrawal_compression_equivalent_efficiency: 1
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.010042
+    # withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
+    flow_in_eff: 0.990058
+    # withdrawal_compression_equivalent_efficiency: 1
   b30_salt_cavern_epr05_wtir04:
     template: uhs_bundled
     name: 'B30: Salt Cavern (epr05_wtir04)'
@@ -1778,10 +1777,10 @@ techs:
     energy_to_power_ratio: 360
     withdrawal_to_injection_ratio: 3.8
     flow_out_eff: 1
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.00978356
-    withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
-    injection_compression_equivalent_efficiency: 0.990311
-    withdrawal_compression_equivalent_efficiency: 1
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.00978356
+    # withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
+    flow_in_eff: 0.990311
+    # withdrawal_compression_equivalent_efficiency: 1
     soc_24h_a_min: -0.064838
     soc_24h_b_min: 1.01149
     soc_24h_a_max: 0.0640983
@@ -1801,8 +1800,8 @@ techs:
     withdrawal_to_injection_ratio: 3.8
     flow_out_eff: 0.95
     storage_loss: 1.7253e-06
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.00624323
-    injection_compression_equivalent_efficiency: 0.993796
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.00624323
+    flow_in_eff: 0.993796
   b30_depleted_gas_field_epr05_wtir04:
     template: uhs_bundled
     name: 'B30: Depleted Gas Field (epr05_wtir04)'
@@ -1818,8 +1817,8 @@ techs:
     withdrawal_to_injection_ratio: 3.8
     flow_out_eff: 0.8996
     storage_loss: 1.7253e-06
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.0091902
-    injection_compression_equivalent_efficiency: 0.990893
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.0091902
+    flow_in_eff: 0.990893
   b30_lined_rock_cavern_epr05_wtir04:
     template: uhs_bundled
     name: 'B30: Lined Rock Cavern (epr05_wtir04)'
@@ -1834,10 +1833,10 @@ techs:
     energy_to_power_ratio: 225
     withdrawal_to_injection_ratio: 3.8
     flow_out_eff: 1
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.010042
-    withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
-    injection_compression_equivalent_efficiency: 0.990058
-    withdrawal_compression_equivalent_efficiency: 1
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.010042
+    # withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
+    flow_in_eff: 0.990058
+    # withdrawal_compression_equivalent_efficiency: 1
   b30_salt_cavern_epr06_wtir04:
     template: uhs_bundled
     name: 'B30: Salt Cavern (epr06_wtir04)'
@@ -1852,10 +1851,10 @@ techs:
     energy_to_power_ratio: 408
     withdrawal_to_injection_ratio: 3.8
     flow_out_eff: 1
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.00978356
-    withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
-    injection_compression_equivalent_efficiency: 0.990311
-    withdrawal_compression_equivalent_efficiency: 1
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.00978356
+    # withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
+    flow_in_eff: 0.990311
+    # withdrawal_compression_equivalent_efficiency: 1
     soc_24h_a_min: -0.064838
     soc_24h_b_min: 1.01149
     soc_24h_a_max: 0.0640983
@@ -1875,8 +1874,8 @@ techs:
     withdrawal_to_injection_ratio: 3.8
     flow_out_eff: 0.95
     storage_loss: 1.7253e-06
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.00624323
-    injection_compression_equivalent_efficiency: 0.993796
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.00624323
+    flow_in_eff: 0.993796
   b30_depleted_gas_field_epr06_wtir04:
     template: uhs_bundled
     name: 'B30: Depleted Gas Field (epr06_wtir04)'
@@ -1892,8 +1891,8 @@ techs:
     withdrawal_to_injection_ratio: 3.8
     flow_out_eff: 0.8996
     storage_loss: 1.7253e-06
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.0091902
-    injection_compression_equivalent_efficiency: 0.990893
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.0091902
+    flow_in_eff: 0.990893
   b30_lined_rock_cavern_epr06_wtir04:
     template: uhs_bundled
     name: 'B30: Lined Rock Cavern (epr06_wtir04)'
@@ -1908,10 +1907,10 @@ techs:
     energy_to_power_ratio: 255
     withdrawal_to_injection_ratio: 3.8
     flow_out_eff: 1
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.010042
-    withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
-    injection_compression_equivalent_efficiency: 0.990058
-    withdrawal_compression_equivalent_efficiency: 1
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.010042
+    # withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
+    flow_in_eff: 0.990058
+    # withdrawal_compression_equivalent_efficiency: 1
   b30_salt_cavern_epr01_wtir05:
     template: uhs_bundled
     name: 'B30: Salt Cavern (epr01_wtir05)'
@@ -1926,10 +1925,10 @@ techs:
     energy_to_power_ratio: 168
     withdrawal_to_injection_ratio: 4.6
     flow_out_eff: 1
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.00978356
-    withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
-    injection_compression_equivalent_efficiency: 0.990311
-    withdrawal_compression_equivalent_efficiency: 1
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.00978356
+    # withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
+    flow_in_eff: 0.990311
+    # withdrawal_compression_equivalent_efficiency: 1
     soc_24h_a_min: -0.064838
     soc_24h_b_min: 1.01149
     soc_24h_a_max: 0.0640983
@@ -1949,8 +1948,8 @@ techs:
     withdrawal_to_injection_ratio: 4.6
     flow_out_eff: 0.95
     storage_loss: 1.7253e-06
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.00624323
-    injection_compression_equivalent_efficiency: 0.993796
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.00624323
+    flow_in_eff: 0.993796
   b30_depleted_gas_field_epr01_wtir05:
     template: uhs_bundled
     name: 'B30: Depleted Gas Field (epr01_wtir05)'
@@ -1966,8 +1965,8 @@ techs:
     withdrawal_to_injection_ratio: 4.6
     flow_out_eff: 0.8996
     storage_loss: 1.7253e-06
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.0091902
-    injection_compression_equivalent_efficiency: 0.990893
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.0091902
+    flow_in_eff: 0.990893
   b30_lined_rock_cavern_epr01_wtir05:
     template: uhs_bundled
     name: 'B30: Lined Rock Cavern (epr01_wtir05)'
@@ -1982,10 +1981,10 @@ techs:
     energy_to_power_ratio: 105
     withdrawal_to_injection_ratio: 4.6
     flow_out_eff: 1
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.010042
-    withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
-    injection_compression_equivalent_efficiency: 0.990058
-    withdrawal_compression_equivalent_efficiency: 1
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.010042
+    # withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
+    flow_in_eff: 0.990058
+    # withdrawal_compression_equivalent_efficiency: 1
   b30_salt_cavern_epr02_wtir05:
     template: uhs_bundled
     name: 'B30: Salt Cavern (epr02_wtir05)'
@@ -2000,10 +1999,10 @@ techs:
     energy_to_power_ratio: 216
     withdrawal_to_injection_ratio: 4.6
     flow_out_eff: 1
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.00978356
-    withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
-    injection_compression_equivalent_efficiency: 0.990311
-    withdrawal_compression_equivalent_efficiency: 1
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.00978356
+    # withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
+    flow_in_eff: 0.990311
+    # withdrawal_compression_equivalent_efficiency: 1
     soc_24h_a_min: -0.064838
     soc_24h_b_min: 1.01149
     soc_24h_a_max: 0.0640983
@@ -2023,8 +2022,8 @@ techs:
     withdrawal_to_injection_ratio: 4.6
     flow_out_eff: 0.95
     storage_loss: 1.7253e-06
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.00624323
-    injection_compression_equivalent_efficiency: 0.993796
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.00624323
+    flow_in_eff: 0.993796
   b30_depleted_gas_field_epr02_wtir05:
     template: uhs_bundled
     name: 'B30: Depleted Gas Field (epr02_wtir05)'
@@ -2040,8 +2039,8 @@ techs:
     withdrawal_to_injection_ratio: 4.6
     flow_out_eff: 0.8996
     storage_loss: 1.7253e-06
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.0091902
-    injection_compression_equivalent_efficiency: 0.990893
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.0091902
+    flow_in_eff: 0.990893
   b30_lined_rock_cavern_epr02_wtir05:
     template: uhs_bundled
     name: 'B30: Lined Rock Cavern (epr02_wtir05)'
@@ -2056,10 +2055,10 @@ techs:
     energy_to_power_ratio: 135
     withdrawal_to_injection_ratio: 4.6
     flow_out_eff: 1
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.010042
-    withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
-    injection_compression_equivalent_efficiency: 0.990058
-    withdrawal_compression_equivalent_efficiency: 1
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.010042
+    # withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
+    flow_in_eff: 0.990058
+    # withdrawal_compression_equivalent_efficiency: 1
   b30_salt_cavern_epr03_wtir05:
     template: uhs_bundled
     name: 'B30: Salt Cavern (epr03_wtir05)'
@@ -2074,10 +2073,10 @@ techs:
     energy_to_power_ratio: 264
     withdrawal_to_injection_ratio: 4.6
     flow_out_eff: 1
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.00978356
-    withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
-    injection_compression_equivalent_efficiency: 0.990311
-    withdrawal_compression_equivalent_efficiency: 1
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.00978356
+    # withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
+    flow_in_eff: 0.990311
+    # withdrawal_compression_equivalent_efficiency: 1
     soc_24h_a_min: -0.064838
     soc_24h_b_min: 1.01149
     soc_24h_a_max: 0.0640983
@@ -2097,8 +2096,8 @@ techs:
     withdrawal_to_injection_ratio: 4.6
     flow_out_eff: 0.95
     storage_loss: 1.7253e-06
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.00624323
-    injection_compression_equivalent_efficiency: 0.993796
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.00624323
+    flow_in_eff: 0.993796
   b30_depleted_gas_field_epr03_wtir05:
     template: uhs_bundled
     name: 'B30: Depleted Gas Field (epr03_wtir05)'
@@ -2114,8 +2113,8 @@ techs:
     withdrawal_to_injection_ratio: 4.6
     flow_out_eff: 0.8996
     storage_loss: 1.7253e-06
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.0091902
-    injection_compression_equivalent_efficiency: 0.990893
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.0091902
+    flow_in_eff: 0.990893
   b30_lined_rock_cavern_epr03_wtir05:
     template: uhs_bundled
     name: 'B30: Lined Rock Cavern (epr03_wtir05)'
@@ -2130,10 +2129,10 @@ techs:
     energy_to_power_ratio: 165
     withdrawal_to_injection_ratio: 4.6
     flow_out_eff: 1
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.010042
-    withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
-    injection_compression_equivalent_efficiency: 0.990058
-    withdrawal_compression_equivalent_efficiency: 1
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.010042
+    # withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
+    flow_in_eff: 0.990058
+    # withdrawal_compression_equivalent_efficiency: 1
   b30_salt_cavern_epr04_wtir05:
     template: uhs_bundled
     name: 'B30: Salt Cavern (epr04_wtir05)'
@@ -2148,10 +2147,10 @@ techs:
     energy_to_power_ratio: 312
     withdrawal_to_injection_ratio: 4.6
     flow_out_eff: 1
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.00978356
-    withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
-    injection_compression_equivalent_efficiency: 0.990311
-    withdrawal_compression_equivalent_efficiency: 1
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.00978356
+    # withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
+    flow_in_eff: 0.990311
+    # withdrawal_compression_equivalent_efficiency: 1
     soc_24h_a_min: -0.064838
     soc_24h_b_min: 1.01149
     soc_24h_a_max: 0.0640983
@@ -2171,8 +2170,8 @@ techs:
     withdrawal_to_injection_ratio: 4.6
     flow_out_eff: 0.95
     storage_loss: 1.7253e-06
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.00624323
-    injection_compression_equivalent_efficiency: 0.993796
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.00624323
+    flow_in_eff: 0.993796
   b30_depleted_gas_field_epr04_wtir05:
     template: uhs_bundled
     name: 'B30: Depleted Gas Field (epr04_wtir05)'
@@ -2188,8 +2187,8 @@ techs:
     withdrawal_to_injection_ratio: 4.6
     flow_out_eff: 0.8996
     storage_loss: 1.7253e-06
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.0091902
-    injection_compression_equivalent_efficiency: 0.990893
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.0091902
+    flow_in_eff: 0.990893
   b30_lined_rock_cavern_epr04_wtir05:
     template: uhs_bundled
     name: 'B30: Lined Rock Cavern (epr04_wtir05)'
@@ -2204,10 +2203,10 @@ techs:
     energy_to_power_ratio: 195
     withdrawal_to_injection_ratio: 4.6
     flow_out_eff: 1
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.010042
-    withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
-    injection_compression_equivalent_efficiency: 0.990058
-    withdrawal_compression_equivalent_efficiency: 1
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.010042
+    # withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
+    flow_in_eff: 0.990058
+    # withdrawal_compression_equivalent_efficiency: 1
   b30_salt_cavern_epr05_wtir05:
     template: uhs_bundled
     name: 'B30: Salt Cavern (epr05_wtir05)'
@@ -2222,10 +2221,10 @@ techs:
     energy_to_power_ratio: 360
     withdrawal_to_injection_ratio: 4.6
     flow_out_eff: 1
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.00978356
-    withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
-    injection_compression_equivalent_efficiency: 0.990311
-    withdrawal_compression_equivalent_efficiency: 1
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.00978356
+    # withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
+    flow_in_eff: 0.990311
+    # withdrawal_compression_equivalent_efficiency: 1
     soc_24h_a_min: -0.064838
     soc_24h_b_min: 1.01149
     soc_24h_a_max: 0.0640983
@@ -2245,8 +2244,8 @@ techs:
     withdrawal_to_injection_ratio: 4.6
     flow_out_eff: 0.95
     storage_loss: 1.7253e-06
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.00624323
-    injection_compression_equivalent_efficiency: 0.993796
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.00624323
+    flow_in_eff: 0.993796
   b30_depleted_gas_field_epr05_wtir05:
     template: uhs_bundled
     name: 'B30: Depleted Gas Field (epr05_wtir05)'
@@ -2262,8 +2261,8 @@ techs:
     withdrawal_to_injection_ratio: 4.6
     flow_out_eff: 0.8996
     storage_loss: 1.7253e-06
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.0091902
-    injection_compression_equivalent_efficiency: 0.990893
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.0091902
+    flow_in_eff: 0.990893
   b30_lined_rock_cavern_epr05_wtir05:
     template: uhs_bundled
     name: 'B30: Lined Rock Cavern (epr05_wtir05)'
@@ -2278,10 +2277,10 @@ techs:
     energy_to_power_ratio: 225
     withdrawal_to_injection_ratio: 4.6
     flow_out_eff: 1
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.010042
-    withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
-    injection_compression_equivalent_efficiency: 0.990058
-    withdrawal_compression_equivalent_efficiency: 1
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.010042
+    # withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
+    flow_in_eff: 0.990058
+    # withdrawal_compression_equivalent_efficiency: 1
   b30_salt_cavern_epr06_wtir05:
     template: uhs_bundled
     name: 'B30: Salt Cavern (epr06_wtir05)'
@@ -2296,10 +2295,10 @@ techs:
     energy_to_power_ratio: 408
     withdrawal_to_injection_ratio: 4.6
     flow_out_eff: 1
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.00978356
-    withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
-    injection_compression_equivalent_efficiency: 0.990311
-    withdrawal_compression_equivalent_efficiency: 1
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.00978356
+    # withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
+    flow_in_eff: 0.990311
+    # withdrawal_compression_equivalent_efficiency: 1
     soc_24h_a_min: -0.064838
     soc_24h_b_min: 1.01149
     soc_24h_a_max: 0.0640983
@@ -2319,8 +2318,8 @@ techs:
     withdrawal_to_injection_ratio: 4.6
     flow_out_eff: 0.95
     storage_loss: 1.7253e-06
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.00624323
-    injection_compression_equivalent_efficiency: 0.993796
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.00624323
+    flow_in_eff: 0.993796
   b30_depleted_gas_field_epr06_wtir05:
     template: uhs_bundled
     name: 'B30: Depleted Gas Field (epr06_wtir05)'
@@ -2336,8 +2335,8 @@ techs:
     withdrawal_to_injection_ratio: 4.6
     flow_out_eff: 0.8996
     storage_loss: 1.7253e-06
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.0091902
-    injection_compression_equivalent_efficiency: 0.990893
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.0091902
+    flow_in_eff: 0.990893
   b30_lined_rock_cavern_epr06_wtir05:
     template: uhs_bundled
     name: 'B30: Lined Rock Cavern (epr06_wtir05)'
@@ -2352,10 +2351,10 @@ techs:
     energy_to_power_ratio: 255
     withdrawal_to_injection_ratio: 4.6
     flow_out_eff: 1
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.010042
-    withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
-    injection_compression_equivalent_efficiency: 0.990058
-    withdrawal_compression_equivalent_efficiency: 1
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.010042
+    # withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
+    flow_in_eff: 0.990058
+    # withdrawal_compression_equivalent_efficiency: 1
   p1_salt_cavern_epr01_wtir01:
     template: uhs_partially_decoupled
     name: 'P1: Salt Cavern (epr01_wtir01)'
@@ -2371,10 +2370,10 @@ techs:
     energy_to_power_ratio_max: 432
     withdrawal_to_injection_ratio: 3
     flow_out_eff: 1
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.00978356
-    withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
-    injection_compression_equivalent_efficiency: 0.990311
-    withdrawal_compression_equivalent_efficiency: 1
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.00978356
+    # withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
+    flow_in_eff: 0.990311
+    # withdrawal_compression_equivalent_efficiency: 1
     soc_24h_a_min: -0.064838
     soc_24h_b_min: 1.01149
     soc_24h_a_max: 0.0640983
@@ -2395,8 +2394,8 @@ techs:
     withdrawal_to_injection_ratio: 3
     flow_out_eff: 0.95
     storage_loss: 1.7253e-06
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.00624323
-    injection_compression_equivalent_efficiency: 0.993796
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.00624323
+    flow_in_eff: 0.993796
   p1_depleted_gas_field_epr01_wtir01:
     template: uhs_partially_decoupled
     name: 'P1: Depleted Gas Field (epr01_wtir01)'
@@ -2413,8 +2412,8 @@ techs:
     withdrawal_to_injection_ratio: 3
     flow_out_eff: 0.8996
     storage_loss: 1.7253e-06
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.0091902
-    injection_compression_equivalent_efficiency: 0.990893
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.0091902
+    flow_in_eff: 0.990893
   p1_lined_rock_cavern_epr01_wtir01:
     template: uhs_partially_decoupled
     name: 'P1: Lined Rock Cavern (epr01_wtir01)'
@@ -2430,10 +2429,10 @@ techs:
     energy_to_power_ratio_max: 270
     withdrawal_to_injection_ratio: 3
     flow_out_eff: 1
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.010042
-    withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
-    injection_compression_equivalent_efficiency: 0.990058
-    withdrawal_compression_equivalent_efficiency: 1
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.010042
+    # withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
+    flow_in_eff: 0.990058
+    # withdrawal_compression_equivalent_efficiency: 1
   f1_salt_cavern_epr01_wtir01:
     template: uhs_fully_decoupled
     name: 'F1: Salt Cavern (epr01_wtir01)'
@@ -2450,10 +2449,10 @@ techs:
     withdrawal_to_injection_ratio_min: 1
     withdrawal_to_injection_ratio_max: 5
     flow_out_eff: 1
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.00978356
-    withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
-    injection_compression_equivalent_efficiency: 0.990311
-    withdrawal_compression_equivalent_efficiency: 1
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.00978356
+    # withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
+    flow_in_eff: 0.990311
+    # withdrawal_compression_equivalent_efficiency: 1
     soc_24h_a_min: -0.064838
     soc_24h_b_min: 1.01149
     soc_24h_a_max: 0.0640983
@@ -2475,8 +2474,8 @@ techs:
     withdrawal_to_injection_ratio_max: 5
     flow_out_eff: 0.95
     storage_loss: 1.7253e-06
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.00624323
-    injection_compression_equivalent_efficiency: 0.993796
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.00624323
+    flow_in_eff: 0.993796
   f1_depleted_gas_field_epr01_wtir01:
     template: uhs_fully_decoupled
     name: 'F1: Depleted Gas Field (epr01_wtir01)'
@@ -2494,8 +2493,8 @@ techs:
     withdrawal_to_injection_ratio_max: 5
     flow_out_eff: 0.8996
     storage_loss: 1.7253e-06
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.0091902
-    injection_compression_equivalent_efficiency: 0.990893
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.0091902
+    flow_in_eff: 0.990893
   f1_lined_rock_cavern_epr01_wtir01:
     template: uhs_fully_decoupled
     name: 'F1: Lined Rock Cavern (epr01_wtir01)'
@@ -2512,10 +2511,10 @@ techs:
     withdrawal_to_injection_ratio_min: 1
     withdrawal_to_injection_ratio_max: 5
     flow_out_eff: 1
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.010042
-    withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
-    injection_compression_equivalent_efficiency: 0.990058
-    withdrawal_compression_equivalent_efficiency: 1
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.010042
+    # withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
+    flow_in_eff: 0.990058
+    # withdrawal_compression_equivalent_efficiency: 1
   fx1_salt_cavern_epr01_wtir01:
     template: uhs_fully_decoupled
     name: 'FX1: Salt Cavern (epr01_wtir01)'
@@ -2532,10 +2531,10 @@ techs:
     withdrawal_to_injection_ratio_min: 1
     withdrawal_to_injection_ratio_max: 5
     flow_out_eff: 1
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.00978356
-    withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
-    injection_compression_equivalent_efficiency: 0.990311
-    withdrawal_compression_equivalent_efficiency: 1
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.00978356
+    # withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
+    flow_in_eff: 0.990311
+    # withdrawal_compression_equivalent_efficiency: 1
     soc_24h_a_min: -0.064838
     soc_24h_b_min: 1.01149
     soc_24h_a_max: 0.0640983
@@ -2557,8 +2556,8 @@ techs:
     withdrawal_to_injection_ratio_max: 5
     flow_out_eff: 0.95
     storage_loss: 1.7253e-06
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.00624323
-    injection_compression_equivalent_efficiency: 0.993796
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.00624323
+    flow_in_eff: 0.993796
   fx1_depleted_gas_field_epr01_wtir01:
     template: uhs_fully_decoupled
     name: 'FX1: Depleted Gas Field (epr01_wtir01)'
@@ -2576,8 +2575,8 @@ techs:
     withdrawal_to_injection_ratio_max: 5
     flow_out_eff: 0.8996
     storage_loss: 1.7253e-06
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.0091902
-    injection_compression_equivalent_efficiency: 0.990893
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.0091902
+    flow_in_eff: 0.990893
   fx1_lined_rock_cavern_epr01_wtir01:
     template: uhs_fully_decoupled
     name: 'FX1: Lined Rock Cavern (epr01_wtir01)'
@@ -2594,10 +2593,10 @@ techs:
     withdrawal_to_injection_ratio_min: 1
     withdrawal_to_injection_ratio_max: 5
     flow_out_eff: 1
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.010042
-    withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
-    injection_compression_equivalent_efficiency: 0.990058
-    withdrawal_compression_equivalent_efficiency: 1
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.010042
+    # withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
+    flow_in_eff: 0.990058
+    # withdrawal_compression_equivalent_efficiency: 1
   fx6_salt_cavern_epr01_wtir01:
     template: uhs_fully_decoupled
     name: 'FX6: Salt Cavern (epr01_wtir01)'
@@ -2614,10 +2613,10 @@ techs:
     withdrawal_to_injection_ratio_min: 1
     withdrawal_to_injection_ratio_max: 3
     flow_out_eff: 1
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.00978356
-    withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
-    injection_compression_equivalent_efficiency: 0.990311
-    withdrawal_compression_equivalent_efficiency: 1
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.00978356
+    # withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
+    flow_in_eff: 0.990311
+    # withdrawal_compression_equivalent_efficiency: 1
     soc_24h_a_min: -0.064838
     soc_24h_b_min: 1.01149
     soc_24h_a_max: 0.0640983
@@ -2639,8 +2638,8 @@ techs:
     withdrawal_to_injection_ratio_max: 3
     flow_out_eff: 0.95
     storage_loss: 1.7253e-06
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.00624323
-    injection_compression_equivalent_efficiency: 0.993796
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.00624323
+    flow_in_eff: 0.993796
   fx6_depleted_gas_field_epr01_wtir01:
     template: uhs_fully_decoupled
     name: 'FX6: Depleted Gas Field (epr01_wtir01)'
@@ -2658,8 +2657,8 @@ techs:
     withdrawal_to_injection_ratio_max: 3
     flow_out_eff: 0.8996
     storage_loss: 1.7253e-06
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.0091902
-    injection_compression_equivalent_efficiency: 0.990893
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.0091902
+    flow_in_eff: 0.990893
   fx6_lined_rock_cavern_epr01_wtir01:
     template: uhs_fully_decoupled
     name: 'FX6: Lined Rock Cavern (epr01_wtir01)'
@@ -2676,10 +2675,10 @@ techs:
     withdrawal_to_injection_ratio_min: 1
     withdrawal_to_injection_ratio_max: 3
     flow_out_eff: 1
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.010042
-    withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
-    injection_compression_equivalent_efficiency: 0.990058
-    withdrawal_compression_equivalent_efficiency: 1
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.010042
+    # withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
+    flow_in_eff: 0.990058
+    # withdrawal_compression_equivalent_efficiency: 1
   fx6_salt_cavern_epr02_wtir01:
     template: uhs_fully_decoupled
     name: 'FX6: Salt Cavern (epr02_wtir01)'
@@ -2696,10 +2695,10 @@ techs:
     withdrawal_to_injection_ratio_min: 1
     withdrawal_to_injection_ratio_max: 3
     flow_out_eff: 1
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.00978356
-    withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
-    injection_compression_equivalent_efficiency: 0.990311
-    withdrawal_compression_equivalent_efficiency: 1
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.00978356
+    # withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
+    flow_in_eff: 0.990311
+    # withdrawal_compression_equivalent_efficiency: 1
     soc_24h_a_min: -0.064838
     soc_24h_b_min: 1.01149
     soc_24h_a_max: 0.0640983
@@ -2721,8 +2720,8 @@ techs:
     withdrawal_to_injection_ratio_max: 3
     flow_out_eff: 0.95
     storage_loss: 1.7253e-06
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.00624323
-    injection_compression_equivalent_efficiency: 0.993796
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.00624323
+    flow_in_eff: 0.993796
   fx6_depleted_gas_field_epr02_wtir01:
     template: uhs_fully_decoupled
     name: 'FX6: Depleted Gas Field (epr02_wtir01)'
@@ -2740,8 +2739,8 @@ techs:
     withdrawal_to_injection_ratio_max: 3
     flow_out_eff: 0.8996
     storage_loss: 1.7253e-06
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.0091902
-    injection_compression_equivalent_efficiency: 0.990893
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.0091902
+    flow_in_eff: 0.990893
   fx6_lined_rock_cavern_epr02_wtir01:
     template: uhs_fully_decoupled
     name: 'FX6: Lined Rock Cavern (epr02_wtir01)'
@@ -2758,10 +2757,10 @@ techs:
     withdrawal_to_injection_ratio_min: 1
     withdrawal_to_injection_ratio_max: 3
     flow_out_eff: 1
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.010042
-    withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
-    injection_compression_equivalent_efficiency: 0.990058
-    withdrawal_compression_equivalent_efficiency: 1
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.010042
+    # withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
+    flow_in_eff: 0.990058
+    # withdrawal_compression_equivalent_efficiency: 1
   fx6_salt_cavern_epr03_wtir01:
     template: uhs_fully_decoupled
     name: 'FX6: Salt Cavern (epr03_wtir01)'
@@ -2778,10 +2777,10 @@ techs:
     withdrawal_to_injection_ratio_min: 1
     withdrawal_to_injection_ratio_max: 3
     flow_out_eff: 1
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.00978356
-    withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
-    injection_compression_equivalent_efficiency: 0.990311
-    withdrawal_compression_equivalent_efficiency: 1
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.00978356
+    # withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
+    flow_in_eff: 0.990311
+    # withdrawal_compression_equivalent_efficiency: 1
     soc_24h_a_min: -0.064838
     soc_24h_b_min: 1.01149
     soc_24h_a_max: 0.0640983
@@ -2803,8 +2802,8 @@ techs:
     withdrawal_to_injection_ratio_max: 3
     flow_out_eff: 0.95
     storage_loss: 1.7253e-06
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.00624323
-    injection_compression_equivalent_efficiency: 0.993796
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.00624323
+    flow_in_eff: 0.993796
   fx6_depleted_gas_field_epr03_wtir01:
     template: uhs_fully_decoupled
     name: 'FX6: Depleted Gas Field (epr03_wtir01)'
@@ -2822,8 +2821,8 @@ techs:
     withdrawal_to_injection_ratio_max: 3
     flow_out_eff: 0.8996
     storage_loss: 1.7253e-06
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.0091902
-    injection_compression_equivalent_efficiency: 0.990893
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.0091902
+    flow_in_eff: 0.990893
   fx6_lined_rock_cavern_epr03_wtir01:
     template: uhs_fully_decoupled
     name: 'FX6: Lined Rock Cavern (epr03_wtir01)'
@@ -2840,10 +2839,10 @@ techs:
     withdrawal_to_injection_ratio_min: 1
     withdrawal_to_injection_ratio_max: 3
     flow_out_eff: 1
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.010042
-    withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
-    injection_compression_equivalent_efficiency: 0.990058
-    withdrawal_compression_equivalent_efficiency: 1
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.010042
+    # withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
+    flow_in_eff: 0.990058
+    # withdrawal_compression_equivalent_efficiency: 1
   fx6_salt_cavern_epr01_wtir02:
     template: uhs_fully_decoupled
     name: 'FX6: Salt Cavern (epr01_wtir02)'
@@ -2860,10 +2859,10 @@ techs:
     withdrawal_to_injection_ratio_min: 3
     withdrawal_to_injection_ratio_max: 5
     flow_out_eff: 1
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.00978356
-    withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
-    injection_compression_equivalent_efficiency: 0.990311
-    withdrawal_compression_equivalent_efficiency: 1
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.00978356
+    # withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
+    flow_in_eff: 0.990311
+    # withdrawal_compression_equivalent_efficiency: 1
     soc_24h_a_min: -0.064838
     soc_24h_b_min: 1.01149
     soc_24h_a_max: 0.0640983
@@ -2885,8 +2884,8 @@ techs:
     withdrawal_to_injection_ratio_max: 5
     flow_out_eff: 0.95
     storage_loss: 1.7253e-06
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.00624323
-    injection_compression_equivalent_efficiency: 0.993796
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.00624323
+    flow_in_eff: 0.993796
   fx6_depleted_gas_field_epr01_wtir02:
     template: uhs_fully_decoupled
     name: 'FX6: Depleted Gas Field (epr01_wtir02)'
@@ -2904,8 +2903,8 @@ techs:
     withdrawal_to_injection_ratio_max: 5
     flow_out_eff: 0.8996
     storage_loss: 1.7253e-06
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.0091902
-    injection_compression_equivalent_efficiency: 0.990893
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.0091902
+    flow_in_eff: 0.990893
   fx6_lined_rock_cavern_epr01_wtir02:
     template: uhs_fully_decoupled
     name: 'FX6: Lined Rock Cavern (epr01_wtir02)'
@@ -2922,10 +2921,10 @@ techs:
     withdrawal_to_injection_ratio_min: 3
     withdrawal_to_injection_ratio_max: 5
     flow_out_eff: 1
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.010042
-    withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
-    injection_compression_equivalent_efficiency: 0.990058
-    withdrawal_compression_equivalent_efficiency: 1
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.010042
+    # withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
+    flow_in_eff: 0.990058
+    # withdrawal_compression_equivalent_efficiency: 1
   fx6_salt_cavern_epr02_wtir02:
     template: uhs_fully_decoupled
     name: 'FX6: Salt Cavern (epr02_wtir02)'
@@ -2942,10 +2941,10 @@ techs:
     withdrawal_to_injection_ratio_min: 3
     withdrawal_to_injection_ratio_max: 5
     flow_out_eff: 1
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.00978356
-    withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
-    injection_compression_equivalent_efficiency: 0.990311
-    withdrawal_compression_equivalent_efficiency: 1
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.00978356
+    # withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
+    flow_in_eff: 0.990311
+    # withdrawal_compression_equivalent_efficiency: 1
     soc_24h_a_min: -0.064838
     soc_24h_b_min: 1.01149
     soc_24h_a_max: 0.0640983
@@ -2967,8 +2966,8 @@ techs:
     withdrawal_to_injection_ratio_max: 5
     flow_out_eff: 0.95
     storage_loss: 1.7253e-06
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.00624323
-    injection_compression_equivalent_efficiency: 0.993796
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.00624323
+    flow_in_eff: 0.993796
   fx6_depleted_gas_field_epr02_wtir02:
     template: uhs_fully_decoupled
     name: 'FX6: Depleted Gas Field (epr02_wtir02)'
@@ -2986,8 +2985,8 @@ techs:
     withdrawal_to_injection_ratio_max: 5
     flow_out_eff: 0.8996
     storage_loss: 1.7253e-06
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.0091902
-    injection_compression_equivalent_efficiency: 0.990893
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.0091902
+    flow_in_eff: 0.990893
   fx6_lined_rock_cavern_epr02_wtir02:
     template: uhs_fully_decoupled
     name: 'FX6: Lined Rock Cavern (epr02_wtir02)'
@@ -3004,10 +3003,10 @@ techs:
     withdrawal_to_injection_ratio_min: 3
     withdrawal_to_injection_ratio_max: 5
     flow_out_eff: 1
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.010042
-    withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
-    injection_compression_equivalent_efficiency: 0.990058
-    withdrawal_compression_equivalent_efficiency: 1
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.010042
+    # withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
+    flow_in_eff: 0.990058
+    # withdrawal_compression_equivalent_efficiency: 1
   fx6_salt_cavern_epr03_wtir02:
     template: uhs_fully_decoupled
     name: 'FX6: Salt Cavern (epr03_wtir02)'
@@ -3024,10 +3023,10 @@ techs:
     withdrawal_to_injection_ratio_min: 3
     withdrawal_to_injection_ratio_max: 5
     flow_out_eff: 1
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.00978356
-    withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
-    injection_compression_equivalent_efficiency: 0.990311
-    withdrawal_compression_equivalent_efficiency: 1
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.00978356
+    # withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
+    flow_in_eff: 0.990311
+    # withdrawal_compression_equivalent_efficiency: 1
     soc_24h_a_min: -0.064838
     soc_24h_b_min: 1.01149
     soc_24h_a_max: 0.0640983
@@ -3049,8 +3048,8 @@ techs:
     withdrawal_to_injection_ratio_max: 5
     flow_out_eff: 0.95
     storage_loss: 1.7253e-06
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.00624323
-    injection_compression_equivalent_efficiency: 0.993796
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.00624323
+    flow_in_eff: 0.993796
   fx6_depleted_gas_field_epr03_wtir02:
     template: uhs_fully_decoupled
     name: 'FX6: Depleted Gas Field (epr03_wtir02)'
@@ -3068,8 +3067,8 @@ techs:
     withdrawal_to_injection_ratio_max: 5
     flow_out_eff: 0.8996
     storage_loss: 1.7253e-06
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.0091902
-    injection_compression_equivalent_efficiency: 0.990893
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.0091902
+    flow_in_eff: 0.990893
   fx6_lined_rock_cavern_epr03_wtir02:
     template: uhs_fully_decoupled
     name: 'FX6: Lined Rock Cavern (epr03_wtir02)'
@@ -3086,7 +3085,7 @@ techs:
     withdrawal_to_injection_ratio_min: 3
     withdrawal_to_injection_ratio_max: 5
     flow_out_eff: 1
-    injection_compression_electricity_kWh_e_per_kWh_H2: 0.010042
-    withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
-    injection_compression_equivalent_efficiency: 0.990058
-    withdrawal_compression_equivalent_efficiency: 1
+    # injection_compression_electricity_kWh_e_per_kWh_H2: 0.010042
+    # withdrawal_compression_electricity_kWh_e_per_kWh_H2: 0
+    flow_in_eff: 0.990058
+    # withdrawal_compression_equivalent_efficiency: 1
