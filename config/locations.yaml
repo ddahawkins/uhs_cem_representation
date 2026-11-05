@@ -8,7 +8,6 @@ nodes:
       nuclear:
       biomass:
       hydro_run_of_river:
-      geothermal:
       #storage
       battery_2h:
       battery_4h:
