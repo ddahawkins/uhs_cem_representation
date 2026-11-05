@@ -250,7 +250,7 @@ techs:
     flow_cap_per_storage_cap_max: 0.5
     flow_in_eff: 0.9797958971
     flow_out_eff: 0.9797958971
-    storage_loss: 0.0
+    storage_loss: 2.7916e-5  # 2% per 30 days https://doi.org/10.1016/j.egyr.2023.10.031
     cost_storage_cap:                # 189.861 + 213.9279/2 = 296.82495 EUR/kWh
       data: 0.2968249500
       index: monetary
@@ -281,7 +281,7 @@ techs:
     flow_cap_per_storage_cap_max: 0.25
     flow_in_eff: 0.9797958971
     flow_out_eff: 0.9797958971
-    storage_loss: 0.0
+    storage_loss: 2.7916e-5  # 2% per 30 days https://doi.org/10.1016/j.egyr.2023.10.031
     cost_storage_cap:                # 189.861 + 213.9279/4 = 243.342975 EUR/kWh
       data: 0.2433429750
       index: monetary
@@ -312,7 +312,7 @@ techs:
     flow_cap_per_storage_cap_max: 0.125
     flow_in_eff: 0.9797958971
     flow_out_eff: 0.9797958971
-    storage_loss: 0.0
+    storage_loss: 2.7916e-5  # 2% per 30 days https://doi.org/10.1016/j.egyr.2023.10.031
     cost_storage_cap:                # 189.861 + 213.9279/8 = 216.6019875 EUR/kWh
       data: 0.2166019875
       index: monetary
@@ -358,7 +358,7 @@ techs:
     # corresponding to 52% AC-AC round-trip efficiency.
     flow_in_eff: 0.7211
     flow_out_eff: 0.7211
-    storage_loss: 0.0
+    storage_loss: 2.0886e-4  # 0.5% per day https://iea-es.org/wp-content/uploads/public/FactSheet_mechanical_CAES.pdf
     cost_flow_in_cap: # 50% of 1.1896660381 MEUR/MW bicharger CAPEX
         data: 0.5948330191
         index: monetary
