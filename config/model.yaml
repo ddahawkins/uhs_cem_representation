@@ -1,9 +1,11 @@
 
 import: # Import other files from paths relative to this file, or absolute paths
-  - "technologies.yaml" 
-  # - "uhs_technologies.yaml"  #uhs representations are created via scenarios/overrides
+  - "technologies_general.yaml" 
+  - "technologies_uhs.yaml"
   - "locations.yaml" 
-  - "scenarios.yaml" 
+  - "scenarios_uhs.yaml" 
+  - "scenarios_weather.yaml" 
+  - "scenarios_countries.yaml" 
 
 config:
   name: uhs_cem_representation
