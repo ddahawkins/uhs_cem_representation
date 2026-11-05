@@ -59,7 +59,6 @@ OPTIONAL_OPERATING_FIELDS = (
     "withdrawal_compression_electricity_kWh_e_per_kWh_H2",
     "injection_compression_equivalent_efficiency",
     "withdrawal_compression_equivalent_efficiency",
-    "purification_hydrogen_recovery",
     "soc_24h_a_min",
     "soc_24h_b_min",
     "soc_24h_a_max",
