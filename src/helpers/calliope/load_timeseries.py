@@ -8,7 +8,7 @@ def load_country_timeseries(
     start_date: str,
     end_date: str,
     demand_path: Path = Path("resources/timeseries/demand.parquet"),
-    vres_dir: Path = Path("resources/timeseries/renewables_ninja"),
+    vres_dir: Path = Path("resources/timeseries"),
 ) -> pd.DataFrame:
     """Load one country's demand and VRES profiles over [start_date, end_date)."""
 
@@ -28,11 +28,26 @@ def load_country_timeseries(
         columns=["timestamp", country],
     )
 
-    demand["timestamp"] = pd.to_datetime(
-        demand["timestamp"],
-        utc=True,
-    )
-    demand = demand.set_index("timestamp")
+    # Support timestamps stored either as a column or as the index.
+    if "timestamp" in demand.columns:
+        demand["timestamp"] = pd.to_datetime(
+            demand["timestamp"],
+            utc=True,
+        )
+        demand = demand.set_index("timestamp")
+
+    elif isinstance(demand.index, pd.DatetimeIndex) or demand.index.name == "timestamp":
+        demand.index = pd.to_datetime(
+            demand.index,
+            utc=True,
+        )
+
+    else:
+        raise ValueError(
+            "Demand parquet has no recognisable timestamp column/index. "
+            f"Columns: {demand.columns.tolist()}, "
+            f"index name: {demand.index.name!r}"
+        )
 
     # ------------------------------------------------------------------
     # VRES availability
