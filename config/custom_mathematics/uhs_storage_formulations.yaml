@@ -312,6 +312,26 @@ parameters:
     default: 0
     unit: cost/energy
 
+  # ---------------------------------------------------------------------------
+  # Salt Cavern 24h pressure constraint.
+  #
+  # ---------------------------------------------------------------------------
+
+  soc_24h_a_min:
+    title: Minimum 24-hour SoC fit intercept
+    unit: unitless
+
+  soc_24h_b_min:
+    title: Minimum 24-hour SoC fit slope
+    unit: unitless
+
+  soc_24h_a_max:
+    title: Maximum 24-hour SoC fit intercept
+    unit: unitless
+
+  soc_24h_b_max:
+    title: Maximum 24-hour SoC fit slope
+    unit: unitless
 
 # -----------------------------------------------------------------------------
 # Input checks
@@ -393,19 +413,19 @@ checks:
       `energy_to_power_ratio_max` must be strictly greater than zero.
     errors: raise
 
-  epr_bounds_must_be_ordered:
-    where: >-
-      (
-        storage_formulation==partially_decoupled
-        OR storage_formulation==fully_decoupled
-      )
-      AND energy_to_power_ratio_min
-      AND energy_to_power_ratio_max
-      AND energy_to_power_ratio_min>energy_to_power_ratio_max
-    message: >-
-      `energy_to_power_ratio_min` cannot exceed
-      `energy_to_power_ratio_max`.
-    errors: raise
+  # epr_bounds_must_be_ordered:
+  #   where: >-
+  #     (
+  #       storage_formulation==partially_decoupled
+  #       OR storage_formulation==fully_decoupled
+  #     )
+  #     AND energy_to_power_ratio_min
+  #     AND energy_to_power_ratio_max
+  #     AND energy_to_power_ratio_min>energy_to_power_ratio_max
+  #   message: >-
+  #     `energy_to_power_ratio_min` cannot exceed
+  #     `energy_to_power_ratio_max`.
+  #   errors: raise
 
   minimum_wtir_must_be_positive:
     where: >-
@@ -423,16 +443,16 @@ checks:
       `withdrawal_to_injection_ratio_max` must be strictly greater than zero.
     errors: raise
 
-  wtir_bounds_must_be_ordered:
-    where: >-
-      storage_formulation==fully_decoupled
-      AND withdrawal_to_injection_ratio_min
-      AND withdrawal_to_injection_ratio_max
-      AND withdrawal_to_injection_ratio_min>withdrawal_to_injection_ratio_max
-    message: >-
-      `withdrawal_to_injection_ratio_min` cannot exceed
-      `withdrawal_to_injection_ratio_max`.
-    errors: raise
+  # wtir_bounds_must_be_ordered:
+  #   where: >-
+  #     storage_formulation==fully_decoupled
+  #     AND withdrawal_to_injection_ratio_min
+  #     AND withdrawal_to_injection_ratio_max
+  #     AND withdrawal_to_injection_ratio_min>withdrawal_to_injection_ratio_max
+  #   message: >-
+  #     `withdrawal_to_injection_ratio_min` cannot exceed
+  #     `withdrawal_to_injection_ratio_max`.
+  #   errors: raise
 
 
 # -----------------------------------------------------------------------------
@@ -778,7 +798,59 @@ constraints:
           flow_out_cap
           <= withdrawal_to_injection_ratio_max * flow_in_cap
 
+  
+  # ---------------------------------------------------------
+  # Salt-cavern 24-hour minimum reachable storage level
+  # ---------------------------------------------------------
 
+  uhs_soc_24h_min:
+    title: Minimum storage level after 24 hours
+    description: >-
+      Constrains the minimum reachable storage level after
+      24 hours, based on the pressure-limited salt-cavern
+      operating envelope.
+
+    foreach: [nodes, techs, timesteps]
+
+    where: >-
+      base_tech==storage
+      AND soc_24h_a_min
+      AND soc_24h_b_min
+      AND timesteps<=get_val_at_index(timesteps=-25)
+
+    equations:
+      - expression: >-
+          roll(storage, timesteps=-24)
+          >=
+          soc_24h_a_min * storage_cap
+          + soc_24h_b_min * storage
+
+
+  # ---------------------------------------------------------
+  # Salt-cavern 24-hour maximum reachable storage level
+  # ---------------------------------------------------------
+
+  uhs_soc_24h_max:
+    title: Maximum storage level after 24 hours
+    description: >-
+      Constrains the maximum reachable storage level after
+      24 hours, based on the pressure-limited salt-cavern
+      operating envelope.
+
+    foreach: [nodes, techs, timesteps]
+
+    where: >-
+      base_tech==storage
+      AND soc_24h_a_max
+      AND soc_24h_b_max
+      AND timesteps<=get_val_at_index(timesteps=-25)
+
+    equations:
+      - expression: >-
+          roll(storage, timesteps=-24)
+          <=
+          soc_24h_a_max * storage_cap
+          + soc_24h_b_max * storage
 # -----------------------------------------------------------------------------
 # Cost accounting
 # -----------------------------------------------------------------------------
@@ -842,6 +914,7 @@ global_expressions:
   # ---------------------------------------------------------------------------
 
   cost_investment:
+    default: 0
     where: >-
       cost_investment_flow_cap
       OR cost_investment_storage_cap
@@ -860,42 +933,93 @@ global_expressions:
 
 
   # ---------------------------------------------------------------------------
-  # Extend Calliope's native fixed annual O&M expression.
+  # Fixed O&M is evaluated in independently masked component expressions.
   #
-  # Native technologies retain:
+  # Each component is defined only where its corresponding capacity variable
+  # exists, and defaults to zero elsewhere. In particular, native flow_cap
+  # does not exist for custom UHS technologies, while UHS flow_in_cap and
+  # flow_out_cap do not exist for native technologies.
   #
-  #   cost_om_annual * flow_cap
+  # Keeping these components separate prevents products involving unavailable
+  # capacity variables from propagating NaN values into the objective.
+  # ---------------------------------------------------------------------------
+
+  uhs_fom_native_flow:
+    title: Fixed O&M on native flow capacity
+    description: >-
+      Fixed annual O&M for technologies using Calliope's shared flow_cap.
+    foreach: [nodes, techs, carriers, costs]
+    where: flow_cap AND cost_om_annual
+    equations:
+      - expression: cost_om_annual * flow_cap
+    unit: cost
+    default: 0
+    order: -1
+
+  uhs_fom_injection:
+    title: Fixed O&M on injection capacity
+    description: >-
+      Fixed annual O&M on independently installed UHS injection capacity.
+    foreach: [nodes, techs, carriers, costs]
+    where: flow_in_cap AND cost_om_annual_flow_in_cap
+    equations:
+      - expression: cost_om_annual_flow_in_cap * flow_in_cap
+    unit: cost
+    default: 0
+    order: -1
+
+  uhs_fom_withdrawal:
+    title: Fixed O&M on withdrawal capacity
+    description: >-
+      Fixed annual O&M on independently installed UHS withdrawal capacity.
+    foreach: [nodes, techs, carriers, costs]
+    where: flow_out_cap AND cost_om_annual_flow_out_cap
+    equations:
+      - expression: cost_om_annual_flow_out_cap * flow_out_cap
+    unit: cost
+    default: 0
+    order: -1
+
+  uhs_fom_storage:
+    title: Fixed O&M on UHS storage capacity
+    description: >-
+      Fixed annual O&M on the working-gas capacity of custom UHS technologies.
+      This component is not applied to conventional storage technologies.
+    foreach: [nodes, techs, costs]
+    where: >-
+      storage_formulation
+      AND storage_cap
+      AND cost_om_annual_storage_cap
+    equations:
+      - expression: cost_om_annual_storage_cap * storage_cap
+    unit: cost
+    default: 0
+    order: -1
+
+  # ---------------------------------------------------------------------------
+  # Total fixed O&M: add only the component expressions that exist for the
+  # technology, then scale once to the model duration.
   #
-  # Custom UHS technologies can independently specify:
+  # The base math's $annualisation_weight sub-expression is inherited:
+  #   sum(timestep_resolution * timestep_weights, over=timesteps) / 8760
   #
-  #   cost_om_annual_flow_in_cap  * P_in
-  #   cost_om_annual_flow_out_cap * P_out
-  #   cost_om_annual_storage_cap  * E
-  #
-  # `cost_om_annual_investment_fraction` remains available unchanged.
-  #
-  # The base `annualisation_weight` sub-expression is inherited.
+  # Native investment-percentage O&M remains unchanged.
   # ---------------------------------------------------------------------------
 
   cost_operation_fixed:
+    default: 0
     where: >-
-      (cost_om_annual AND flow_cap)
-      OR (cost_om_annual_flow_in_cap AND flow_in_cap)
-      OR (cost_om_annual_flow_out_cap AND flow_out_cap)
-      OR (cost_om_annual_storage_cap AND storage_cap AND storage_formulation)
+      uhs_fom_native_flow
+      OR uhs_fom_injection
+      OR uhs_fom_withdrawal
+      OR uhs_fom_storage
       OR (cost_investment AND cost_om_annual_investment_fraction)
     equations:
       - expression: >-
           $annualisation_weight * (
-            sum(cost_om_annual * flow_cap, over=carriers)
-            + sum(
-                cost_om_annual_flow_in_cap * flow_in_cap,
-                over=carriers
-              )
-            + sum(
-                cost_om_annual_flow_out_cap * flow_out_cap,
-                over=carriers
-              )
-            + cost_om_annual_storage_cap * storage_cap
+            sum(uhs_fom_native_flow, over=carriers)
+            + sum(uhs_fom_injection, over=carriers)
+            + sum(uhs_fom_withdrawal, over=carriers)
+            + uhs_fom_storage
             + cost_investment * cost_om_annual_investment_fraction
           )

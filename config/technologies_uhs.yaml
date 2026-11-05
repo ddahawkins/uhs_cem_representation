@@ -19,6 +19,7 @@ templates:
     base_tech: storage
     carrier_in: hydrogen
     carrier_out: hydrogen
+    lifetime: 50
     cost_storage_cap:
       data: null
       index: monetary
