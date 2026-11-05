@@ -106,9 +106,19 @@
 #
 #       P_in, P_out, and E are independent investment decisions.
 #
-#    No WTIR or EPR coupling constraints are imposed. Absolute component bounds
-#    (flow_in_cap_min/max, flow_out_cap_min/max, storage_cap_min/max) can still
-#    be used to represent physical/resource limits.
+#    No exact WTIR or EPR equality is imposed. Optional lower/upper ratio
+#    bounds can restrict a cost-rate sample to the domain on which it was fit:
+#
+#       EPR_min  * P_out <= E     <= EPR_max  * P_out
+#       WTIR_min * P_in  <= P_out <= WTIR_max * P_in
+#
+#    Omit all four bounds only when unconstrained capacity ratios are intended.
+#    For comparable experiments, the constant-rate F1 benchmark may use the
+#    global admissible range, while locally fitted FX1 / FX6 samples should
+#    use their respective fit intervals to avoid extrapolation.
+#    Ratios are PARAMETERS; these inequalities remain linear in capacities.
+#    Absolute component bounds (flow_in_cap_min/max, flow_out_cap_min/max,
+#    storage_cap_min/max) can also be used for physical/resource limits.
 #
 #
 # Cost treatment
@@ -216,6 +226,20 @@ parameters:
       formulations. Ignored by the fully-decoupled formulation.
     unit: unitless
 
+  withdrawal_to_injection_ratio_min:
+    title: Minimum withdrawal-to-injection capacity ratio
+    description: >-
+      Optional lower WTIR bound for fully-decoupled technologies. If supplied,
+      imposes P_out >= WTIR_min * P_in without fixing either capacity.
+    unit: unitless
+
+  withdrawal_to_injection_ratio_max:
+    title: Maximum withdrawal-to-injection capacity ratio
+    description: >-
+      Optional upper WTIR bound for fully-decoupled technologies. If supplied,
+      imposes P_out <= WTIR_max * P_in without fixing either capacity.
+    unit: unitless
+
   energy_to_power_ratio:
     title: Energy-to-power ratio
     description: >-
@@ -226,15 +250,15 @@ parameters:
   energy_to_power_ratio_min:
     title: Minimum energy-to-power ratio
     description: >-
-      Optional minimum EPR = E / P_out in hours for the partially-decoupled
-      formulation. If supplied, imposes E >= EPR_min * P_out.
+      Optional minimum EPR = E / P_out in hours for partially-decoupled and
+      fully-decoupled formulations. If supplied, imposes E >= EPR_min * P_out.
     unit: hour
 
   energy_to_power_ratio_max:
     title: Maximum energy-to-power ratio
     description: >-
-      Optional maximum EPR = E / P_out in hours for the partially-decoupled
-      formulation. If supplied, imposes E <= EPR_max * P_out.
+      Optional maximum EPR = E / P_out in hours for partially-decoupled and
+      fully-decoupled formulations. If supplied, imposes E <= EPR_max * P_out.
     unit: hour
 
 
@@ -349,7 +373,10 @@ checks:
 
   minimum_epr_must_be_positive:
     where: >-
-      storage_formulation==partially_decoupled
+      (
+        storage_formulation==partially_decoupled
+        OR storage_formulation==fully_decoupled
+      )
       AND energy_to_power_ratio_min<=0
     message: >-
       `energy_to_power_ratio_min` must be strictly greater than zero.
@@ -357,7 +384,10 @@ checks:
 
   maximum_epr_must_be_positive:
     where: >-
-      storage_formulation==partially_decoupled
+      (
+        storage_formulation==partially_decoupled
+        OR storage_formulation==fully_decoupled
+      )
       AND energy_to_power_ratio_max<=0
     message: >-
       `energy_to_power_ratio_max` must be strictly greater than zero.
@@ -365,13 +395,43 @@ checks:
 
   epr_bounds_must_be_ordered:
     where: >-
-      storage_formulation==partially_decoupled
+      (
+        storage_formulation==partially_decoupled
+        OR storage_formulation==fully_decoupled
+      )
       AND energy_to_power_ratio_min
       AND energy_to_power_ratio_max
       AND energy_to_power_ratio_min>energy_to_power_ratio_max
     message: >-
       `energy_to_power_ratio_min` cannot exceed
       `energy_to_power_ratio_max`.
+    errors: raise
+
+  minimum_wtir_must_be_positive:
+    where: >-
+      storage_formulation==fully_decoupled
+      AND withdrawal_to_injection_ratio_min<=0
+    message: >-
+      `withdrawal_to_injection_ratio_min` must be strictly greater than zero.
+    errors: raise
+
+  maximum_wtir_must_be_positive:
+    where: >-
+      storage_formulation==fully_decoupled
+      AND withdrawal_to_injection_ratio_max<=0
+    message: >-
+      `withdrawal_to_injection_ratio_max` must be strictly greater than zero.
+    errors: raise
+
+  wtir_bounds_must_be_ordered:
+    where: >-
+      storage_formulation==fully_decoupled
+      AND withdrawal_to_injection_ratio_min
+      AND withdrawal_to_injection_ratio_max
+      AND withdrawal_to_injection_ratio_min>withdrawal_to_injection_ratio_max
+    message: >-
+      `withdrawal_to_injection_ratio_min` cannot exceed
+      `withdrawal_to_injection_ratio_max`.
     errors: raise
 
 
@@ -637,20 +697,86 @@ constraints:
   # ---------------------------------------------------------------------------
   # Fully-decoupled formulation
   #
-  # No additional coupling constraint is required.
-  #
-  # With:
-  #     storage_formulation: fully_decoupled
-  #
-  # the optimisation independently chooses:
+  # The optimisation independently chooses:
   #
   #     flow_in_cap   = P_in
   #     flow_out_cap  = P_out
   #     storage_cap   = E
   #
-  # subject only to their individual bounds and the ordinary storage-energy
-  # balance / dispatch constraints inherited from Calliope.
+  # Optional EPR / WTIR inequalities can bound the cost-fit domain without
+  # imposing exact ratios. If omitted, all three capacities remain independent
+  # subject to ordinary capacity and dispatch constraints.
+  #
+  # Each inequality is linear because the ratio limit is a fixed parameter.
+  # Do not convert sample intervals to fixed equalities at their centres.
   # ---------------------------------------------------------------------------
+
+  fully_decoupled_storage_epr_min:
+    title: Fully-decoupled minimum energy-to-power ratio
+    description: >-
+      Optional minimum storage duration, defining the lower edge of an EPR
+      sample interval without fixing storage or withdrawal capacity.
+    foreach: [nodes, techs, carriers]
+    where: >-
+      storage_formulation==fully_decoupled
+      AND storage_cap
+      AND flow_out_cap
+      AND energy_to_power_ratio_min
+    equations:
+      - expression: >-
+          storage_cap
+          >= energy_to_power_ratio_min * flow_out_cap
+
+
+  fully_decoupled_storage_epr_max:
+    title: Fully-decoupled maximum energy-to-power ratio
+    description: >-
+      Optional maximum storage duration, defining the upper edge of an EPR
+      sample interval without fixing storage or withdrawal capacity.
+    foreach: [nodes, techs, carriers]
+    where: >-
+      storage_formulation==fully_decoupled
+      AND storage_cap
+      AND flow_out_cap
+      AND energy_to_power_ratio_max
+    equations:
+      - expression: >-
+          storage_cap
+          <= energy_to_power_ratio_max * flow_out_cap
+
+
+  fully_decoupled_storage_wtir_min:
+    title: Fully-decoupled minimum withdrawal-to-injection ratio
+    description: >-
+      Optional lower bound for the withdrawal-to-injection capacity ratio,
+      defining the lower edge of a WTIR sample interval.
+    foreach: [nodes, techs, carriers]
+    where: >-
+      storage_formulation==fully_decoupled
+      AND flow_in_cap
+      AND flow_out_cap
+      AND withdrawal_to_injection_ratio_min
+    equations:
+      - expression: >-
+          flow_out_cap
+          >= withdrawal_to_injection_ratio_min * flow_in_cap
+
+
+  fully_decoupled_storage_wtir_max:
+    title: Fully-decoupled maximum withdrawal-to-injection ratio
+    description: >-
+      Optional upper bound for the withdrawal-to-injection capacity ratio,
+      defining the upper edge of a WTIR sample interval.
+    foreach: [nodes, techs, carriers]
+    where: >-
+      storage_formulation==fully_decoupled
+      AND flow_in_cap
+      AND flow_out_cap
+      AND withdrawal_to_injection_ratio_max
+    equations:
+      - expression: >-
+          flow_out_cap
+          <= withdrawal_to_injection_ratio_max * flow_in_cap
 
 
 # -----------------------------------------------------------------------------

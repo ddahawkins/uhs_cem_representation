@@ -1,0 +1,233 @@
+scenarios:
+  B1: [uhs_B1]
+  B30: [uhs_B30]
+  P1: [uhs_P1]
+  F1: [uhs_F1]
+  FX1: [uhs_FX1]
+  FX6: [uhs_FX6]
+
+overrides:
+  uhs_B1:
+    nodes:
+      general_node:
+        techs:
+          b1_salt_cavern_epr01_wtir01: {}
+          b1_aquifer_epr01_wtir01: {}
+          b1_depleted_gas_field_epr01_wtir01: {}
+          b1_lined_rock_cavern_epr01_wtir01: {}
+  
+  uhs_B30:
+    nodes:
+      general_node:
+        techs:
+          b30_salt_cavern_epr01_wtir01: {}
+          b30_aquifer_epr01_wtir01: {}
+          b30_depleted_gas_field_epr01_wtir01: {}
+          b30_lined_rock_cavern_epr01_wtir01: {}
+
+          b30_salt_cavern_epr02_wtir01: {}
+          b30_aquifer_epr02_wtir01: {}
+          b30_depleted_gas_field_epr02_wtir01: {}
+          b30_lined_rock_cavern_epr02_wtir01: {}
+
+          b30_salt_cavern_epr03_wtir01: {}
+          b30_aquifer_epr03_wtir01: {}
+          b30_depleted_gas_field_epr03_wtir01: {}
+          b30_lined_rock_cavern_epr03_wtir01: {}
+
+          b30_salt_cavern_epr04_wtir01: {}
+          b30_aquifer_epr04_wtir01: {}
+          b30_depleted_gas_field_epr04_wtir01: {}
+          b30_lined_rock_cavern_epr04_wtir01: {}
+
+          b30_salt_cavern_epr05_wtir01: {}
+          b30_aquifer_epr05_wtir01: {}
+          b30_depleted_gas_field_epr05_wtir01: {}
+          b30_lined_rock_cavern_epr05_wtir01: {}
+
+          b30_salt_cavern_epr06_wtir01: {}
+          b30_aquifer_epr06_wtir01: {}
+          b30_depleted_gas_field_epr06_wtir01: {}
+          b30_lined_rock_cavern_epr06_wtir01: {}
+
+          b30_salt_cavern_epr01_wtir02: {}
+          b30_aquifer_epr01_wtir02: {}
+          b30_depleted_gas_field_epr01_wtir02: {}
+          b30_lined_rock_cavern_epr01_wtir02: {}
+
+          b30_salt_cavern_epr02_wtir02: {}
+          b30_aquifer_epr02_wtir02: {}
+          b30_depleted_gas_field_epr02_wtir02: {}
+          b30_lined_rock_cavern_epr02_wtir02: {}
+
+          b30_salt_cavern_epr03_wtir02: {}
+          b30_aquifer_epr03_wtir02: {}
+          b30_depleted_gas_field_epr03_wtir02: {}
+          b30_lined_rock_cavern_epr03_wtir02: {}
+
+          b30_salt_cavern_epr04_wtir02: {}
+          b30_aquifer_epr04_wtir02: {}
+          b30_depleted_gas_field_epr04_wtir02: {}
+          b30_lined_rock_cavern_epr04_wtir02: {}
+
+          b30_salt_cavern_epr05_wtir02: {}
+          b30_aquifer_epr05_wtir02: {}
+          b30_depleted_gas_field_epr05_wtir02: {}
+          b30_lined_rock_cavern_epr05_wtir02: {}
+
+          b30_salt_cavern_epr06_wtir02: {}
+          b30_aquifer_epr06_wtir02: {}
+          b30_depleted_gas_field_epr06_wtir02: {}
+          b30_lined_rock_cavern_epr06_wtir02: {}
+
+          b30_salt_cavern_epr01_wtir03: {}
+          b30_aquifer_epr01_wtir03: {}
+          b30_depleted_gas_field_epr01_wtir03: {}
+          b30_lined_rock_cavern_epr01_wtir03: {}
+
+          b30_salt_cavern_epr02_wtir03: {}
+          b30_aquifer_epr02_wtir03: {}
+          b30_depleted_gas_field_epr02_wtir03: {}
+          b30_lined_rock_cavern_epr02_wtir03: {}
+
+          b30_salt_cavern_epr03_wtir03: {}
+          b30_aquifer_epr03_wtir03: {}
+          b30_depleted_gas_field_epr03_wtir03: {}
+          b30_lined_rock_cavern_epr03_wtir03: {}
+
+          b30_salt_cavern_epr04_wtir03: {}
+          b30_aquifer_epr04_wtir03: {}
+          b30_depleted_gas_field_epr04_wtir03: {}
+          b30_lined_rock_cavern_epr04_wtir03: {}
+
+          b30_salt_cavern_epr05_wtir03: {}
+          b30_aquifer_epr05_wtir03: {}
+          b30_depleted_gas_field_epr05_wtir03: {}
+          b30_lined_rock_cavern_epr05_wtir03: {}
+
+          b30_salt_cavern_epr06_wtir03: {}
+          b30_aquifer_epr06_wtir03: {}
+          b30_depleted_gas_field_epr06_wtir03: {}
+          b30_lined_rock_cavern_epr06_wtir03: {}
+
+          b30_salt_cavern_epr01_wtir04: {}
+          b30_aquifer_epr01_wtir04: {}
+          b30_depleted_gas_field_epr01_wtir04: {}
+          b30_lined_rock_cavern_epr01_wtir04: {}
+
+          b30_salt_cavern_epr02_wtir04: {}
+          b30_aquifer_epr02_wtir04: {}
+          b30_depleted_gas_field_epr02_wtir04: {}
+          b30_lined_rock_cavern_epr02_wtir04: {}
+
+          b30_salt_cavern_epr03_wtir04: {}
+          b30_aquifer_epr03_wtir04: {}
+          b30_depleted_gas_field_epr03_wtir04: {}
+          b30_lined_rock_cavern_epr03_wtir04: {}
+
+          b30_salt_cavern_epr04_wtir04: {}
+          b30_aquifer_epr04_wtir04: {}
+          b30_depleted_gas_field_epr04_wtir04: {}
+          b30_lined_rock_cavern_epr04_wtir04: {}
+
+          b30_salt_cavern_epr05_wtir04: {}
+          b30_aquifer_epr05_wtir04: {}
+          b30_depleted_gas_field_epr05_wtir04: {}
+          b30_lined_rock_cavern_epr05_wtir04: {}
+
+          b30_salt_cavern_epr06_wtir04: {}
+          b30_aquifer_epr06_wtir04: {}
+          b30_depleted_gas_field_epr06_wtir04: {}
+          b30_lined_rock_cavern_epr06_wtir04: {}
+
+          b30_salt_cavern_epr01_wtir05: {}
+          b30_aquifer_epr01_wtir05: {}
+          b30_depleted_gas_field_epr01_wtir05: {}
+          b30_lined_rock_cavern_epr01_wtir05: {}
+
+          b30_salt_cavern_epr02_wtir05: {}
+          b30_aquifer_epr02_wtir05: {}
+          b30_depleted_gas_field_epr02_wtir05: {}
+          b30_lined_rock_cavern_epr02_wtir05: {}
+
+          b30_salt_cavern_epr03_wtir05: {}
+          b30_aquifer_epr03_wtir05: {}
+          b30_depleted_gas_field_epr03_wtir05: {}
+          b30_lined_rock_cavern_epr03_wtir05: {}
+
+          b30_salt_cavern_epr04_wtir05: {}
+          b30_aquifer_epr04_wtir05: {}
+          b30_depleted_gas_field_epr04_wtir05: {}
+          b30_lined_rock_cavern_epr04_wtir05: {}
+
+          b30_salt_cavern_epr05_wtir05: {}
+          b30_aquifer_epr05_wtir05: {}
+          b30_depleted_gas_field_epr05_wtir05: {}
+          b30_lined_rock_cavern_epr05_wtir05: {}
+
+          b30_salt_cavern_epr06_wtir05: {}
+          b30_aquifer_epr06_wtir05: {}
+          b30_depleted_gas_field_epr06_wtir05: {}
+          b30_lined_rock_cavern_epr06_wtir05: {}
+  
+  uhs_P1:
+    nodes:
+      general_node:
+        techs:
+          p1_salt_cavern_epr01_wtir01: {}
+          p1_aquifer_epr01_wtir01: {}
+          p1_depleted_gas_field_epr01_wtir01: {}
+          p1_lined_rock_cavern_epr01_wtir01: {}
+  
+  uhs_F1:
+    nodes:
+      general_node:
+        techs:
+          f1_salt_cavern_epr01_wtir01: {}
+          f1_aquifer_epr01_wtir01: {}
+          f1_depleted_gas_field_epr01_wtir01: {}
+          f1_lined_rock_cavern_epr01_wtir01: {}
+  
+  uhs_FX1:
+    nodes:
+      general_node:
+        techs:
+          fx1_salt_cavern_epr01_wtir01: {}
+          fx1_aquifer_epr01_wtir01: {}
+          fx1_depleted_gas_field_epr01_wtir01: {}
+          fx1_lined_rock_cavern_epr01_wtir01: {}
+  
+  uhs_FX6:
+    nodes:
+      general_node:
+        techs:
+          fx6_salt_cavern_epr01_wtir01: {}
+          fx6_aquifer_epr01_wtir01: {}
+          fx6_depleted_gas_field_epr01_wtir01: {}
+          fx6_lined_rock_cavern_epr01_wtir01: {}
+
+          fx6_salt_cavern_epr02_wtir01: {}
+          fx6_aquifer_epr02_wtir01: {}
+          fx6_depleted_gas_field_epr02_wtir01: {}
+          fx6_lined_rock_cavern_epr02_wtir01: {}
+
+          fx6_salt_cavern_epr03_wtir01: {}
+          fx6_aquifer_epr03_wtir01: {}
+          fx6_depleted_gas_field_epr03_wtir01: {}
+          fx6_lined_rock_cavern_epr03_wtir01: {}
+    
+          fx6_salt_cavern_epr01_wtir02: {}
+          fx6_aquifer_epr01_wtir02: {}
+          fx6_depleted_gas_field_epr01_wtir02: {}
+          fx6_lined_rock_cavern_epr01_wtir02: {}
+
+          fx6_salt_cavern_epr02_wtir02: {}
+          fx6_aquifer_epr02_wtir02: {}
+          fx6_depleted_gas_field_epr02_wtir02: {}
+          fx6_lined_rock_cavern_epr02_wtir02: {}
+
+          fx6_salt_cavern_epr03_wtir02: {}
+          fx6_aquifer_epr03_wtir02: {}
+          fx6_depleted_gas_field_epr03_wtir02: {}
+          fx6_lined_rock_cavern_epr03_wtir02: {}
+    
