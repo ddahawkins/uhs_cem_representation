@@ -1,52 +1,35 @@
 scenarios:
-  AUT: ['austria']
-  DEU: ['germany']
-  DNK: ['denmark']
-  ESP: ['spain']
-  FIN: ['finland']
-  FRA: ['france']
-  GBR: ['great_britain']
-  HUN: ['hungary']
+  # AUT: ['austria']
+  # DEU: ['germany']
+  # DNK: ['denmark']
+  # ESP: ['spain']
+  # FIN: ['finland']
+  # FRA: ['france']
+  # GBR: ['great_britain']
+  # HUN: ['hungary']
   NLD: ['netherlands']
-  POL: ['poland']
-  SWE: ['sweden']
+  # POL: ['poland']
+  # SWE: ['sweden']
 
 overrides:
-  austria:
+  netherlands:
     techs:
       solar:
-        flow_cap_max:
+        flow_cap_min: 25878 #MW https://www.irena.org/-/media/Files/IRENA/Agency/Publication/2026/Mar/IRENA_DAT_RE_Capacity_Statistics_2026.pdf
       onshore_wind:
-        flow_cap_max:
+        flow_cap_min: 7035 #MW https://www.irena.org/-/media/Files/IRENA/Agency/Publication/2026/Mar/IRENA_DAT_RE_Capacity_Statistics_2026.pdf
+        flow_cap_max: 16000 #cap based on https://energy.nl/wp-content/uploads/technology-factsheet-wind-onshore-9.pdf
       offshore_wind:
-        flow_cap_max:
+        flow_cap_min: 4748 #MW https://www.irena.org/-/media/Files/IRENA/Agency/Publication/2026/Mar/IRENA_DAT_RE_Capacity_Statistics_2026.pdf
+        flow_cap_max: 108000 #cap based on 2021 projections https://energy.nl/wp-content/uploads/technology-factsheet-wind-offshore-9.pdf
       nuclear:
-        flow_cap_max:
-      biomass_ccgt:
-        flow_cap_max:
+        flow_cap_min: 482 #MW, today src:=https://world-nuclear.org/information-library/country-profiles/countries-g-n/netherlands
+        flow_cap_max: 482 #MW, today src:=https://world-nuclear.org/information-library/country-profiles/countries-g-n/netherlands
+      biomass:
+        flow_cap_min: 874 #MW https://www.irena.org/-/media/Files/IRENA/Agency/Publication/2026/Mar/IRENA_DAT_RE_Capacity_Statistics_2026.pdf
+        flow_cap_max: 874 #MW https://www.irena.org/-/media/Files/IRENA/Agency/Publication/2026/Mar/IRENA_DAT_RE_Capacity_Statistics_2026.pdf
       hydro_run_of_river:
-        flow_cap_max:
-      geothermal:
-        flow_cap_max:
-      battery_2h:
-        storage_cap_max:
-      battery_4h:
-        storage_cap_max:
-      battery_8h:
-        storage_cap_max:
-      compressed_air_storage:
-        storage_cap_max:
+        flow_cap_min: 38 #MW https://www.irena.org/-/media/Files/IRENA/Agency/Publication/2026/Mar/IRENA_DAT_RE_Capacity_Statistics_2026.pdf
+        flow_cap_max: 38 #MW https://www.irena.org/-/media/Files/IRENA/Agency/Publication/2026/Mar/IRENA_DAT_RE_Capacity_Statistics_2026.pdf
       pumped_hydro:
-        storage_cap_max:
-      salt_cavern:
-        storage_cap_max:
-      depleted_gas_field:
-        storage_cap_max:
-      saline_aquifer:
-        storage_cap_max:
-      lined_rock_cavern:
-        storage_cap_max:
-      electrolyser:
-        flow_cap_max:
-      h2_ccgt:
-        flow_cap_max:
+        storage_cap_max: 0 #MW https://www.irena.org/-/media/Files/IRENA/Agency/Publication/2026/Mar/IRENA_DAT_RE_Capacity_Statistics_2026.pdf
