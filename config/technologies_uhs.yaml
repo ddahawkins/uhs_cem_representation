@@ -20,6 +20,7 @@ templates:
     carrier_in: hydrogen
     carrier_out: hydrogen
     lifetime: 50
+    cyclic_storage: true
     cost_storage_cap:
       data: null
       index: monetary

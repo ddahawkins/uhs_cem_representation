@@ -816,7 +816,10 @@ constraints:
       base_tech==storage
       AND soc_24h_a_min
       AND soc_24h_b_min
-      AND timesteps<=get_val_at_index(timesteps=-25)
+      AND (
+        cyclic_storage==True
+        OR timesteps<=get_val_at_index(timesteps=-25)
+      )
 
     equations:
       - expression: >-
@@ -843,7 +846,10 @@ constraints:
       base_tech==storage
       AND soc_24h_a_max
       AND soc_24h_b_max
-      AND timesteps<=get_val_at_index(timesteps=-25)
+      AND (
+        cyclic_storage==True
+        OR timesteps<=get_val_at_index(timesteps=-25)
+      )
 
     equations:
       - expression: >-
