@@ -4,7 +4,8 @@ scenarios:
   P1: [uhs_P1]
   F1: [uhs_F1]
   FX1: [uhs_FX1]
-  FX6: [uhs_FX6]
+  FX2: [uhs_FX2]
+  FX4: [uhs_FX4]
 
 overrides:
   uhs_B1:
@@ -197,37 +198,41 @@ overrides:
           fx1_depleted_gas_field_epr01_wtir01: {}
           fx1_lined_rock_cavern_epr01_wtir01: {}
   
-  uhs_FX6:
+  uhs_FX2:
     nodes:
       general_node:
         techs:
-          fx6_salt_cavern_epr01_wtir01: {}
-          fx6_aquifer_epr01_wtir01: {}
-          fx6_depleted_gas_field_epr01_wtir01: {}
-          fx6_lined_rock_cavern_epr01_wtir01: {}
+          fx2_salt_cavern_epr01_wtir01: {}
+          fx2_aquifer_epr01_wtir01: {}
+          fx2_depleted_gas_field_epr01_wtir01: {}
+          fx2_lined_rock_cavern_epr01_wtir01: {}
 
-          fx6_salt_cavern_epr02_wtir01: {}
-          fx6_aquifer_epr02_wtir01: {}
-          fx6_depleted_gas_field_epr02_wtir01: {}
-          fx6_lined_rock_cavern_epr02_wtir01: {}
+          fx2_salt_cavern_epr02_wtir01: {}
+          fx2_aquifer_epr02_wtir01: {}
+          fx2_depleted_gas_field_epr02_wtir01: {}
+          fx2_lined_rock_cavern_epr02_wtir01: {}
+  
+  uhs_FX4:
+    nodes:
+      general_node:
+        techs:
+          fx4_salt_cavern_epr01_wtir01: {}
+          fx4_aquifer_epr01_wtir01: {}
+          fx4_depleted_gas_field_epr01_wtir01: {}
+          fx4_lined_rock_cavern_epr01_wtir01: {}
 
-          fx6_salt_cavern_epr03_wtir01: {}
-          fx6_aquifer_epr03_wtir01: {}
-          fx6_depleted_gas_field_epr03_wtir01: {}
-          fx6_lined_rock_cavern_epr03_wtir01: {}
+          fx4_salt_cavern_epr02_wtir01: {}
+          fx4_aquifer_epr02_wtir01: {}
+          fx4_depleted_gas_field_epr02_wtir01: {}
+          fx4_lined_rock_cavern_epr02_wtir01: {}
     
-          fx6_salt_cavern_epr01_wtir02: {}
-          fx6_aquifer_epr01_wtir02: {}
-          fx6_depleted_gas_field_epr01_wtir02: {}
-          fx6_lined_rock_cavern_epr01_wtir02: {}
+          fx4_salt_cavern_epr01_wtir02: {}
+          fx4_aquifer_epr01_wtir02: {}
+          fx4_depleted_gas_field_epr01_wtir02: {}
+          fx4_lined_rock_cavern_epr01_wtir02: {}
 
-          fx6_salt_cavern_epr02_wtir02: {}
-          fx6_aquifer_epr02_wtir02: {}
-          fx6_depleted_gas_field_epr02_wtir02: {}
-          fx6_lined_rock_cavern_epr02_wtir02: {}
-
-          fx6_salt_cavern_epr03_wtir02: {}
-          fx6_aquifer_epr03_wtir02: {}
-          fx6_depleted_gas_field_epr03_wtir02: {}
-          fx6_lined_rock_cavern_epr03_wtir02: {}
+          fx4_salt_cavern_epr02_wtir02: {}
+          fx4_aquifer_epr02_wtir02: {}
+          fx4_depleted_gas_field_epr02_wtir02: {}
+          fx4_lined_rock_cavern_epr02_wtir02: {}
     

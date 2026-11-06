@@ -5,6 +5,10 @@
 # EPR is interpreted by the custom maths as power <=/>= storage_cap / EPR.
 # B1/B25: both ratios exact; P1: WTIR exact and EPR interval;
 # F1/FX1/FX2/FX4: both ratio intervals constrain otherwise-independent capacities.
+# Only the last sampled EPR bin has its upper limit multiplied by 2;
+# only the last sampled WTIR bin has its upper limit multiplied by 2.
+# Original sample boundaries, cost rates, and bundled equality ratios are unchanged.
+# Extended intervals go beyond the range of the sampled cost-rate fits.
 # Compression is represented through flow_in_eff / flow_out_eff only;
 # raw compressor-electricity metadata is intentionally not exported.
 # 24-hour SoC coefficients are applied by uhs_storage_formulations.yaml.
@@ -1792,7 +1796,7 @@ techs:
     cost_flow_in.data: 0
     cost_flow_out.data: 8.9529e-07
     energy_to_power_ratio_min: 144
-    energy_to_power_ratio_max: 432
+    energy_to_power_ratio_max: 864
     withdrawal_to_injection_ratio: 2.5
     flow_in_eff: 0.990311
     flow_out_eff: 1
@@ -1812,7 +1816,7 @@ techs:
     cost_flow_in.data: 0
     cost_flow_out.data: 1.5644e-06
     energy_to_power_ratio_min: 792
-    energy_to_power_ratio_max: 2376
+    energy_to_power_ratio_max: 4752
     withdrawal_to_injection_ratio: 2.5
     flow_in_eff: 0.993796
     flow_out_eff: 0.95
@@ -1829,7 +1833,7 @@ techs:
     cost_flow_in.data: 0
     cost_flow_out.data: 3.98083e-06
     energy_to_power_ratio_min: 792
-    energy_to_power_ratio_max: 2376
+    energy_to_power_ratio_max: 4752
     withdrawal_to_injection_ratio: 2.5
     flow_in_eff: 0.990893
     flow_out_eff: 0.8996
@@ -1846,7 +1850,7 @@ techs:
     cost_flow_in.data: 0
     cost_flow_out.data: 8.9529e-07
     energy_to_power_ratio_min: 90
-    energy_to_power_ratio_max: 270
+    energy_to_power_ratio_max: 540
     withdrawal_to_injection_ratio: 2.5
     flow_in_eff: 0.990058
     flow_out_eff: 1
@@ -1862,9 +1866,9 @@ techs:
     cost_flow_in.data: 0
     cost_flow_out.data: 8.9529e-07
     energy_to_power_ratio_min: 144
-    energy_to_power_ratio_max: 432
+    energy_to_power_ratio_max: 864
     withdrawal_to_injection_ratio_min: 1
-    withdrawal_to_injection_ratio_max: 4
+    withdrawal_to_injection_ratio_max: 8
     flow_in_eff: 0.990311
     flow_out_eff: 1
     soc_24h_a_min: -0.064838
@@ -1883,9 +1887,9 @@ techs:
     cost_flow_in.data: 0
     cost_flow_out.data: 1.5644e-06
     energy_to_power_ratio_min: 792
-    energy_to_power_ratio_max: 2376
+    energy_to_power_ratio_max: 4752
     withdrawal_to_injection_ratio_min: 1
-    withdrawal_to_injection_ratio_max: 4
+    withdrawal_to_injection_ratio_max: 8
     flow_in_eff: 0.993796
     flow_out_eff: 0.95
     storage_loss: 1.7253e-06
@@ -1901,9 +1905,9 @@ techs:
     cost_flow_in.data: 0
     cost_flow_out.data: 3.98083e-06
     energy_to_power_ratio_min: 792
-    energy_to_power_ratio_max: 2376
+    energy_to_power_ratio_max: 4752
     withdrawal_to_injection_ratio_min: 1
-    withdrawal_to_injection_ratio_max: 4
+    withdrawal_to_injection_ratio_max: 8
     flow_in_eff: 0.990893
     flow_out_eff: 0.8996
     storage_loss: 1.7253e-06
@@ -1919,9 +1923,9 @@ techs:
     cost_flow_in.data: 0
     cost_flow_out.data: 8.9529e-07
     energy_to_power_ratio_min: 90
-    energy_to_power_ratio_max: 270
+    energy_to_power_ratio_max: 540
     withdrawal_to_injection_ratio_min: 1
-    withdrawal_to_injection_ratio_max: 4
+    withdrawal_to_injection_ratio_max: 8
     flow_in_eff: 0.990058
     flow_out_eff: 1
   fx1_salt_cavern_epr01_wtir01:
@@ -1936,9 +1940,9 @@ techs:
     cost_flow_in.data: 0
     cost_flow_out.data: 8.9529e-07
     energy_to_power_ratio_min: 144
-    energy_to_power_ratio_max: 432
+    energy_to_power_ratio_max: 864
     withdrawal_to_injection_ratio_min: 1
-    withdrawal_to_injection_ratio_max: 4
+    withdrawal_to_injection_ratio_max: 8
     flow_in_eff: 0.990311
     flow_out_eff: 1
     soc_24h_a_min: -0.064838
@@ -1957,9 +1961,9 @@ techs:
     cost_flow_in.data: 0
     cost_flow_out.data: 1.5644e-06
     energy_to_power_ratio_min: 792
-    energy_to_power_ratio_max: 2376
+    energy_to_power_ratio_max: 4752
     withdrawal_to_injection_ratio_min: 1
-    withdrawal_to_injection_ratio_max: 4
+    withdrawal_to_injection_ratio_max: 8
     flow_in_eff: 0.993796
     flow_out_eff: 0.95
     storage_loss: 1.7253e-06
@@ -1975,9 +1979,9 @@ techs:
     cost_flow_in.data: 0
     cost_flow_out.data: 3.98083e-06
     energy_to_power_ratio_min: 792
-    energy_to_power_ratio_max: 2376
+    energy_to_power_ratio_max: 4752
     withdrawal_to_injection_ratio_min: 1
-    withdrawal_to_injection_ratio_max: 4
+    withdrawal_to_injection_ratio_max: 8
     flow_in_eff: 0.990893
     flow_out_eff: 0.8996
     storage_loss: 1.7253e-06
@@ -1993,9 +1997,9 @@ techs:
     cost_flow_in.data: 0
     cost_flow_out.data: 8.9529e-07
     energy_to_power_ratio_min: 90
-    energy_to_power_ratio_max: 270
+    energy_to_power_ratio_max: 540
     withdrawal_to_injection_ratio_min: 1
-    withdrawal_to_injection_ratio_max: 4
+    withdrawal_to_injection_ratio_max: 8
     flow_in_eff: 0.990058
     flow_out_eff: 1
   fx2_salt_cavern_epr01_wtir01:
@@ -2012,7 +2016,7 @@ techs:
     energy_to_power_ratio_min: 144
     energy_to_power_ratio_max: 288
     withdrawal_to_injection_ratio_min: 1
-    withdrawal_to_injection_ratio_max: 4
+    withdrawal_to_injection_ratio_max: 8
     flow_in_eff: 0.990311
     flow_out_eff: 1
     soc_24h_a_min: -0.064838
@@ -2033,7 +2037,7 @@ techs:
     energy_to_power_ratio_min: 792
     energy_to_power_ratio_max: 1584
     withdrawal_to_injection_ratio_min: 1
-    withdrawal_to_injection_ratio_max: 4
+    withdrawal_to_injection_ratio_max: 8
     flow_in_eff: 0.993796
     flow_out_eff: 0.95
     storage_loss: 1.7253e-06
@@ -2051,7 +2055,7 @@ techs:
     energy_to_power_ratio_min: 792
     energy_to_power_ratio_max: 1584
     withdrawal_to_injection_ratio_min: 1
-    withdrawal_to_injection_ratio_max: 4
+    withdrawal_to_injection_ratio_max: 8
     flow_in_eff: 0.990893
     flow_out_eff: 0.8996
     storage_loss: 1.7253e-06
@@ -2069,7 +2073,7 @@ techs:
     energy_to_power_ratio_min: 90
     energy_to_power_ratio_max: 180
     withdrawal_to_injection_ratio_min: 1
-    withdrawal_to_injection_ratio_max: 4
+    withdrawal_to_injection_ratio_max: 8
     flow_in_eff: 0.990058
     flow_out_eff: 1
   fx2_salt_cavern_epr02_wtir01:
@@ -2084,9 +2088,9 @@ techs:
     cost_flow_in.data: 0
     cost_flow_out.data: 8.9529e-07
     energy_to_power_ratio_min: 288
-    energy_to_power_ratio_max: 432
+    energy_to_power_ratio_max: 864
     withdrawal_to_injection_ratio_min: 1
-    withdrawal_to_injection_ratio_max: 4
+    withdrawal_to_injection_ratio_max: 8
     flow_in_eff: 0.990311
     flow_out_eff: 1
     soc_24h_a_min: -0.064838
@@ -2105,9 +2109,9 @@ techs:
     cost_flow_in.data: 0
     cost_flow_out.data: 1.5644e-06
     energy_to_power_ratio_min: 1584
-    energy_to_power_ratio_max: 2376
+    energy_to_power_ratio_max: 4752
     withdrawal_to_injection_ratio_min: 1
-    withdrawal_to_injection_ratio_max: 4
+    withdrawal_to_injection_ratio_max: 8
     flow_in_eff: 0.993796
     flow_out_eff: 0.95
     storage_loss: 1.7253e-06
@@ -2123,9 +2127,9 @@ techs:
     cost_flow_in.data: 0
     cost_flow_out.data: 3.98083e-06
     energy_to_power_ratio_min: 1584
-    energy_to_power_ratio_max: 2376
+    energy_to_power_ratio_max: 4752
     withdrawal_to_injection_ratio_min: 1
-    withdrawal_to_injection_ratio_max: 4
+    withdrawal_to_injection_ratio_max: 8
     flow_in_eff: 0.990893
     flow_out_eff: 0.8996
     storage_loss: 1.7253e-06
@@ -2141,9 +2145,9 @@ techs:
     cost_flow_in.data: 0
     cost_flow_out.data: 8.9529e-07
     energy_to_power_ratio_min: 180
-    energy_to_power_ratio_max: 270
+    energy_to_power_ratio_max: 540
     withdrawal_to_injection_ratio_min: 1
-    withdrawal_to_injection_ratio_max: 4
+    withdrawal_to_injection_ratio_max: 8
     flow_in_eff: 0.990058
     flow_out_eff: 1
   fx4_salt_cavern_epr01_wtir01:
@@ -2232,7 +2236,7 @@ techs:
     cost_flow_in.data: 0
     cost_flow_out.data: 8.9529e-07
     energy_to_power_ratio_min: 288
-    energy_to_power_ratio_max: 432
+    energy_to_power_ratio_max: 864
     withdrawal_to_injection_ratio_min: 1
     withdrawal_to_injection_ratio_max: 2.5
     flow_in_eff: 0.990311
@@ -2253,7 +2257,7 @@ techs:
     cost_flow_in.data: 0
     cost_flow_out.data: 1.5644e-06
     energy_to_power_ratio_min: 1584
-    energy_to_power_ratio_max: 2376
+    energy_to_power_ratio_max: 4752
     withdrawal_to_injection_ratio_min: 1
     withdrawal_to_injection_ratio_max: 2.5
     flow_in_eff: 0.993796
@@ -2271,7 +2275,7 @@ techs:
     cost_flow_in.data: 0
     cost_flow_out.data: 3.98083e-06
     energy_to_power_ratio_min: 1584
-    energy_to_power_ratio_max: 2376
+    energy_to_power_ratio_max: 4752
     withdrawal_to_injection_ratio_min: 1
     withdrawal_to_injection_ratio_max: 2.5
     flow_in_eff: 0.990893
@@ -2289,7 +2293,7 @@ techs:
     cost_flow_in.data: 0
     cost_flow_out.data: 8.9529e-07
     energy_to_power_ratio_min: 180
-    energy_to_power_ratio_max: 270
+    energy_to_power_ratio_max: 540
     withdrawal_to_injection_ratio_min: 1
     withdrawal_to_injection_ratio_max: 2.5
     flow_in_eff: 0.990058
@@ -2308,7 +2312,7 @@ techs:
     energy_to_power_ratio_min: 144
     energy_to_power_ratio_max: 288
     withdrawal_to_injection_ratio_min: 2.5
-    withdrawal_to_injection_ratio_max: 4
+    withdrawal_to_injection_ratio_max: 8
     flow_in_eff: 0.990311
     flow_out_eff: 1
     soc_24h_a_min: -0.064838
@@ -2329,7 +2333,7 @@ techs:
     energy_to_power_ratio_min: 792
     energy_to_power_ratio_max: 1584
     withdrawal_to_injection_ratio_min: 2.5
-    withdrawal_to_injection_ratio_max: 4
+    withdrawal_to_injection_ratio_max: 8
     flow_in_eff: 0.993796
     flow_out_eff: 0.95
     storage_loss: 1.7253e-06
@@ -2347,7 +2351,7 @@ techs:
     energy_to_power_ratio_min: 792
     energy_to_power_ratio_max: 1584
     withdrawal_to_injection_ratio_min: 2.5
-    withdrawal_to_injection_ratio_max: 4
+    withdrawal_to_injection_ratio_max: 8
     flow_in_eff: 0.990893
     flow_out_eff: 0.8996
     storage_loss: 1.7253e-06
@@ -2365,7 +2369,7 @@ techs:
     energy_to_power_ratio_min: 90
     energy_to_power_ratio_max: 180
     withdrawal_to_injection_ratio_min: 2.5
-    withdrawal_to_injection_ratio_max: 4
+    withdrawal_to_injection_ratio_max: 8
     flow_in_eff: 0.990058
     flow_out_eff: 1
   fx4_salt_cavern_epr02_wtir02:
@@ -2380,9 +2384,9 @@ techs:
     cost_flow_in.data: 0
     cost_flow_out.data: 8.9529e-07
     energy_to_power_ratio_min: 288
-    energy_to_power_ratio_max: 432
+    energy_to_power_ratio_max: 864
     withdrawal_to_injection_ratio_min: 2.5
-    withdrawal_to_injection_ratio_max: 4
+    withdrawal_to_injection_ratio_max: 8
     flow_in_eff: 0.990311
     flow_out_eff: 1
     soc_24h_a_min: -0.064838
@@ -2401,9 +2405,9 @@ techs:
     cost_flow_in.data: 0
     cost_flow_out.data: 1.5644e-06
     energy_to_power_ratio_min: 1584
-    energy_to_power_ratio_max: 2376
+    energy_to_power_ratio_max: 4752
     withdrawal_to_injection_ratio_min: 2.5
-    withdrawal_to_injection_ratio_max: 4
+    withdrawal_to_injection_ratio_max: 8
     flow_in_eff: 0.993796
     flow_out_eff: 0.95
     storage_loss: 1.7253e-06
@@ -2419,9 +2423,9 @@ techs:
     cost_flow_in.data: 0
     cost_flow_out.data: 3.98083e-06
     energy_to_power_ratio_min: 1584
-    energy_to_power_ratio_max: 2376
+    energy_to_power_ratio_max: 4752
     withdrawal_to_injection_ratio_min: 2.5
-    withdrawal_to_injection_ratio_max: 4
+    withdrawal_to_injection_ratio_max: 8
     flow_in_eff: 0.990893
     flow_out_eff: 0.8996
     storage_loss: 1.7253e-06
@@ -2437,8 +2441,8 @@ techs:
     cost_flow_in.data: 0
     cost_flow_out.data: 8.9529e-07
     energy_to_power_ratio_min: 180
-    energy_to_power_ratio_max: 270
+    energy_to_power_ratio_max: 540
     withdrawal_to_injection_ratio_min: 2.5
-    withdrawal_to_injection_ratio_max: 4
+    withdrawal_to_injection_ratio_max: 8
     flow_in_eff: 0.990058
     flow_out_eff: 1

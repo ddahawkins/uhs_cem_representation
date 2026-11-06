@@ -6,7 +6,9 @@ Example (assuming Calliope models hydrogen in MW/MWh):
         --csv 'resources/uhs_techno_economics/uhs_cost_rates.csv' `
         --output 'config/technologies_uhs.yaml' `
         --model-energy-unit MWh `
-        --hydrogen-carrier hydrogen
+        --hydrogen-carrier hydrogen `
+        --epr-upper-factor 2 `
+        --wtir-upper-factor 2
 
 The resulting file is an importable Calliope YAML fragment with ``templates``
 and ``techs``; scenario activation is handled separately at ``nodes.*.techs``.
@@ -70,6 +72,10 @@ VOM_FIELDS = {
 # Applied only to variable operating costs (VOM), not CAPEX or fixed O&M.
 # In a MW/MWh model this is 1e-7 million EUR per MWh.
 DEFAULT_MIN_VOM_EUR_PER_MWH = Decimal("0.10")
+# Extend only the outermost optimisation interval for each sampled dimension.
+# Intermediate sample-cell boundaries remain unchanged; costs are still taken
+# from the original CSV sample, so the extended range is an extrapolation.
+DEFAULT_OUTER_UPPER_FACTOR = Decimal("2")
 KWH_PER_MWH = Decimal(1000)
 
 KWH_PER_MODEL_ENERGY_UNIT = {
@@ -158,12 +164,15 @@ def expected_names() -> dict[str, set[str]]:
 
 
 def sample_definition(
-    row: dict[str, str], scale: Decimal, min_vom_eur_per_mwh: Decimal
+    row: dict[str, str], scale: Decimal, min_vom_eur_per_mwh: Decimal,
+    *,
+    epr_upper_factor: Decimal = DEFAULT_OUTER_UPPER_FACTOR,
+    wtir_upper_factor: Decimal = DEFAULT_OUTER_UPPER_FACTOR,
 ) -> tuple[str, dict]:
     csv_experiment = row["experiment_id"]
     if csv_experiment not in EXPERIMENTS:
         raise ValueError(f"Unsupported experiment {csv_experiment!r}")
-    scenario, expected_method, _, _ = EXPERIMENTS[csv_experiment]
+    scenario, expected_method, n_epr, n_wtir = EXPERIMENTS[csv_experiment]
     method = row["method"]
     if method != expected_method:
         raise ValueError(f"Unexpected method {method!r} in {row['instance_id']}")
@@ -173,6 +182,10 @@ def sample_definition(
     match = SAMPLE_SUFFIX.search(row["sample_id"])
     if not match:
         raise ValueError(f"Unrecognised sample_id: {row['sample_id']}")
+    epr_sample = int(match.group("epr"))
+    wtir_sample = int(match.group("wtir"))
+    if not (1 <= epr_sample <= n_epr and 1 <= wtir_sample <= n_wtir):
+        raise ValueError(f"Sample outside {csv_experiment} grid: {row['sample_id']}")
 
     suffix = match.group(0)
     name = f"{scenario.lower()}_{technology}_{suffix}"
@@ -206,6 +219,14 @@ def sample_definition(
         result["withdrawal_to_injection_ratio"] = yaml_number(require_decimal(row, "WTIR"))
     else:
         epr_bounds = bounds(row, "EPR_days_lower", "EPR_days_upper", Decimal(24))
+        if epr_sample == n_epr and "max" in epr_bounds:
+            # Extend the final EPR bin only. For FX4, epr01 retains its
+            # original upper bound and epr02 alone receives this extension,
+            # independently of which WTIR bin the sample belongs to.
+            epr_bounds["max"] = yaml_number(
+                require_decimal(row, "EPR_days_upper")
+                * Decimal(24) * epr_upper_factor
+            )
         for side, value in epr_bounds.items():
             result[f"energy_to_power_ratio_{side}"] = value
 
@@ -213,6 +234,12 @@ def sample_definition(
             result["withdrawal_to_injection_ratio"] = yaml_number(require_decimal(row, "WTIR"))
         else:
             wtir_bounds = bounds(row, "WTIR_lower", "WTIR_upper", Decimal(1))
+            if wtir_sample == n_wtir and "max" in wtir_bounds:
+                # Likewise, only the highest WTIR bin is extended; the
+                # adjacent lower bin retains its original shared boundary.
+                wtir_bounds["max"] = yaml_number(
+                    require_decimal(row, "WTIR_upper") * wtir_upper_factor
+                )
             for side, value in wtir_bounds.items():
                 result[f"withdrawal_to_injection_ratio_{side}"] = value
 
@@ -258,11 +285,23 @@ def build_yaml(
     rows: list[dict[str, str]], *, carrier: str, scale: Decimal,
     min_vom_eur_per_mwh: Decimal = DEFAULT_MIN_VOM_EUR_PER_MWH,
     lifetime_years: int = 50,
+    epr_upper_factor: Decimal = DEFAULT_OUTER_UPPER_FACTOR,
+    wtir_upper_factor: Decimal = DEFAULT_OUTER_UPPER_FACTOR,
 ) -> dict:
+    for name, factor in (
+        ("epr_upper_factor", epr_upper_factor),
+        ("wtir_upper_factor", wtir_upper_factor),
+    ):
+        if not factor.is_finite() or factor < 1:
+            raise ValueError(f"{name} must be finite and >= 1")
     definitions = {"templates": template_definitions(carrier, lifetime_years), "techs": {}}
     supplied = {key: set() for key in EXPERIMENTS}
     for row in rows:
-        name, definition = sample_definition(row, scale, min_vom_eur_per_mwh)
+        name, definition = sample_definition(
+            row, scale, min_vom_eur_per_mwh,
+            epr_upper_factor=epr_upper_factor,
+            wtir_upper_factor=wtir_upper_factor,
+        )
         if name in definitions["techs"]:
             raise ValueError(f"Duplicate technology definition: {name}")
         definitions["techs"][name] = definition
@@ -306,12 +345,26 @@ def main() -> None:
         "--min-vom-eur-per-mwh", type=Decimal, default=DEFAULT_MIN_VOM_EUR_PER_MWH,
         help="Set positive UHS variable flow costs below this EUR/MWh value to zero (default: 0.10).",
     )
+    parser.add_argument(
+        "--epr-upper-factor", type=Decimal, default=DEFAULT_OUTER_UPPER_FACTOR,
+        help="Multiply only the highest sampled EPR interval's upper bound (default: 2).",
+    )
+    parser.add_argument(
+        "--wtir-upper-factor", type=Decimal, default=DEFAULT_OUTER_UPPER_FACTOR,
+        help="Multiply only the highest sampled WTIR interval's upper bound (default: 2).",
+    )
     args = parser.parse_args()
 
     if args.lifetime_years <= 0:
         parser.error("--lifetime-years must be positive")
     if not args.min_vom_eur_per_mwh.is_finite() or args.min_vom_eur_per_mwh < 0:
         parser.error("--min-vom-eur-per-mwh must be finite and nonnegative")
+    for option, factor in (
+        ("--epr-upper-factor", args.epr_upper_factor),
+        ("--wtir-upper-factor", args.wtir_upper_factor),
+    ):
+        if not factor.is_finite() or factor < 1:
+            parser.error(f"{option} must be finite and at least 1")
 
     with args.csv.open(newline="", encoding="utf-8-sig") as stream:
         rows = list(csv.DictReader(stream))
@@ -325,6 +378,8 @@ def main() -> None:
         scale=scale,
         min_vom_eur_per_mwh=args.min_vom_eur_per_mwh,
         lifetime_years=args.lifetime_years,
+        epr_upper_factor=args.epr_upper_factor,
+        wtir_upper_factor=args.wtir_upper_factor,
     )
 
     header = (
@@ -336,6 +391,10 @@ def main() -> None:
         "# EPR is interpreted by the custom maths as power <=/>= storage_cap / EPR.\n"
         "# B1/B25: both ratios exact; P1: WTIR exact and EPR interval;\n"
         "# F1/FX1/FX2/FX4: both ratio intervals constrain otherwise-independent capacities.\n"
+        f"# Only the last sampled EPR bin has its upper limit multiplied by {args.epr_upper_factor};\n"
+        f"# only the last sampled WTIR bin has its upper limit multiplied by {args.wtir_upper_factor}.\n"
+        "# Original sample boundaries, cost rates, and bundled equality ratios are unchanged.\n"
+        "# Extended intervals go beyond the range of the sampled cost-rate fits.\n"
         "# Compression is represented through flow_in_eff / flow_out_eff only;\n"
         "# raw compressor-electricity metadata is intentionally not exported.\n"
         "# 24-hour SoC coefficients are applied by uhs_storage_formulations.yaml.\n"
@@ -351,6 +410,10 @@ def main() -> None:
     print(f"Wrote {len(result['techs'])} technologies to {args.output}")
     print("CSV experiments:", dict(counts))
     print(f"Model units: {args.model_energy_unit} + matching power unit; cost scale x{scale}")
+    print(
+        "Outer sample upper-bound factors: "
+        f"EPR x{args.epr_upper_factor}, WTIR x{args.wtir_upper_factor}"
+    )
     clipped = Counter(
         source_column
         for row in rows
