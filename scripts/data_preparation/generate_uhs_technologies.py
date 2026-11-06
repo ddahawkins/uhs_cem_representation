@@ -2,7 +2,7 @@
 
 Example (assuming Calliope models hydrogen in MW/MWh):
 
-    python scripts/data_preparation/generate_uhs_technologies.py `
+    pixi run python -m scripts.data_preparation.generate_uhs_technologies `
         --csv 'resources/uhs_techno_economics/uhs_cost_rates.csv' `
         --output 'config/technologies_uhs.yaml' `
         --model-energy-unit MWh `
@@ -26,11 +26,12 @@ import yaml
 EXPERIMENTS = {
     # CSV experiment ID: (scenario prefix, expected method, n_epr, n_wtir)
     "B1": ("B1", "bundled", 1, 1),
-    "B30": ("B30", "bundled", 6, 5),
-    "PD1": ("P1", "partially_decoupled", 1, 1),
-    "FD1": ("F1", "fully_decoupled", 1, 1),
+    "B25": ("B25", "bundled", 5, 5),
+    "P1": ("P1", "partially_decoupled", 1, 1),
+    "F1": ("F1", "fully_decoupled", 1, 1),
     "FX1": ("FX1", "fully_decoupled_cross_driver", 1, 1),
-    "FX6": ("FX6", "fully_decoupled_cross_driver", 3, 2),
+    "FX2": ("FX2", "fully_decoupled_cross_driver", 2, 1),
+    "FX4": ("FX4", "fully_decoupled_cross_driver", 2, 2),
 }
 
 TECHNOLOGIES = (
@@ -54,16 +55,22 @@ COST_FIELDS = {
     "VOM_withdrawal_EUR_per_kWh": "cost_flow_out",
 }
 
-OPTIONAL_OPERATING_FIELDS = (
-    "injection_compression_electricity_kWh_e_per_kWh_H2",
-    "withdrawal_compression_electricity_kWh_e_per_kWh_H2",
-    "injection_compression_equivalent_efficiency",
-    "withdrawal_compression_equivalent_efficiency",
+SOC_24H_FIELDS = (
     "soc_24h_a_min",
     "soc_24h_b_min",
     "soc_24h_a_max",
     "soc_24h_b_max",
 )
+
+VOM_FIELDS = {
+    "VOM_injection_EUR_per_kWh",
+    "VOM_withdrawal_EUR_per_kWh",
+}
+
+# Applied only to variable operating costs (VOM), not CAPEX or fixed O&M.
+# In a MW/MWh model this is 1e-7 million EUR per MWh.
+DEFAULT_MIN_VOM_EUR_PER_MWH = Decimal("0.10")
+KWH_PER_MWH = Decimal(1000)
 
 KWH_PER_MODEL_ENERGY_UNIT = {
     "kWh": Decimal(1),
@@ -111,13 +118,15 @@ def bounds(row: dict[str, str], low: str, high: str, multiplier: Decimal) -> dic
     return result
 
 
-def template_definitions(carrier: str) -> dict:
+def template_definitions(carrier: str, lifetime_years: int) -> dict:
     common = {
         "base_tech": "storage",
         "carrier_in": carrier,
         "carrier_out": carrier,
-        # The hydrogen stored is not consumed to provide compressor electricity.
-        # Compressor electricity must instead be linked in the CEM power balance.
+        "lifetime": lifetime_years,
+        "cyclic_storage": True,
+        # A default only; each UHS sample below supplies its own equivalent
+        # injection efficiency if the source CSV provides one.
         "flow_in_eff": 1.0,
     }
     for parameter in COST_FIELDS.values():
@@ -148,7 +157,9 @@ def expected_names() -> dict[str, set[str]]:
     return expected
 
 
-def sample_definition(row: dict[str, str], scale: Decimal) -> tuple[str, dict]:
+def sample_definition(
+    row: dict[str, str], scale: Decimal, min_vom_eur_per_mwh: Decimal
+) -> tuple[str, dict]:
     csv_experiment = row["experiment_id"]
     if csv_experiment not in EXPERIMENTS:
         raise ValueError(f"Unsupported experiment {csv_experiment!r}")
@@ -179,7 +190,14 @@ def sample_definition(row: dict[str, str], scale: Decimal) -> tuple[str, dict]:
     for source_column, parameter in COST_FIELDS.items():
         # Both MW/MWh and GW/GWh are allowed, but powers and energies must use
         # matching hour-consistent units (i.e. MWh with MW, GWh with GW).
-        result[f"{parameter}.data"] = yaml_number(require_decimal(row, source_column) * scale)
+        cost = require_decimal(row, source_column)
+        if cost < 0:
+            raise ValueError(f"Negative {source_column} in {row['instance_id']}")
+        if source_column in VOM_FIELDS and cost * KWH_PER_MWH < min_vom_eur_per_mwh:
+            # Suppress economically negligible VOM coefficients before
+            # converting EUR/kWh to million EUR/model energy unit.
+            cost = Decimal(0)
+        result[f"{parameter}.data"] = yaml_number(cost * scale)
 
     if formulation == "bundled":
         result["energy_to_power_ratio"] = yaml_number(
@@ -198,14 +216,26 @@ def sample_definition(row: dict[str, str], scale: Decimal) -> tuple[str, dict]:
             for side, value in wtir_bounds.items():
                 result[f"withdrawal_to_injection_ratio_{side}"] = value
 
-    # Hydrogen recovery is an actual loss of stored hydrogen. It is distinct
-    # from compressor electricity consumption, which is exported as a custom
-    # parameter but must not be misrepresented as lost hydrogen.
+    # The simplified CEM represents compression by equivalent directional flow
+    # efficiencies, not by separate compressor-electricity parameters.
+    injection_eff = optional_decimal(row, "injection_compression_equivalent_efficiency")
+    if injection_eff is not None:
+        if not (0 < injection_eff <= 1):
+            raise ValueError(f"Invalid injection efficiency in {row['instance_id']}")
+        result["flow_in_eff"] = yaml_number(injection_eff)
+
+    # Withdrawal includes purification recovery and, where given, the
+    # withdrawal-equivalent efficiency. Missing factors are neutral (1.0).
     recovery = optional_decimal(row, "purification_hydrogen_recovery")
-    if recovery is not None:
-        if not (0 < recovery <= 1):
-            raise ValueError(f"Invalid hydrogen recovery in {row['instance_id']}")
-        result["flow_out_eff"] = yaml_number(recovery)
+    withdrawal_eff = optional_decimal(row, "withdrawal_compression_equivalent_efficiency")
+    for label, value in (("hydrogen recovery", recovery), ("withdrawal efficiency", withdrawal_eff)):
+        if value is not None and not (0 < value <= 1):
+            raise ValueError(f"Invalid {label} in {row['instance_id']}")
+    if recovery is not None or withdrawal_eff is not None:
+        result["flow_out_eff"] = yaml_number(
+            (recovery if recovery is not None else Decimal(1))
+            * (withdrawal_eff if withdrawal_eff is not None else Decimal(1))
+        )
 
     storage_loss = optional_decimal(row, "storage_loss_per_hour")
     if storage_loss is not None:
@@ -213,18 +243,26 @@ def sample_definition(row: dict[str, str], scale: Decimal) -> tuple[str, dict]:
             raise ValueError(f"Invalid hourly storage loss in {row['instance_id']}")
         result["storage_loss"] = yaml_number(storage_loss)
 
-    for field in OPTIONAL_OPERATING_FIELDS:
-        value = optional_decimal(row, field)
+    soc_values = {field: optional_decimal(row, field) for field in SOC_24H_FIELDS}
+    if any(value is not None for value in soc_values.values()) and not all(
+        value is not None for value in soc_values.values()
+    ):
+        raise ValueError(f"Incomplete 24-hour SoC coefficients in {row['instance_id']}")
+    for field, value in soc_values.items():
         if value is not None:
             result[field] = yaml_number(value)
     return name, result
 
 
-def build_yaml(rows: list[dict[str, str]], *, carrier: str, scale: Decimal) -> dict:
-    definitions = {"templates": template_definitions(carrier), "techs": {}}
+def build_yaml(
+    rows: list[dict[str, str]], *, carrier: str, scale: Decimal,
+    min_vom_eur_per_mwh: Decimal = DEFAULT_MIN_VOM_EUR_PER_MWH,
+    lifetime_years: int = 50,
+) -> dict:
+    definitions = {"templates": template_definitions(carrier, lifetime_years), "techs": {}}
     supplied = {key: set() for key in EXPERIMENTS}
     for row in rows:
-        name, definition = sample_definition(row, scale)
+        name, definition = sample_definition(row, scale, min_vom_eur_per_mwh)
         if name in definitions["techs"]:
             raise ValueError(f"Duplicate technology definition: {name}")
         definitions["techs"][name] = definition
@@ -263,7 +301,17 @@ def main() -> None:
     parser.add_argument("--output", type=Path, default=Path("technologies_uhs.yaml"))
     parser.add_argument("--model-energy-unit", choices=KWH_PER_MODEL_ENERGY_UNIT, default="MWh")
     parser.add_argument("--hydrogen-carrier", default="hydrogen")
+    parser.add_argument("--lifetime-years", type=int, default=50)
+    parser.add_argument(
+        "--min-vom-eur-per-mwh", type=Decimal, default=DEFAULT_MIN_VOM_EUR_PER_MWH,
+        help="Set positive UHS variable flow costs below this EUR/MWh value to zero (default: 0.10).",
+    )
     args = parser.parse_args()
+
+    if args.lifetime_years <= 0:
+        parser.error("--lifetime-years must be positive")
+    if not args.min_vom_eur_per_mwh.is_finite() or args.min_vom_eur_per_mwh < 0:
+        parser.error("--min-vom-eur-per-mwh must be finite and nonnegative")
 
     with args.csv.open(newline="", encoding="utf-8-sig") as stream:
         rows = list(csv.DictReader(stream))
@@ -271,24 +319,30 @@ def main() -> None:
         KWH_PER_MODEL_ENERGY_UNIT[args.model_energy_unit]
         * MEUR_PER_EUR
     )
-    result = build_yaml(rows, carrier=args.hydrogen_carrier, scale=scale)
+    result = build_yaml(
+        rows,
+        carrier=args.hydrogen_carrier,
+        scale=scale,
+        min_vom_eur_per_mwh=args.min_vom_eur_per_mwh,
+        lifetime_years=args.lifetime_years,
+    )
 
     header = (
         "# AUTO-GENERATED from the combined UHS cost-rates CSV; do not edit sample rates here.\n"
         f"# Units: {args.model_energy_unit} hydrogen energy and matching power capacity "
         f"({'kW' if args.model_energy_unit == 'kWh' else 'MW' if args.model_energy_unit == 'MWh' else 'GW'}).\n"
-        f"# Monetary coefficients are EUR per {args.model_energy_unit} or its matching power unit.\n"
+        f"# Monetary coefficients are million EUR per {args.model_energy_unit} or matching power unit.\n"
         "# EPR parameters are hours (CSV EPR days multiplied by 24); WTIR is dimensionless.\n"
-        "# B1/B30: both ratios exact; P1: WTIR exact and EPR interval;\n"
-        "# F1/FX1/FX6: both ratio intervals constrain otherwise-independent capacities.\n"
-        "# CSV experiments PD1 and FD1 become scenario prefixes P1 and F1.\n"
-        "# H2 purification recovery is mapped to flow_out_eff; compressor-electricity\n"
-        "# demand is preserved as separate technology parameters and is NOT YET\n"
-        "# linked to electricity consumption in the custom maths.\n"
-        "# SoC 24 h coefficients are exported for salt caverns but are NOT YET\n"
-        "# operational constraints: they require a separate custom-math extension.\n"
-        "# Set technology lifetimes and financial interest-rate assumptions before\n"
-        "# using the investment costs in production CEM runs.\n"
+        "# EPR is interpreted by the custom maths as power <=/>= storage_cap / EPR.\n"
+        "# B1/B25: both ratios exact; P1: WTIR exact and EPR interval;\n"
+        "# F1/FX1/FX2/FX4: both ratio intervals constrain otherwise-independent capacities.\n"
+        "# Compression is represented through flow_in_eff / flow_out_eff only;\n"
+        "# raw compressor-electricity metadata is intentionally not exported.\n"
+        "# 24-hour SoC coefficients are applied by uhs_storage_formulations.yaml.\n"
+        f"# All UHS technologies are cyclic with lifetime {args.lifetime_years} years.\n"
+        "# Cost annualisation uses the interest rate defined in the main model.\n"
+        f"# Positive VOM coefficients below EUR {args.min_vom_eur_per_mwh}/MWh are set to zero.\n"
+        "# CAPEX and annual fixed O&M are never clipped.\n"
         "# Adjacent sample cells share LP-compatible non-strict interval boundaries.\n\n"
     )
     args.output.parent.mkdir(parents=True, exist_ok=True)
@@ -297,6 +351,13 @@ def main() -> None:
     print(f"Wrote {len(result['techs'])} technologies to {args.output}")
     print("CSV experiments:", dict(counts))
     print(f"Model units: {args.model_energy_unit} + matching power unit; cost scale x{scale}")
+    clipped = Counter(
+        source_column
+        for row in rows
+        for source_column in VOM_FIELDS
+        if 0 < require_decimal(row, source_column) * KWH_PER_MWH < args.min_vom_eur_per_mwh
+    )
+    print(f"VOM entries zeroed below EUR {args.min_vom_eur_per_mwh}/MWh:", dict(clipped))
 
 
 if __name__ == "__main__":

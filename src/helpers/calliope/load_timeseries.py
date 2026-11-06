@@ -2,6 +2,7 @@ from pathlib import Path
 
 import pandas as pd
 
+AVAILABILITY_THRESHOLD = 1e-3
 
 def load_country_timeseries(
     country: str,
@@ -78,6 +79,28 @@ def load_country_timeseries(
         (vres.index >= start)
         & (vres.index < end)
     ]
+
+    # ------------------------------------------------------------------
+    # Set negligible VRES availability values to zero
+    # ------------------------------------------------------------------
+
+    small_availability = (
+        (vres > 0)
+        & (vres < AVAILABILITY_THRESHOLD)
+    )
+
+    removed_counts = small_availability.sum()
+
+    vres = vres.mask(
+        small_availability,
+        0.0,
+    )
+
+    if removed_counts.any():
+        print(
+            f"{country}: set negligible VRES availability to zero: "
+            f"{removed_counts.to_dict()}"
+        )
 
     # ------------------------------------------------------------------
     # Validate alignment

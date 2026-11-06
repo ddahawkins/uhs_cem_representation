@@ -75,6 +75,9 @@
 #
 # Withdrawal power is used as the EPR reference because storage duration is
 # conventionally expressed relative to discharge / withdrawal power.
+# The constraints below retain EPR in hours, but use the algebraically
+# equivalent power-side form (P_out = E / EPR) to avoid introducing large
+# EPR coefficients into the optimisation matrix.
 #
 #
 # Formulations
@@ -83,7 +86,7 @@
 # 1. bundled
 #
 #       P_out = WTIR * P_in
-#       E     = EPR  * P_out
+#       P_out = E / EPR
 #
 #    Both WTIR and EPR are equality constraints.
 #
@@ -95,8 +98,8 @@
 #    WTIR remains an equality constraint, while EPR is free unless optional
 #    lower and/or upper duration bounds are supplied:
 #
-#       E >= EPR_min * P_out
-#       E <= EPR_max * P_out
+#       P_out <= E / EPR_min
+#       P_out >= E / EPR_max
 #
 #    Thus the user can represent, for example, duration >= 500 h,
 #    duration <= 500 h, or 200 h <= duration <= 500 h.
@@ -109,7 +112,7 @@
 #    No exact WTIR or EPR equality is imposed. Optional lower/upper ratio
 #    bounds can restrict a cost-rate sample to the domain on which it was fit:
 #
-#       EPR_min  * P_out <= E     <= EPR_max  * P_out
+#       E / EPR_max <= P_out <= E / EPR_min
 #       WTIR_min * P_in  <= P_out <= WTIR_max * P_in
 #
 #    Omit all four bounds only when unconstrained capacity ratios are intended.
@@ -244,6 +247,7 @@ parameters:
     title: Energy-to-power ratio
     description: >-
       Exact EPR = E / P_out in hours. Required by the bundled formulation.
+      Implemented as P_out = E / EPR to improve numerical scaling.
       Ignored by partially-decoupled and fully-decoupled formulations.
     unit: hour
 
@@ -251,14 +255,14 @@ parameters:
     title: Minimum energy-to-power ratio
     description: >-
       Optional minimum EPR = E / P_out in hours for partially-decoupled and
-      fully-decoupled formulations. If supplied, imposes E >= EPR_min * P_out.
+      fully-decoupled formulations. If supplied, imposes P_out <= E / EPR_min.
     unit: hour
 
   energy_to_power_ratio_max:
     title: Maximum energy-to-power ratio
     description: >-
       Optional maximum EPR = E / P_out in hours for partially-decoupled and
-      fully-decoupled formulations. If supplied, imposes E <= EPR_max * P_out.
+      fully-decoupled formulations. If supplied, imposes P_out >= E / EPR_max.
     unit: hour
 
 
@@ -619,7 +623,7 @@ constraints:
   #
   # therefore:
   #
-  #     E = EPR * P_out
+  #     P_out = E / EPR
   #
   # Example:
   #     energy_to_power_ratio: 500
@@ -639,8 +643,8 @@ constraints:
       AND flow_out_cap
     equations:
       - expression: >-
-          storage_cap
-          == energy_to_power_ratio * flow_out_cap
+          flow_out_cap
+          == storage_cap / energy_to_power_ratio
 
 
   # ---------------------------------------------------------------------------
@@ -650,9 +654,9 @@ constraints:
   #
   #     E / P_out >= EPR_min
   #
-  # is represented linearly as:
+  # is represented linearly, in power-side form, as:
   #
-  #     E >= EPR_min * P_out
+  #     P_out <= E / EPR_min
   #
   # Example:
   #     energy_to_power_ratio_min: 500
@@ -673,8 +677,8 @@ constraints:
       AND energy_to_power_ratio_min
     equations:
       - expression: >-
-          storage_cap
-          >= energy_to_power_ratio_min * flow_out_cap
+          flow_out_cap
+          <= storage_cap / energy_to_power_ratio_min
 
 
   # ---------------------------------------------------------------------------
@@ -684,9 +688,9 @@ constraints:
   #
   #     E / P_out <= EPR_max
   #
-  # is represented linearly as:
+  # is represented linearly, in power-side form, as:
   #
-  #     E <= EPR_max * P_out
+  #     P_out >= E / EPR_max
   #
   # Example:
   #     energy_to_power_ratio_max: 500
@@ -710,8 +714,8 @@ constraints:
       AND energy_to_power_ratio_max
     equations:
       - expression: >-
-          storage_cap
-          <= energy_to_power_ratio_max * flow_out_cap
+          flow_out_cap
+          >= storage_cap / energy_to_power_ratio_max
 
 
   # ---------------------------------------------------------------------------
@@ -744,8 +748,8 @@ constraints:
       AND energy_to_power_ratio_min
     equations:
       - expression: >-
-          storage_cap
-          >= energy_to_power_ratio_min * flow_out_cap
+          flow_out_cap
+          <= storage_cap / energy_to_power_ratio_min
 
 
   fully_decoupled_storage_epr_max:
@@ -761,8 +765,8 @@ constraints:
       AND energy_to_power_ratio_max
     equations:
       - expression: >-
-          storage_cap
-          <= energy_to_power_ratio_max * flow_out_cap
+          flow_out_cap
+          >= storage_cap / energy_to_power_ratio_max
 
 
   fully_decoupled_storage_wtir_min:
