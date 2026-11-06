@@ -71,7 +71,7 @@ VOM_FIELDS = {
 
 # Applied only to variable operating costs (VOM), not CAPEX or fixed O&M.
 # In a MW/MWh model this is 1e-7 million EUR per MWh.
-DEFAULT_MIN_VOM_EUR_PER_MWH = Decimal("0.10")
+DEFAULT_MIN_VOM_EUR_PER_MWH = Decimal("1")
 # Extend only the outermost optimisation interval for each sampled dimension.
 # Intermediate sample-cell boundaries remain unchanged; costs are still taken
 # from the original CSV sample, so the extended range is an extrapolation.
