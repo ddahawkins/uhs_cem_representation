@@ -28,6 +28,8 @@ config:
   solve:
     solver: gurobi
     solver_io: python
+    solver_options:
+      Method: 2
 
 data_definitions:
   objective_cost_weights: 
