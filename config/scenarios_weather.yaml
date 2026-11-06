@@ -26,6 +26,13 @@ scenarios:
   weather_2016_3m: [subset_2016_3m]
   weather_2016_6m: [subset_2016_6m]
 
+  # Complete, non-overlapping 3-year periods (3 x 5 years).
+  weather_2009_3y: [subset_2009_3y]
+  weather_2012_3y: [subset_2012_3y]
+  weather_2015_3y: [subset_2015_3y]
+  weather_2018_3y: [subset_2018_3y]
+  weather_2021_3y: [subset_2021_3y]
+
   # Complete, non-overlapping 5-year periods (3 x 5 years).
   weather_2009_5y: [subset_2009_5y]
   weather_2014_5y: [subset_2014_5y]
@@ -77,6 +84,18 @@ overrides:
     config.init.subset.timesteps: ['2016-04-01', '2016-06-30']
   subset_2016_6m:
     config.init.subset.timesteps: ['2016-04-01', '2016-09-30']
+
+  # Three-year windows covering the whole 15-year time series without gaps.
+  subset_2009_3y:
+    config.init.subset.timesteps: ['2009-04-01', '2012-03-31']
+  subset_2012_3y:
+    config.init.subset.timesteps: ['2012-04-01', '2015-03-31']
+  subset_2015_3y:
+    config.init.subset.timesteps: ['2015-04-01', '2018-03-31']
+  subset_2018_3y:
+    config.init.subset.timesteps: ['2018-04-01', '2021-03-31']
+  subset_2021_3y:
+    config.init.subset.timesteps: ['2021-04-01', '2024-03-31']
 
   # Five-year windows covering the whole 15-year time series without gaps.
   subset_2009_5y:
