@@ -69,7 +69,7 @@ techs:
       index: monetary
       dims: costs
     cost_flow_out:                    # 1.8033 EUR/MWh
-      data: 0.0000018033
+      data: 0 # identified value causes numerical instability and is omitted: 0.0000018033
       index: monetary
       dims: costs
 
@@ -104,7 +104,7 @@ techs:
       index: monetary
       dims: costs
     cost_flow_out:
-      data: 0.0000027
+      data: 0 # identified value causes numerical instability and is omitted: 0.0000027
       index: monetary
       dims: costs
 
@@ -488,7 +488,7 @@ techs:
       index: [[monetary, power]]
       dims: [costs, carriers]
     cost_flow_out:
-      data: 0.000002
+      data: 0 # identified value causes numerical instability and is omitted: 0.000002
       index: monetary
       dims: costs
 

@@ -14,7 +14,7 @@
 # 24-hour SoC coefficients are applied by uhs_storage_formulations.yaml.
 # All UHS technologies are cyclic with lifetime 50 years.
 # Cost annualisation uses the interest rate defined in the main model.
-# Positive VOM coefficients below EUR 0.10/MWh are set to zero.
+# Positive VOM coefficients below EUR 1/MWh are set to zero.
 # CAPEX and annual fixed O&M are never clipped.
 # Adjacent sample cells share LP-compatible non-strict interval boundaries.
 
@@ -78,7 +78,7 @@ techs:
     cost_om_annual_flow_in_cap.data: 0
     cost_om_annual_flow_out_cap.data: 0
     cost_flow_in.data: 0
-    cost_flow_out.data: 8.9529e-07
+    cost_flow_out.data: 0
     energy_to_power_ratio: 288
     withdrawal_to_injection_ratio: 2.5
     flow_in_eff: 0.990311
@@ -129,7 +129,7 @@ techs:
     cost_om_annual_flow_in_cap.data: 0
     cost_om_annual_flow_out_cap.data: 0
     cost_flow_in.data: 0
-    cost_flow_out.data: 8.9529e-07
+    cost_flow_out.data: 0
     energy_to_power_ratio: 180
     withdrawal_to_injection_ratio: 2.5
     flow_in_eff: 0.990058
@@ -144,7 +144,7 @@ techs:
     cost_om_annual_flow_in_cap.data: 0
     cost_om_annual_flow_out_cap.data: 0
     cost_flow_in.data: 0
-    cost_flow_out.data: 8.9529e-07
+    cost_flow_out.data: 0
     energy_to_power_ratio: 172.8
     withdrawal_to_injection_ratio: 1.3
     flow_in_eff: 0.990311
@@ -195,7 +195,7 @@ techs:
     cost_om_annual_flow_in_cap.data: 0
     cost_om_annual_flow_out_cap.data: 0
     cost_flow_in.data: 0
-    cost_flow_out.data: 8.9529e-07
+    cost_flow_out.data: 0
     energy_to_power_ratio: 108
     withdrawal_to_injection_ratio: 1.3
     flow_in_eff: 0.990058
@@ -210,7 +210,7 @@ techs:
     cost_om_annual_flow_in_cap.data: 0
     cost_om_annual_flow_out_cap.data: 0
     cost_flow_in.data: 0
-    cost_flow_out.data: 8.9529e-07
+    cost_flow_out.data: 0
     energy_to_power_ratio: 230.4
     withdrawal_to_injection_ratio: 1.3
     flow_in_eff: 0.990311
@@ -261,7 +261,7 @@ techs:
     cost_om_annual_flow_in_cap.data: 0
     cost_om_annual_flow_out_cap.data: 0
     cost_flow_in.data: 0
-    cost_flow_out.data: 8.9529e-07
+    cost_flow_out.data: 0
     energy_to_power_ratio: 144
     withdrawal_to_injection_ratio: 1.3
     flow_in_eff: 0.990058
@@ -276,7 +276,7 @@ techs:
     cost_om_annual_flow_in_cap.data: 0
     cost_om_annual_flow_out_cap.data: 0
     cost_flow_in.data: 0
-    cost_flow_out.data: 8.9529e-07
+    cost_flow_out.data: 0
     energy_to_power_ratio: 288
     withdrawal_to_injection_ratio: 1.3
     flow_in_eff: 0.990311
@@ -327,7 +327,7 @@ techs:
     cost_om_annual_flow_in_cap.data: 0
     cost_om_annual_flow_out_cap.data: 0
     cost_flow_in.data: 0
-    cost_flow_out.data: 8.9529e-07
+    cost_flow_out.data: 0
     energy_to_power_ratio: 180
     withdrawal_to_injection_ratio: 1.3
     flow_in_eff: 0.990058
@@ -342,7 +342,7 @@ techs:
     cost_om_annual_flow_in_cap.data: 0
     cost_om_annual_flow_out_cap.data: 0
     cost_flow_in.data: 0
-    cost_flow_out.data: 8.9529e-07
+    cost_flow_out.data: 0
     energy_to_power_ratio: 345.6
     withdrawal_to_injection_ratio: 1.3
     flow_in_eff: 0.990311
@@ -393,7 +393,7 @@ techs:
     cost_om_annual_flow_in_cap.data: 0
     cost_om_annual_flow_out_cap.data: 0
     cost_flow_in.data: 0
-    cost_flow_out.data: 8.9529e-07
+    cost_flow_out.data: 0
     energy_to_power_ratio: 216
     withdrawal_to_injection_ratio: 1.3
     flow_in_eff: 0.990058
@@ -408,7 +408,7 @@ techs:
     cost_om_annual_flow_in_cap.data: 0
     cost_om_annual_flow_out_cap.data: 0
     cost_flow_in.data: 0
-    cost_flow_out.data: 8.9529e-07
+    cost_flow_out.data: 0
     energy_to_power_ratio: 403.2
     withdrawal_to_injection_ratio: 1.3
     flow_in_eff: 0.990311
@@ -459,7 +459,7 @@ techs:
     cost_om_annual_flow_in_cap.data: 0
     cost_om_annual_flow_out_cap.data: 0
     cost_flow_in.data: 0
-    cost_flow_out.data: 8.9529e-07
+    cost_flow_out.data: 0
     energy_to_power_ratio: 252
     withdrawal_to_injection_ratio: 1.3
     flow_in_eff: 0.990058
@@ -474,7 +474,7 @@ techs:
     cost_om_annual_flow_in_cap.data: 0
     cost_om_annual_flow_out_cap.data: 0
     cost_flow_in.data: 0
-    cost_flow_out.data: 8.9529e-07
+    cost_flow_out.data: 0
     energy_to_power_ratio: 172.8
     withdrawal_to_injection_ratio: 1.9
     flow_in_eff: 0.990311
@@ -525,7 +525,7 @@ techs:
     cost_om_annual_flow_in_cap.data: 0
     cost_om_annual_flow_out_cap.data: 0
     cost_flow_in.data: 0
-    cost_flow_out.data: 8.9529e-07
+    cost_flow_out.data: 0
     energy_to_power_ratio: 108
     withdrawal_to_injection_ratio: 1.9
     flow_in_eff: 0.990058
@@ -540,7 +540,7 @@ techs:
     cost_om_annual_flow_in_cap.data: 0
     cost_om_annual_flow_out_cap.data: 0
     cost_flow_in.data: 0
-    cost_flow_out.data: 8.9529e-07
+    cost_flow_out.data: 0
     energy_to_power_ratio: 230.4
     withdrawal_to_injection_ratio: 1.9
     flow_in_eff: 0.990311
@@ -591,7 +591,7 @@ techs:
     cost_om_annual_flow_in_cap.data: 0
     cost_om_annual_flow_out_cap.data: 0
     cost_flow_in.data: 0
-    cost_flow_out.data: 8.9529e-07
+    cost_flow_out.data: 0
     energy_to_power_ratio: 144
     withdrawal_to_injection_ratio: 1.9
     flow_in_eff: 0.990058
@@ -606,7 +606,7 @@ techs:
     cost_om_annual_flow_in_cap.data: 0
     cost_om_annual_flow_out_cap.data: 0
     cost_flow_in.data: 0
-    cost_flow_out.data: 8.9529e-07
+    cost_flow_out.data: 0
     energy_to_power_ratio: 288
     withdrawal_to_injection_ratio: 1.9
     flow_in_eff: 0.990311
@@ -657,7 +657,7 @@ techs:
     cost_om_annual_flow_in_cap.data: 0
     cost_om_annual_flow_out_cap.data: 0
     cost_flow_in.data: 0
-    cost_flow_out.data: 8.9529e-07
+    cost_flow_out.data: 0
     energy_to_power_ratio: 180
     withdrawal_to_injection_ratio: 1.9
     flow_in_eff: 0.990058
@@ -672,7 +672,7 @@ techs:
     cost_om_annual_flow_in_cap.data: 0
     cost_om_annual_flow_out_cap.data: 0
     cost_flow_in.data: 0
-    cost_flow_out.data: 8.9529e-07
+    cost_flow_out.data: 0
     energy_to_power_ratio: 345.6
     withdrawal_to_injection_ratio: 1.9
     flow_in_eff: 0.990311
@@ -723,7 +723,7 @@ techs:
     cost_om_annual_flow_in_cap.data: 0
     cost_om_annual_flow_out_cap.data: 0
     cost_flow_in.data: 0
-    cost_flow_out.data: 8.9529e-07
+    cost_flow_out.data: 0
     energy_to_power_ratio: 216
     withdrawal_to_injection_ratio: 1.9
     flow_in_eff: 0.990058
@@ -738,7 +738,7 @@ techs:
     cost_om_annual_flow_in_cap.data: 0
     cost_om_annual_flow_out_cap.data: 0
     cost_flow_in.data: 0
-    cost_flow_out.data: 8.9529e-07
+    cost_flow_out.data: 0
     energy_to_power_ratio: 403.2
     withdrawal_to_injection_ratio: 1.9
     flow_in_eff: 0.990311
@@ -789,7 +789,7 @@ techs:
     cost_om_annual_flow_in_cap.data: 0
     cost_om_annual_flow_out_cap.data: 0
     cost_flow_in.data: 0
-    cost_flow_out.data: 8.9529e-07
+    cost_flow_out.data: 0
     energy_to_power_ratio: 252
     withdrawal_to_injection_ratio: 1.9
     flow_in_eff: 0.990058
@@ -804,7 +804,7 @@ techs:
     cost_om_annual_flow_in_cap.data: 0
     cost_om_annual_flow_out_cap.data: 0
     cost_flow_in.data: 0
-    cost_flow_out.data: 8.9529e-07
+    cost_flow_out.data: 0
     energy_to_power_ratio: 172.8
     withdrawal_to_injection_ratio: 2.5
     flow_in_eff: 0.990311
@@ -855,7 +855,7 @@ techs:
     cost_om_annual_flow_in_cap.data: 0
     cost_om_annual_flow_out_cap.data: 0
     cost_flow_in.data: 0
-    cost_flow_out.data: 8.9529e-07
+    cost_flow_out.data: 0
     energy_to_power_ratio: 108
     withdrawal_to_injection_ratio: 2.5
     flow_in_eff: 0.990058
@@ -870,7 +870,7 @@ techs:
     cost_om_annual_flow_in_cap.data: 0
     cost_om_annual_flow_out_cap.data: 0
     cost_flow_in.data: 0
-    cost_flow_out.data: 8.9529e-07
+    cost_flow_out.data: 0
     energy_to_power_ratio: 230.4
     withdrawal_to_injection_ratio: 2.5
     flow_in_eff: 0.990311
@@ -921,7 +921,7 @@ techs:
     cost_om_annual_flow_in_cap.data: 0
     cost_om_annual_flow_out_cap.data: 0
     cost_flow_in.data: 0
-    cost_flow_out.data: 8.9529e-07
+    cost_flow_out.data: 0
     energy_to_power_ratio: 144
     withdrawal_to_injection_ratio: 2.5
     flow_in_eff: 0.990058
@@ -936,7 +936,7 @@ techs:
     cost_om_annual_flow_in_cap.data: 0
     cost_om_annual_flow_out_cap.data: 0
     cost_flow_in.data: 0
-    cost_flow_out.data: 8.9529e-07
+    cost_flow_out.data: 0
     energy_to_power_ratio: 288
     withdrawal_to_injection_ratio: 2.5
     flow_in_eff: 0.990311
@@ -987,7 +987,7 @@ techs:
     cost_om_annual_flow_in_cap.data: 0
     cost_om_annual_flow_out_cap.data: 0
     cost_flow_in.data: 0
-    cost_flow_out.data: 8.9529e-07
+    cost_flow_out.data: 0
     energy_to_power_ratio: 180
     withdrawal_to_injection_ratio: 2.5
     flow_in_eff: 0.990058
@@ -1002,7 +1002,7 @@ techs:
     cost_om_annual_flow_in_cap.data: 0
     cost_om_annual_flow_out_cap.data: 0
     cost_flow_in.data: 0
-    cost_flow_out.data: 8.9529e-07
+    cost_flow_out.data: 0
     energy_to_power_ratio: 345.6
     withdrawal_to_injection_ratio: 2.5
     flow_in_eff: 0.990311
@@ -1053,7 +1053,7 @@ techs:
     cost_om_annual_flow_in_cap.data: 0
     cost_om_annual_flow_out_cap.data: 0
     cost_flow_in.data: 0
-    cost_flow_out.data: 8.9529e-07
+    cost_flow_out.data: 0
     energy_to_power_ratio: 216
     withdrawal_to_injection_ratio: 2.5
     flow_in_eff: 0.990058
@@ -1068,7 +1068,7 @@ techs:
     cost_om_annual_flow_in_cap.data: 0
     cost_om_annual_flow_out_cap.data: 0
     cost_flow_in.data: 0
-    cost_flow_out.data: 8.9529e-07
+    cost_flow_out.data: 0
     energy_to_power_ratio: 403.2
     withdrawal_to_injection_ratio: 2.5
     flow_in_eff: 0.990311
@@ -1119,7 +1119,7 @@ techs:
     cost_om_annual_flow_in_cap.data: 0
     cost_om_annual_flow_out_cap.data: 0
     cost_flow_in.data: 0
-    cost_flow_out.data: 8.9529e-07
+    cost_flow_out.data: 0
     energy_to_power_ratio: 252
     withdrawal_to_injection_ratio: 2.5
     flow_in_eff: 0.990058
@@ -1134,7 +1134,7 @@ techs:
     cost_om_annual_flow_in_cap.data: 0
     cost_om_annual_flow_out_cap.data: 0
     cost_flow_in.data: 0
-    cost_flow_out.data: 8.9529e-07
+    cost_flow_out.data: 0
     energy_to_power_ratio: 172.8
     withdrawal_to_injection_ratio: 3.1
     flow_in_eff: 0.990311
@@ -1185,7 +1185,7 @@ techs:
     cost_om_annual_flow_in_cap.data: 0
     cost_om_annual_flow_out_cap.data: 0
     cost_flow_in.data: 0
-    cost_flow_out.data: 8.9529e-07
+    cost_flow_out.data: 0
     energy_to_power_ratio: 108
     withdrawal_to_injection_ratio: 3.1
     flow_in_eff: 0.990058
@@ -1200,7 +1200,7 @@ techs:
     cost_om_annual_flow_in_cap.data: 0
     cost_om_annual_flow_out_cap.data: 0
     cost_flow_in.data: 0
-    cost_flow_out.data: 8.9529e-07
+    cost_flow_out.data: 0
     energy_to_power_ratio: 230.4
     withdrawal_to_injection_ratio: 3.1
     flow_in_eff: 0.990311
@@ -1251,7 +1251,7 @@ techs:
     cost_om_annual_flow_in_cap.data: 0
     cost_om_annual_flow_out_cap.data: 0
     cost_flow_in.data: 0
-    cost_flow_out.data: 8.9529e-07
+    cost_flow_out.data: 0
     energy_to_power_ratio: 144
     withdrawal_to_injection_ratio: 3.1
     flow_in_eff: 0.990058
@@ -1266,7 +1266,7 @@ techs:
     cost_om_annual_flow_in_cap.data: 0
     cost_om_annual_flow_out_cap.data: 0
     cost_flow_in.data: 0
-    cost_flow_out.data: 8.9529e-07
+    cost_flow_out.data: 0
     energy_to_power_ratio: 288
     withdrawal_to_injection_ratio: 3.1
     flow_in_eff: 0.990311
@@ -1317,7 +1317,7 @@ techs:
     cost_om_annual_flow_in_cap.data: 0
     cost_om_annual_flow_out_cap.data: 0
     cost_flow_in.data: 0
-    cost_flow_out.data: 8.9529e-07
+    cost_flow_out.data: 0
     energy_to_power_ratio: 180
     withdrawal_to_injection_ratio: 3.1
     flow_in_eff: 0.990058
@@ -1332,7 +1332,7 @@ techs:
     cost_om_annual_flow_in_cap.data: 0
     cost_om_annual_flow_out_cap.data: 0
     cost_flow_in.data: 0
-    cost_flow_out.data: 8.9529e-07
+    cost_flow_out.data: 0
     energy_to_power_ratio: 345.6
     withdrawal_to_injection_ratio: 3.1
     flow_in_eff: 0.990311
@@ -1383,7 +1383,7 @@ techs:
     cost_om_annual_flow_in_cap.data: 0
     cost_om_annual_flow_out_cap.data: 0
     cost_flow_in.data: 0
-    cost_flow_out.data: 8.9529e-07
+    cost_flow_out.data: 0
     energy_to_power_ratio: 216
     withdrawal_to_injection_ratio: 3.1
     flow_in_eff: 0.990058
@@ -1398,7 +1398,7 @@ techs:
     cost_om_annual_flow_in_cap.data: 0
     cost_om_annual_flow_out_cap.data: 0
     cost_flow_in.data: 0
-    cost_flow_out.data: 8.9529e-07
+    cost_flow_out.data: 0
     energy_to_power_ratio: 403.2
     withdrawal_to_injection_ratio: 3.1
     flow_in_eff: 0.990311
@@ -1449,7 +1449,7 @@ techs:
     cost_om_annual_flow_in_cap.data: 0
     cost_om_annual_flow_out_cap.data: 0
     cost_flow_in.data: 0
-    cost_flow_out.data: 8.9529e-07
+    cost_flow_out.data: 0
     energy_to_power_ratio: 252
     withdrawal_to_injection_ratio: 3.1
     flow_in_eff: 0.990058
@@ -1464,7 +1464,7 @@ techs:
     cost_om_annual_flow_in_cap.data: 0
     cost_om_annual_flow_out_cap.data: 0
     cost_flow_in.data: 0
-    cost_flow_out.data: 8.9529e-07
+    cost_flow_out.data: 0
     energy_to_power_ratio: 172.8
     withdrawal_to_injection_ratio: 3.7
     flow_in_eff: 0.990311
@@ -1515,7 +1515,7 @@ techs:
     cost_om_annual_flow_in_cap.data: 0
     cost_om_annual_flow_out_cap.data: 0
     cost_flow_in.data: 0
-    cost_flow_out.data: 8.9529e-07
+    cost_flow_out.data: 0
     energy_to_power_ratio: 108
     withdrawal_to_injection_ratio: 3.7
     flow_in_eff: 0.990058
@@ -1530,7 +1530,7 @@ techs:
     cost_om_annual_flow_in_cap.data: 0
     cost_om_annual_flow_out_cap.data: 0
     cost_flow_in.data: 0
-    cost_flow_out.data: 8.9529e-07
+    cost_flow_out.data: 0
     energy_to_power_ratio: 230.4
     withdrawal_to_injection_ratio: 3.7
     flow_in_eff: 0.990311
@@ -1581,7 +1581,7 @@ techs:
     cost_om_annual_flow_in_cap.data: 0
     cost_om_annual_flow_out_cap.data: 0
     cost_flow_in.data: 0
-    cost_flow_out.data: 8.9529e-07
+    cost_flow_out.data: 0
     energy_to_power_ratio: 144
     withdrawal_to_injection_ratio: 3.7
     flow_in_eff: 0.990058
@@ -1596,7 +1596,7 @@ techs:
     cost_om_annual_flow_in_cap.data: 0
     cost_om_annual_flow_out_cap.data: 0
     cost_flow_in.data: 0
-    cost_flow_out.data: 8.9529e-07
+    cost_flow_out.data: 0
     energy_to_power_ratio: 288
     withdrawal_to_injection_ratio: 3.7
     flow_in_eff: 0.990311
@@ -1647,7 +1647,7 @@ techs:
     cost_om_annual_flow_in_cap.data: 0
     cost_om_annual_flow_out_cap.data: 0
     cost_flow_in.data: 0
-    cost_flow_out.data: 8.9529e-07
+    cost_flow_out.data: 0
     energy_to_power_ratio: 180
     withdrawal_to_injection_ratio: 3.7
     flow_in_eff: 0.990058
@@ -1662,7 +1662,7 @@ techs:
     cost_om_annual_flow_in_cap.data: 0
     cost_om_annual_flow_out_cap.data: 0
     cost_flow_in.data: 0
-    cost_flow_out.data: 8.9529e-07
+    cost_flow_out.data: 0
     energy_to_power_ratio: 345.6
     withdrawal_to_injection_ratio: 3.7
     flow_in_eff: 0.990311
@@ -1713,7 +1713,7 @@ techs:
     cost_om_annual_flow_in_cap.data: 0
     cost_om_annual_flow_out_cap.data: 0
     cost_flow_in.data: 0
-    cost_flow_out.data: 8.9529e-07
+    cost_flow_out.data: 0
     energy_to_power_ratio: 216
     withdrawal_to_injection_ratio: 3.7
     flow_in_eff: 0.990058
@@ -1728,7 +1728,7 @@ techs:
     cost_om_annual_flow_in_cap.data: 0
     cost_om_annual_flow_out_cap.data: 0
     cost_flow_in.data: 0
-    cost_flow_out.data: 8.9529e-07
+    cost_flow_out.data: 0
     energy_to_power_ratio: 403.2
     withdrawal_to_injection_ratio: 3.7
     flow_in_eff: 0.990311
@@ -1779,7 +1779,7 @@ techs:
     cost_om_annual_flow_in_cap.data: 0
     cost_om_annual_flow_out_cap.data: 0
     cost_flow_in.data: 0
-    cost_flow_out.data: 8.9529e-07
+    cost_flow_out.data: 0
     energy_to_power_ratio: 252
     withdrawal_to_injection_ratio: 3.7
     flow_in_eff: 0.990058
@@ -1794,7 +1794,7 @@ techs:
     cost_om_annual_flow_in_cap.data: 0
     cost_om_annual_flow_out_cap.data: 0.0128463
     cost_flow_in.data: 0
-    cost_flow_out.data: 8.9529e-07
+    cost_flow_out.data: 0
     energy_to_power_ratio_min: 144
     energy_to_power_ratio_max: 864
     withdrawal_to_injection_ratio: 2.5
@@ -1848,7 +1848,7 @@ techs:
     cost_om_annual_flow_in_cap.data: 0
     cost_om_annual_flow_out_cap.data: 0.0407558
     cost_flow_in.data: 0
-    cost_flow_out.data: 8.9529e-07
+    cost_flow_out.data: 0
     energy_to_power_ratio_min: 90
     energy_to_power_ratio_max: 540
     withdrawal_to_injection_ratio: 2.5
@@ -1864,7 +1864,7 @@ techs:
     cost_om_annual_flow_in_cap.data: 0.0112155
     cost_om_annual_flow_out_cap.data: 0.00836009
     cost_flow_in.data: 0
-    cost_flow_out.data: 8.9529e-07
+    cost_flow_out.data: 0
     energy_to_power_ratio_min: 144
     energy_to_power_ratio_max: 864
     withdrawal_to_injection_ratio_min: 1
@@ -1921,7 +1921,7 @@ techs:
     cost_om_annual_flow_in_cap.data: 0.0430906
     cost_om_annual_flow_out_cap.data: 0.0235196
     cost_flow_in.data: 0
-    cost_flow_out.data: 8.9529e-07
+    cost_flow_out.data: 0
     energy_to_power_ratio_min: 90
     energy_to_power_ratio_max: 540
     withdrawal_to_injection_ratio_min: 1
@@ -1938,7 +1938,7 @@ techs:
     cost_om_annual_flow_in_cap.data: 0.0112155
     cost_om_annual_flow_out_cap.data: 0.00836009
     cost_flow_in.data: 0
-    cost_flow_out.data: 8.9529e-07
+    cost_flow_out.data: 0
     energy_to_power_ratio_min: 144
     energy_to_power_ratio_max: 864
     withdrawal_to_injection_ratio_min: 1
@@ -1995,7 +1995,7 @@ techs:
     cost_om_annual_flow_in_cap.data: 0.0430906
     cost_om_annual_flow_out_cap.data: 0.0235196
     cost_flow_in.data: 0
-    cost_flow_out.data: 8.9529e-07
+    cost_flow_out.data: 0
     energy_to_power_ratio_min: 90
     energy_to_power_ratio_max: 540
     withdrawal_to_injection_ratio_min: 1
@@ -2012,7 +2012,7 @@ techs:
     cost_om_annual_flow_in_cap.data: 0.0104705
     cost_om_annual_flow_out_cap.data: 0.0081321
     cost_flow_in.data: 0
-    cost_flow_out.data: 8.9529e-07
+    cost_flow_out.data: 0
     energy_to_power_ratio_min: 144
     energy_to_power_ratio_max: 288
     withdrawal_to_injection_ratio_min: 1
@@ -2069,7 +2069,7 @@ techs:
     cost_om_annual_flow_in_cap.data: 0.034416
     cost_om_annual_flow_out_cap.data: 0.0193764
     cost_flow_in.data: 0
-    cost_flow_out.data: 8.9529e-07
+    cost_flow_out.data: 0
     energy_to_power_ratio_min: 90
     energy_to_power_ratio_max: 180
     withdrawal_to_injection_ratio_min: 1
@@ -2086,7 +2086,7 @@ techs:
     cost_om_annual_flow_in_cap.data: 0.0119605
     cost_om_annual_flow_out_cap.data: 0.00889798
     cost_flow_in.data: 0
-    cost_flow_out.data: 8.9529e-07
+    cost_flow_out.data: 0
     energy_to_power_ratio_min: 288
     energy_to_power_ratio_max: 864
     withdrawal_to_injection_ratio_min: 1
@@ -2143,7 +2143,7 @@ techs:
     cost_om_annual_flow_in_cap.data: 0.0517652
     cost_om_annual_flow_out_cap.data: 0.0276075
     cost_flow_in.data: 0
-    cost_flow_out.data: 8.9529e-07
+    cost_flow_out.data: 0
     energy_to_power_ratio_min: 180
     energy_to_power_ratio_max: 540
     withdrawal_to_injection_ratio_min: 1
@@ -2160,7 +2160,7 @@ techs:
     cost_om_annual_flow_in_cap.data: 0.00979993
     cost_om_annual_flow_out_cap.data: 0.0081321
     cost_flow_in.data: 0
-    cost_flow_out.data: 8.9529e-07
+    cost_flow_out.data: 0
     energy_to_power_ratio_min: 144
     energy_to_power_ratio_max: 288
     withdrawal_to_injection_ratio_min: 1
@@ -2217,7 +2217,7 @@ techs:
     cost_om_annual_flow_in_cap.data: 0.0266089
     cost_om_annual_flow_out_cap.data: 0.0193764
     cost_flow_in.data: 0
-    cost_flow_out.data: 8.9529e-07
+    cost_flow_out.data: 0
     energy_to_power_ratio_min: 90
     energy_to_power_ratio_max: 180
     withdrawal_to_injection_ratio_min: 1
@@ -2234,7 +2234,7 @@ techs:
     cost_om_annual_flow_in_cap.data: 0.010843
     cost_om_annual_flow_out_cap.data: 0.00889798
     cost_flow_in.data: 0
-    cost_flow_out.data: 8.9529e-07
+    cost_flow_out.data: 0
     energy_to_power_ratio_min: 288
     energy_to_power_ratio_max: 864
     withdrawal_to_injection_ratio_min: 1
@@ -2291,7 +2291,7 @@ techs:
     cost_om_annual_flow_in_cap.data: 0.0387533
     cost_om_annual_flow_out_cap.data: 0.0276075
     cost_flow_in.data: 0
-    cost_flow_out.data: 8.9529e-07
+    cost_flow_out.data: 0
     energy_to_power_ratio_min: 180
     energy_to_power_ratio_max: 540
     withdrawal_to_injection_ratio_min: 1
@@ -2308,7 +2308,7 @@ techs:
     cost_om_annual_flow_in_cap.data: 0.011141
     cost_om_annual_flow_out_cap.data: 0.0081321
     cost_flow_in.data: 0
-    cost_flow_out.data: 8.9529e-07
+    cost_flow_out.data: 0
     energy_to_power_ratio_min: 144
     energy_to_power_ratio_max: 288
     withdrawal_to_injection_ratio_min: 2.5
@@ -2365,7 +2365,7 @@ techs:
     cost_om_annual_flow_in_cap.data: 0.0422232
     cost_om_annual_flow_out_cap.data: 0.0193764
     cost_flow_in.data: 0
-    cost_flow_out.data: 8.9529e-07
+    cost_flow_out.data: 0
     energy_to_power_ratio_min: 90
     energy_to_power_ratio_max: 180
     withdrawal_to_injection_ratio_min: 2.5
@@ -2382,7 +2382,7 @@ techs:
     cost_om_annual_flow_in_cap.data: 0.0130781
     cost_om_annual_flow_out_cap.data: 0.00889798
     cost_flow_in.data: 0
-    cost_flow_out.data: 8.9529e-07
+    cost_flow_out.data: 0
     energy_to_power_ratio_min: 288
     energy_to_power_ratio_max: 864
     withdrawal_to_injection_ratio_min: 2.5
@@ -2439,7 +2439,7 @@ techs:
     cost_om_annual_flow_in_cap.data: 0.0647771
     cost_om_annual_flow_out_cap.data: 0.0276075
     cost_flow_in.data: 0
-    cost_flow_out.data: 8.9529e-07
+    cost_flow_out.data: 0
     energy_to_power_ratio_min: 180
     energy_to_power_ratio_max: 540
     withdrawal_to_injection_ratio_min: 2.5
