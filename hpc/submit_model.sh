@@ -2,10 +2,10 @@
 
 #SBATCH --job-name=uhs_dispatch
 #SBATCH --partition=compute-p1
-#SBATCH --time=6:00:00
+#SBATCH --time=4:00:00
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=10
-#SBATCH --mem-per-cpu=2000
+#SBATCH --mem-per-cpu=1000
 #SBATCH --account=research-tpm-ess
 #SBATCH --output=logs/%x-%A_%a.out
 
@@ -26,19 +26,19 @@ EXPERIMENTS=(
     # 2009–2012
     # --------------------------------------------------------
 
-    "NLD B1  weather_2009_3y"
-    "NLD P1  weather_2009_3y"
-    "NLD F1  weather_2009_3y"
-    "NLD FX1 weather_2009_3y"
+    # "NLD B1  weather_2009_3y"
+    # "NLD P1  weather_2009_3y"
+    # "NLD F1  weather_2009_3y"
+    # "NLD FX1 weather_2009_3y"
 
     # --------------------------------------------------------
     # 2012–2015
     # --------------------------------------------------------
 
-    "NLD B1  weather_2012_3y"
-    "NLD P1  weather_2012_3y"
-    "NLD F1  weather_2012_3y"
-    "NLD FX1 weather_2012_3y"
+    # "NLD B1  weather_2012_3y"
+    # "NLD P1  weather_2012_3y"
+    # "NLD F1  weather_2012_3y"
+    # "NLD FX1 weather_2012_3y"
 
     # --------------------------------------------------------
     # 2015–2018

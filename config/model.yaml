@@ -35,6 +35,7 @@ config:
       # Crossover: 1
       BarHomogeneous: 1
       NumericFocus: 2
+      CrossoverBasis: 1
       # TimeLimit: 10800
       Threads: 10
 
