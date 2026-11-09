@@ -22,7 +22,7 @@ config:
 
     pre_validate_math_strings: true
     resample:
-      timesteps: 3h
+      timesteps: 2h
 
   # build:
   #   ensure_feasibility: false
@@ -35,7 +35,8 @@ config:
       # Crossover: 1
       BarHomogeneous: 1
       NumericFocus: 2
-      TimeLimit: 10800
+      # TimeLimit: 10800
+      Threads: 10
 
 
 data_definitions:

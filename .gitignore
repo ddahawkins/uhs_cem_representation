@@ -8,3 +8,5 @@ temp/
 __pycache__
 
 *dev*
+
+logs
