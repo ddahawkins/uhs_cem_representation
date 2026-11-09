@@ -58,10 +58,10 @@ TECHNOLOGY_LABELS = {
 # Fixed technology shapes across runs and figures.
 TECHNOLOGY_MARKERS = {
     "compressed_air_storage": "o",
-    "lined_rock_cavern": "s",
-    "salt_cavern": "^",
+    "lined_rock_cavern": "v",
+    "salt_cavern": "s",
     "aquifer": "D",
-    "depleted_gas_field": "v",
+    "depleted_gas_field": "^",
 }
 EXPERIMENT_ORDER = ("B1", "P1", "F1", "FX1", "FX2", "FX4")
 
