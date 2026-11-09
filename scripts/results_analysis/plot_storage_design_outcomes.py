@@ -5,13 +5,13 @@ From the project root::
     pixi run python -m scripts.results_analysis.storage_design_plots
 
 Defaults:
-  input:  results/all_uhs_3h/*.nc
+  input:  hpc/results_2h/*.nc
   output: results/figures/
 
 Optional::
 
     pixi run python -m scripts.results_analysis.storage_design_plots \
-        --input-dir results/all_uhs_3h --output-dir results/figures
+        --input-dir hpc/results_2h --output-dir results/figures
 
 Place this file and _plots.py in scripts/results_analysis/.
 The figures deliberately omit batteries, but include CAES and every invested
@@ -41,7 +41,7 @@ except ImportError:  # Also allow `python storage_design_plots.py`.
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
-DEFAULT_INPUT_DIR = PROJECT_ROOT / "hpc" / 'results_2h'
+DEFAULT_INPUT_DIR = PROJECT_ROOT / "hpc" / "results_2h"
 DEFAULT_OUTPUT_DIR = PROJECT_ROOT / "results" / "figures"
 
 TECHNOLOGY_ORDER = (
@@ -57,11 +57,11 @@ TECHNOLOGY_LABELS = {
 }
 # Fixed technology shapes across runs and figures.
 TECHNOLOGY_MARKERS = {
-    "compressed_air_storage": "o",
+    "compressed_air_storage": "^",
     "lined_rock_cavern": "v",
-    "salt_cavern": "s",
+    "salt_cavern": "o",
     "aquifer": "D",
-    "depleted_gas_field": "^",
+    "depleted_gas_field": "s",
 }
 EXPERIMENT_ORDER = ("B1", "P1", "F1", "FX1", "FX2", "FX4")
 
@@ -72,7 +72,7 @@ def _experiment_key(name: str) -> tuple[str, int, str]:
 
 
 def _style_keys(frame: pd.DataFrame) -> tuple[dict[str, object], dict[str, str]]:
-    """Use technology symbols and ordered plasma colours for representations."""
+    """Use technology symbols and stable, ordered plasma colours."""
     active_techs = [tech for tech in TECHNOLOGY_ORDER
                     if tech in set(frame["technology"])]
     markers = {tech: TECHNOLOGY_MARKERS[tech] for tech in active_techs}
@@ -80,16 +80,20 @@ def _style_keys(frame: pd.DataFrame) -> tuple[dict[str, object], dict[str, str]]
     present = set(frame["experiment"].str.upper())
     experiments = [exp for exp in EXPERIMENT_ORDER if exp in present]
     experiments.extend(sorted(present.difference(EXPERIMENT_ORDER), key=_experiment_key))
-    # Progress through plasma in experiment order; avoid its brightest yellow.
-    positions = np.linspace(0.10, 0.90, len(experiments)) if len(experiments) > 1 else [0.5]
-    colors = dict(zip(experiments, plt.get_cmap("plasma")(positions)))
+    # Colour each known representation consistently, even when some are absent
+    # from the input files; skip plasma's harshest yellow at the upper end.
+    extras = [exp for exp in experiments if exp not in EXPERIMENT_ORDER]
+    full_order = [*EXPERIMENT_ORDER, *extras]
+    positions = np.linspace(0.10, 0.90, len(full_order))
+    full_colors = dict(zip(full_order, plt.get_cmap("plasma")(positions)))
+    colors = {exp: full_colors[exp] for exp in experiments}
     return colors, markers
 
 
 def _plot_scatter(
     frame: pd.DataFrame, output_path: Path, *, x: str, y: str,
-    xlabel: str, ylabel: str, title: str,
-    log_x: bool = True, log_y: bool = False,
+    xlabel: str, ylabel: str,
+    log_x: bool = False, log_y: bool = False,
 ) -> None:
     frame = frame.loc[
         np.isfinite(frame[x]) & (frame[x] > 0)
@@ -100,44 +104,62 @@ def _plot_scatter(
         return
 
     colors, markers = _style_keys(frame)
-    fig, ax = plt.subplots(figsize=(10, 6.3))
+    fig, ax = plt.subplots(figsize=(10.4, 6.1))
+    # Keep both legend rows outside the axes, with no additional plot title.
+    fig.subplots_adjust(left=0.105, right=0.97, bottom=0.13, top=0.85)
     for (tech, experiment), group in frame.groupby(["technology", "experiment"], sort=False):
         ax.scatter(
-            group[x], group[y], s=76, color=colors[experiment.upper()],
-            marker=markers[tech], edgecolors="white",
-            linewidths=0.6, alpha=0.86, zorder=3,
+            group[x], group[y], s=66, color=colors[experiment.upper()],
+            marker=markers[tech], edgecolors="0.22",
+            linewidths=0.5, alpha=0.86, zorder=3,
         )
 
     if log_x:
         ax.set_xscale("log")
     if log_y:
         ax.set_yscale("log")
-    ax.set_xlabel(xlabel)
-    ax.set_ylabel(ylabel)
-    ax.set_title(title)
-    ax.grid(which="major", alpha=0.25)
-    ax.grid(which="minor", alpha=0.10)
+    ax.set_xlabel(xlabel, labelpad=8)
+    ax.set_ylabel(ylabel, labelpad=8)
+    ax.set_axisbelow(True)
+    ax.grid(which="major", color="0.82", linewidth=0.65, alpha=0.55)
+    if log_x or log_y:
+        ax.grid(which="minor", color="0.88", linewidth=0.4, alpha=0.35)
+    if not log_x:
+        ax.set_xlim(left=0)
+    if not log_y:
+        ax.set_ylim(bottom=0)
+    ax.margins(x=0.05, y=0.08)
+    ax.tick_params(axis="both", labelsize=9.5, colors="0.25")
     ax.spines[["top", "right"]].set_visible(False)
+    ax.spines[["bottom", "left"]].set_color("0.45")
 
     tech_handles = [
         Line2D([], [], marker=marker, color="none", markerfacecolor="0.55",
-               markeredgecolor="white", markersize=9, label=TECHNOLOGY_LABELS[tech])
+               markeredgecolor="0.25", markeredgewidth=0.5,
+               markersize=8, label=TECHNOLOGY_LABELS[tech])
         for tech, marker in markers.items()
     ]
-    first_legend = ax.legend(
-        handles=tech_handles, title="Technology", frameon=False,
-        loc="upper left", bbox_to_anchor=(1.02, 1.02),
-    )
-    ax.add_artist(first_legend)
     exp_handles = [
         Line2D([], [], linestyle="none", marker="o",
-               markerfacecolor=color, markeredgecolor="white",
-               markersize=8, label=exp)
+               markerfacecolor=color, markeredgecolor="0.25",
+               markeredgewidth=0.5, markersize=8, label=exp)
         for exp, color in colors.items()
     ]
-    ax.legend(handles=exp_handles, title="Representation", frameon=False,
-              loc="lower left", bbox_to_anchor=(1.02, 0.0))
-    fig.savefig(output_path, bbox_inches="tight")
+    # Two horizontal legend rows.  Their headings sit inline at the left,
+    # leaving the data panel unobstructed and keeping full technology names.
+    legend_style = dict(
+        loc="center left", frameon=False, fontsize=10,
+        handlelength=1.05, handletextpad=0.35,
+        columnspacing=1.35, borderaxespad=0,
+    )
+    fig.text(0.105, 0.945, "Technology", va="center", fontsize=10, weight="semibold")
+    fig.legend(handles=tech_handles, bbox_to_anchor=(0.255, 0.945),
+               ncol=len(tech_handles), **legend_style)
+    fig.text(0.105, 0.9, "Representation", va="center", fontsize=10, weight="semibold")
+    fig.legend(handles=exp_handles, bbox_to_anchor=(0.255, 0.9),
+               ncol=len(exp_handles), **legend_style)
+
+    fig.savefig(output_path)
     plt.close(fig)
     print(f"Saved {output_path}")
 
@@ -147,10 +169,8 @@ def plot_epr_vs_capacity(frame: pd.DataFrame, output_dir: Path) -> None:
     _plot_scatter(
         frame, output_dir / "storage_epr_vs_capacity.pdf",
         x="EPR_days", y="capacity_TWh",
+        xlabel="Duration, EPR (days)",
         ylabel="Installed storage energy capacity (TWh)",
-        xlabel="Discharge duration, EPR (days)",
-        title="Long-duration storage: duration versus installed capacity",
-        log_x=False, log_y=False,
     )
 
 
@@ -159,10 +179,8 @@ def plot_wtir_vs_epr(frame: pd.DataFrame, output_dir: Path) -> None:
     _plot_scatter(
         frame, output_dir / "storage_wtir_vs_epr.pdf",
         x="EPR_days", y="WTIR",
-        xlabel="Discharge duration, EPR (days)",
-        ylabel="Withdrawal / injection capacity (WTIR)",
-        title="Long-duration storage: power asymmetry versus duration",
-        log_x=False, log_y=False,
+        xlabel="Duration, EPR (days)",
+        ylabel="Withdrawal to injection ratio (WTIR)",
     )
 
 
