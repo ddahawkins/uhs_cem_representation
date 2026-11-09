@@ -41,7 +41,7 @@ except ImportError:  # Also allow `python storage_design_plots.py`.
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
-DEFAULT_INPUT_DIR = PROJECT_ROOT / "results" / 'all_uhs_3h'
+DEFAULT_INPUT_DIR = PROJECT_ROOT / "hpc" / 'results_2h'
 DEFAULT_OUTPUT_DIR = PROJECT_ROOT / "results" / "figures"
 
 TECHNOLOGY_ORDER = (
