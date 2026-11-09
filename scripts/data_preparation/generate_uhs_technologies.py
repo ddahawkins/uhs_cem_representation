@@ -28,7 +28,7 @@ import yaml
 EXPERIMENTS = {
     # CSV experiment ID: (scenario prefix, expected method, n_epr, n_wtir)
     "B1": ("B1", "bundled", 1, 1),
-    "B25": ("B25", "bundled", 5, 5),
+    "B9": ("B9", "bundled", 3, 3),
     "P1": ("P1", "partially_decoupled", 1, 1),
     "F1": ("F1", "fully_decoupled", 1, 1),
     "FX1": ("FX1", "fully_decoupled_cross_driver", 1, 1),
@@ -389,7 +389,7 @@ def main() -> None:
         f"# Monetary coefficients are million EUR per {args.model_energy_unit} or matching power unit.\n"
         "# EPR parameters are hours (CSV EPR days multiplied by 24); WTIR is dimensionless.\n"
         "# EPR is interpreted by the custom maths as power <=/>= storage_cap / EPR.\n"
-        "# B1/B25: both ratios exact; P1: WTIR exact and EPR interval;\n"
+        "# B1/B9: both ratios exact; P1: WTIR exact and EPR interval;\n"
         "# F1/FX1/FX2/FX4: both ratio intervals constrain otherwise-independent capacities.\n"
         f"# Only the last sampled EPR bin has its upper limit multiplied by {args.epr_upper_factor};\n"
         f"# only the last sampled WTIR bin has its upper limit multiplied by {args.wtir_upper_factor}.\n"
