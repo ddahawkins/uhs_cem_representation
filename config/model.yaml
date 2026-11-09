@@ -21,6 +21,8 @@ config:
       - uhs_storage_formulations
 
     pre_validate_math_strings: true
+    resample:
+      timesteps: 3h
 
   # build:
   #   ensure_feasibility: false
@@ -30,6 +32,11 @@ config:
     solver_io: python
     solver_options:
       Method: 2
+      # Crossover: 1
+      BarHomogeneous: 1
+      NumericFocus: 2
+      TimeLimit: 10800
+
 
 data_definitions:
   objective_cost_weights: 
