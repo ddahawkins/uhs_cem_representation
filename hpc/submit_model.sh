@@ -2,7 +2,7 @@
 
 #SBATCH --job-name=uhs_dispatch
 #SBATCH --partition=compute-p1
-#SBATCH --time=4:00:00
+#SBATCH --time=11:00:00
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=10
 #SBATCH --mem-per-cpu=1000
@@ -26,7 +26,7 @@ EXPERIMENTS=(
     # 2009–2012
     # --------------------------------------------------------
 
-    # "NLD B1  weather_2009_3y"
+    "NLD B1  weather_2009_3y"
     # "NLD P1  weather_2009_3y"
     # "NLD F1  weather_2009_3y"
     # "NLD FX1 weather_2009_3y"
@@ -44,27 +44,27 @@ EXPERIMENTS=(
     # 2015–2018
     # --------------------------------------------------------
 
-    "NLD B1  weather_2015_3y"
-    "NLD P1  weather_2015_3y"
-    "NLD F1  weather_2015_3y"
-    "NLD FX1 weather_2015_3y"
+    # "NLD B1  weather_2015_3y"
+    # "NLD P1  weather_2015_3y"
+    # "NLD F1  weather_2015_3y"
+    # "NLD FX1 weather_2015_3y"
 
     # --------------------------------------------------------
     # 2018–2021
     # --------------------------------------------------------
 
     "NLD B1  weather_2018_3y"
-    "NLD P1  weather_2018_3y"
-    "NLD F1  weather_2018_3y"
-    "NLD FX1 weather_2018_3y"
+    # "NLD P1  weather_2018_3y"
+    # "NLD F1  weather_2018_3y"
+    # "NLD FX1 weather_2018_3y"
 
     # --------------------------------------------------------
     # 2021–2024
     # --------------------------------------------------------
 
     "NLD B1  weather_2021_3y"
-    "NLD P1  weather_2021_3y"
-    "NLD F1  weather_2021_3y"
+    # "NLD P1  weather_2021_3y"
+    # "NLD F1  weather_2021_3y"
     "NLD FX1 weather_2021_3y"
 
 )
