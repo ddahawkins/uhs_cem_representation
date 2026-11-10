@@ -48,7 +48,7 @@ except ImportError:  # Allow direct execution from this directory.
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
-DEFAULT_INPUT_DIR = PROJECT_ROOT / "hpc" / "results_2h"
+DEFAULT_INPUT_DIR = PROJECT_ROOT / "hpc" / "results_2h_no_coupling_bounds_no_lrc"
 DEFAULT_OUTPUT_DIR = PROJECT_ROOT / "results" / "figures"
 EXPERIMENT_ORDER = ("B1", "P1", "F1", "FX1", "FX2")
 

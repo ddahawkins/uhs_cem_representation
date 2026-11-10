@@ -46,7 +46,7 @@ except ImportError:  # Allow running the file directly beside _plots.py.
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
-DEFAULT_INPUT_DIR = PROJECT_ROOT / "hpc" / "results_2h"
+DEFAULT_INPUT_DIR = PROJECT_ROOT / "hpc" / "results_2h_no_coupling_bounds_no_lrc"
 DEFAULT_OUTPUT_DIR = PROJECT_ROOT / "results" / "figures"
 
 EXPERIMENTS = ("B1", "FX1")
