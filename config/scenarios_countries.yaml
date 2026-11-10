@@ -2,7 +2,7 @@ scenarios:
   # AUT: ['austria']
   # DEU: ['germany']
   # DNK: ['denmark']
-  # ESP: ['spain']
+  ESP: ['spain']
   # FIN: ['finland']
   # FRA: ['france']
   # GBR: ['great_britain']
@@ -33,3 +33,27 @@ overrides:
         flow_cap_max: 38 #MW https://www.irena.org/-/media/Files/IRENA/Agency/Publication/2026/Mar/IRENA_DAT_RE_Capacity_Statistics_2026.pdf
       pumped_hydro:
         storage_cap_max: 0 #MW https://www.irena.org/-/media/Files/IRENA/Agency/Publication/2026/Mar/IRENA_DAT_RE_Capacity_Statistics_2026.pdf
+  
+  spain:
+    techs:
+      solar: 
+        flow_cap_min: 44903 #MW https://www.irena.org/-/media/Files/IRENA/Agency/Publication/2026/Mar/IRENA_DAT_RE_Capacity_Statistics_2026.pdf
+      onshore_wind:
+        flow_cap_min: 33296 #MW https://www.irena.org/-/media/Files/IRENA/Agency/Publication/2026/Mar/IRENA_DAT_RE_Capacity_Statistics_2026.pdf
+        flow_cap_max: 183900 #MW https://publications.jrc.ec.europa.eu/repository/handle/JRC144438
+      offshore_wind:
+        flow_cap_min: 5 #MW https://www.irena.org/-/media/Files/IRENA/Agency/Publication/2026/Mar/IRENA_DAT_RE_Capacity_Statistics_2026.pdf
+      nuclear:
+        flow_cap_min: 7117 #MW https://www.sistemaelectrico-ree.es/en/spanish-electricity-system/installed-capacity
+        flow_cap_max: 7117 #MW https://www.sistemaelectrico-ree.es/en/spanish-electricity-system/installed-capacity
+      biomass:
+        flow_cap_min: 1314 #MW https://www.irena.org/-/media/Files/IRENA/Agency/Publication/2026/Mar/IRENA_DAT_RE_Capacity_Statistics_2026.pdf
+        flow_cap_max: 1314 #MW https://www.irena.org/-/media/Files/IRENA/Agency/Publication/2026/Mar/IRENA_DAT_RE_Capacity_Statistics_2026.pdf
+      hydro_run_of_river:
+        flow_cap_min: 16789 #MW https://www.irena.org/-/media/Files/IRENA/Agency/Publication/2026/Mar/IRENA_DAT_RE_Capacity_Statistics_2026.pdf
+        flow_cap_max: 16789 #MW https://www.irena.org/-/media/Files/IRENA/Agency/Publication/2026/Mar/IRENA_DAT_RE_Capacity_Statistics_2026.pdf
+      pumped_hydro:
+        flow_cap_min: 3331 #MW https://www.irena.org/-/media/Files/IRENA/Agency/Publication/2026/Mar/IRENA_DAT_RE_Capacity_Statistics_2026.pdf
+        flow_cap_max: 3331 #MW https://www.irena.org/-/media/Files/IRENA/Agency/Publication/2026/Mar/IRENA_DAT_RE_Capacity_Statistics_2026.pdf
+        storage_cap_min: 104000 # MWh, https://www.ree.es/sites/default/files/14_OPERACION/Documentos/20250901_SpanishPeninsularPowerSystem_NRAA_ERAA24.pdf
+        storage_cap_max: 104000 # MWh, https://www.ree.es/sites/default/files/14_OPERACION/Documentos/20250901_SpanishPeninsularPowerSystem_NRAA_ERAA24.pdf
