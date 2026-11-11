@@ -7,6 +7,9 @@ Run from the repository root::
     pixi run python -m scripts.results_analysis.system_storage_cost_plots \
         --input-dir hpc/results_2h --output-dir results/figures
 
+    pixi run python -m scripts.results_analysis.system_storage_cost_plots \
+        --countries NLD FIN ESP
+
 Place alongside ``_plots.py`` in ``scripts/results_analysis/``.
 
 Each experiment is divided by the B1 result for the SAME country and weather
@@ -18,6 +21,10 @@ to ``cost`` again.
 Storage includes all battery durations, CAES, pumped hydro, and every UHS
 variant (including multiple variants of one family in FX2). It excludes
 electrolysers and H2-to-power converters, which are not storage technologies.
+
+Countries are distinguished by plasma colours and fixed horizontal offsets
+within each representation. Each black median bar summarises weather windows
+for one country and representation (never a mixture of countries).
 
 Output: one two-panel, single-column PDF and one auditable CSV.
 """
@@ -51,7 +58,7 @@ PROJECT_ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_INPUT_DIR = PROJECT_ROOT / "hpc" / "results_2h_no_coupling_bounds"
 DEFAULT_OUTPUT_DIR = PROJECT_ROOT / "results" / "figures"
 EXPERIMENT_ORDER = ("B1", "P1", "F1", "FX1", "FX2")
-COUNTRIES = ("NLD","FIN")
+COUNTRIES = ("NLD", "FIN")
 
 # Additional storage technologies. Geological variants and CAES are recognised
 # by the existing `_plots.storage_family` helper.
@@ -60,7 +67,7 @@ BATTERY_PATTERN = re.compile(r"battery_\d+(?:\.\d+)?h$")
 FIGURE_WIDTH_IN = 3.50  # About 89 mm: one Elsevier two-column page column.
 FIGURE_HEIGHT_IN = 5.35
 FONT_SIZE = 10
-POINT_COLOUR = plt.get_cmap("plasma")(0.33)
+COUNTRY_CMAP = plt.get_cmap("plasma")
 
 
 def _is_storage(tech_id: str) -> bool:
@@ -184,24 +191,40 @@ def normalise_against_b1(raw: pd.DataFrame) -> pd.DataFrame:
             .drop(columns="_experiment_rank").reset_index(drop=True))
 
 
-def _draw_panel(ax: plt.Axes, frame: pd.DataFrame, metric: str, ylabel: str) -> None:
+def _draw_panel(
+    ax: plt.Axes,
+    frame: pd.DataFrame,
+    metric: str,
+    ylabel: str,
+    country_colours: dict[str, tuple],
+    country_offsets: dict[str, float],
+    median_half_width: float,
+) -> None:
     ax.set_axisbelow(True)
     ax.axhline(1.0, color="0.58", linewidth=0.8, linestyle=(0, (3, 2)), zorder=1)
     ax.grid(axis="y", color="0.86", linewidth=0.6)
 
     for index, experiment in enumerate(EXPERIMENT_ORDER):
-        values = frame.loc[frame["experiment"] == experiment, metric].to_numpy(dtype=float)
-        values = values[np.isfinite(values)]
-        if values.size == 0:
-            continue
-        # Exactly the same x coordinate for every weather window: no jitter.
-        ax.scatter(
-            np.full(values.size, index), values,
-            s=26, marker="o", facecolor=POINT_COLOUR, edgecolor="0.22",
-            linewidth=0.4, alpha=0.70, zorder=3,
-        )
-        ax.hlines(np.median(values), index - 0.23, index + 0.23,
-                  color="black", linewidth=2.3, zorder=4)
+        for country, colour in country_colours.items():
+            values = frame.loc[
+                (frame["experiment"] == experiment)
+                & (frame["country"] == country), metric
+            ].to_numpy(dtype=float)
+            values = values[np.isfinite(values)]
+            if values.size == 0:
+                continue
+
+            # A constant offset identifies the country; weather windows are
+            # aligned exactly, with no weather-dependent jitter.
+            x = index + country_offsets[country]
+            ax.scatter(
+                np.full(values.size, x), values,
+                s=26, marker="o", facecolor=colour, edgecolor="0.22",
+                linewidth=0.4, alpha=0.75, zorder=3,
+            )
+            ax.hlines(np.median(values), x - median_half_width,
+                      x + median_half_width, color="black",
+                      linewidth=2.3, zorder=4)
 
     valid = frame.loc[frame["experiment"].isin(EXPERIMENT_ORDER), metric]
     valid = pd.to_numeric(valid, errors="coerce").dropna()
@@ -220,7 +243,25 @@ def _draw_panel(ax: plt.Axes, frame: pd.DataFrame, metric: str, ylabel: str) -> 
 
 
 def plot_relative_costs(frame: pd.DataFrame, output_path: Path) -> None:
-    """Make a two-panel Elsevier single-column figure (10 pt throughout)."""
+    """Plot country-coloured results and country-specific weather medians."""
+    if frame.empty:
+        raise ValueError("No cost results to plot")
+    countries = [country for country in COUNTRIES if country in set(frame["country"])]
+    countries.extend(sorted(set(frame["country"]) - set(countries)))
+    colour_positions = np.linspace(0.16, 0.78, max(2, len(countries)))
+    country_colours = {
+        country: COUNTRY_CMAP(colour_positions[index])
+        for index, country in enumerate(countries)
+    }
+    # Reserve 62% of each experiment category for country groups.
+    country_offsets = {
+        country: -0.31 + (index + 0.5) * 0.62 / len(countries)
+        for index, country in enumerate(countries)
+    }
+    median_half_width = min(0.12, 0.22 / len(countries))
+    legend_columns = min(3, len(countries) + 1)
+    legend_rows = math.ceil((len(countries) + 1) / legend_columns)
+
     with plt.rc_context({
         "font.size": FONT_SIZE,
         "axes.labelsize": FONT_SIZE,
@@ -231,25 +272,31 @@ def plot_relative_costs(frame: pd.DataFrame, output_path: Path) -> None:
     }):
         fig, axes = plt.subplots(2, 1, sharex=True,
                                  figsize=(FIGURE_WIDTH_IN, FIGURE_HEIGHT_IN))
-        fig.subplots_adjust(left=0.265, right=0.965, top=0.915,
+        fig.subplots_adjust(left=0.265, right=0.965,
+                            top=0.915 - 0.06 * (legend_rows - 1),
                             bottom=0.105, hspace=0.20)
 
-        _draw_panel(axes[0], frame, "system_relative", "Relative system cost")
-        _draw_panel(axes[1], frame, "storage_relative", "Relative storage cost")
+        _draw_panel(axes[0], frame, "system_relative", "Relative system cost",
+                    country_colours, country_offsets, median_half_width)
+        _draw_panel(axes[1], frame, "storage_relative", "Relative storage cost",
+                    country_colours, country_offsets, median_half_width)
         axes[1].set_xticks(range(len(EXPERIMENT_ORDER)), EXPERIMENT_ORDER)
         axes[1].set_xlabel("Representation", labelpad=6)
         axes[0].tick_params(axis="x", which="both", bottom=False)
 
         handles = [
             Line2D([], [], color="none", marker="o", markersize=5,
-                   markerfacecolor=POINT_COLOUR, markeredgecolor="0.22",
-                   markeredgewidth=0.4, label="Weather window"),
-            Line2D([], [], color="black", linewidth=2.3, label="Median"),
+                   markerfacecolor=colour, markeredgecolor="0.22",
+                   markeredgewidth=0.4, label=country)
+            for country, colour in country_colours.items()
         ]
-        fig.legend(handles=handles, loc="upper center", ncol=2,
+        handles.append(Line2D([], [], color="black", linewidth=2.3,
+                              label="Weather median"))
+        fig.legend(handles=handles, loc="upper center", ncol=legend_columns,
                    frameon=False, bbox_to_anchor=(0.50, 0.99),
                    handlelength=1.6, columnspacing=1.0)
 
+        output_path.parent.mkdir(parents=True, exist_ok=True)
         fig.savefig(output_path)
         plt.close(fig)
     print(f"Saved {output_path}")
@@ -261,7 +308,10 @@ def main() -> None:
                         help="Folder of Calliope .nc results")
     parser.add_argument("--output-dir", type=Path, default=DEFAULT_OUTPUT_DIR,
                         help="Destination for PDF and CSV")
+    parser.add_argument("--countries", nargs="+", default=list(COUNTRIES),
+                        help="Countries to include (ISO3; default: NLD FIN)")
     args = parser.parse_args()
+    selected_countries = {country.upper() for country in args.countries}
 
     files = sorted(path for path in args.input_dir.expanduser().glob("*.nc")
                    if not path.name.endswith(".pending.nc"))
@@ -273,8 +323,8 @@ def main() -> None:
         print(f"Reading {path.name}", flush=True)
         try:
             record = read_case_costs(path)
-            if record["country"] not in COUNTRIES or record["experiment"] not in EXPERIMENT_ORDER:
-                warnings.warn(f"Skipping unselected representation: {path.name}",
+            if record["country"] not in selected_countries or record["experiment"] not in EXPERIMENT_ORDER:
+                warnings.warn(f"Skipping unselected country or representation: {path.name}",
                               stacklevel=2)
                 continue
             rows.append(record)
