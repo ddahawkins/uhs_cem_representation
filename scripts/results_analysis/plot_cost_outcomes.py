@@ -4,11 +4,11 @@ Run from the repository root::
 
     pixi run python -m scripts.results_analysis.system_storage_cost_plots
 
-    pixi run python -m scripts.results_analysis.system_storage_cost_plots \
+    pixi run python -m scripts.results_analysis.system_storage_cost_plots `
         --input-dir hpc/results_2h --output-dir results/figures
 
-    pixi run python -m scripts.results_analysis.system_storage_cost_plots \
-        --countries NLD FIN ESP
+    pixi run python -m scripts.results_analysis.plot_cost_outcomes `
+        --countries NLD FIN GBR DEU
 
 Place alongside ``_plots.py`` in ``scripts/results_analysis/``.
 

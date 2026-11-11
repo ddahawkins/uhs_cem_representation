@@ -6,7 +6,7 @@ Run from the project root::
 
 Or select countries and export PNG copies::
 
-    pixi run python -m scripts.results_analysis.plot_storage_portfolio --countries NLD
+    pixi run python -m scripts.results_analysis.plot_storage_portfolio --countries FIN
 
 Reads hpc/results_2h/*.nc and saves one PDF per country to results/figures/.
 Each weather window has adjacent B1 and FX1 stacked bars; there is no averaging
@@ -49,7 +49,7 @@ DEFAULT_OUTPUT_DIR = PROJECT_ROOT / "results" / "figures"
 EXPERIMENTS = ("B1", "FX1")
 TECHNOLOGY_ORDER = (
     "battery_2h", "battery_4h", "battery_8h",
-    "compressed_air_storage", "pumped_hydro_storage",
+    "compressed_air_storage",
     "lined_rock_cavern", "salt_cavern", "aquifer", "depleted_gas_field",
 )
 TECH_LABELS = {
@@ -57,7 +57,6 @@ TECH_LABELS = {
     "battery_4h": "Battery 4h",
     "battery_8h": "Battery 8h",
     "compressed_air_storage": "CAES",
-    "pumped_hydro_storage": "PHS",
     "lined_rock_cavern": "LRC",
     "salt_cavern": "SC",
     "aquifer": "SA",
@@ -78,8 +77,8 @@ def _storage_family(tech_id: str) -> str | None:
     tech_id = tech_id.lower()
     if re.fullmatch(r"battery_\d+h", tech_id):
         return tech_id
-    if tech_id in PHS_IDS:
-        return "pumped_hydro_storage"
+    # if tech_id in PHS_IDS:
+    #     return "pumped_hydro_storage"
     return storage_family(tech_id)
 
 
@@ -123,8 +122,9 @@ def read_portfolio(path: Path) -> dict[str, object]:
                 family = f"other:{tech_id}"
                 warnings.warn(
                     f"Unrecognised storage technology {tech_id!r} in {path.name}; "
-                    "plotting it separately.", stacklevel=2,
+                    "skipping.", stacklevel=2,
                 )
+                continue
             capacities[family] = capacities.get(family, 0.0) + capacity_mwh / 1e6
 
     return {
@@ -310,7 +310,7 @@ def plot_country(
         fig.text(0.10, 0.745, country, fontsize=11, weight="700")
 
         output_dir.mkdir(parents=True, exist_ok=True)
-        path = output_dir / f"storage_portfolio_{country}_b1_vs_fx1.pdf"
+        path = output_dir / f"storage_portfolio_{country}.pdf"
         fig.savefig(path)
         outputs = [path]
         if png:
