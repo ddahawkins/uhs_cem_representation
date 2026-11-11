@@ -12,9 +12,9 @@ overrides:
     nodes:
       general_node:
         techs:
-          b1_salt_cavern_epr01_wtir01: {}
-          b1_aquifer_epr01_wtir01: {}
-          b1_depleted_gas_field_epr01_wtir01: {}
+          # b1_salt_cavern_epr01_wtir01: {}
+          # b1_aquifer_epr01_wtir01: {}
+          # b1_depleted_gas_field_epr01_wtir01: {}
           b1_lined_rock_cavern_epr01_wtir01: {}
   
   uhs_B9:
@@ -61,41 +61,41 @@ overrides:
     nodes:
       general_node:
         techs:
-          p1_salt_cavern_epr01_wtir01: {}
-          p1_aquifer_epr01_wtir01: {}
-          p1_depleted_gas_field_epr01_wtir01: {}
+          # p1_salt_cavern_epr01_wtir01: {}
+          # p1_aquifer_epr01_wtir01: {}
+          # p1_depleted_gas_field_epr01_wtir01: {}
           p1_lined_rock_cavern_epr01_wtir01: {}
   
   uhs_F1:
     nodes:
       general_node:
         techs:
-          f1_salt_cavern_epr01_wtir01: {}
-          f1_aquifer_epr01_wtir01: {}
-          f1_depleted_gas_field_epr01_wtir01: {}
+          # f1_salt_cavern_epr01_wtir01: {}
+          # f1_aquifer_epr01_wtir01: {}
+          # f1_depleted_gas_field_epr01_wtir01: {}
           f1_lined_rock_cavern_epr01_wtir01: {}
   
   uhs_FX1:
     nodes:
       general_node:
         techs:
-          fx1_salt_cavern_epr01_wtir01: {}
-          fx1_aquifer_epr01_wtir01: {}
-          fx1_depleted_gas_field_epr01_wtir01: {}
+          # fx1_salt_cavern_epr01_wtir01: {}
+          # fx1_aquifer_epr01_wtir01: {}
+          # fx1_depleted_gas_field_epr01_wtir01: {}
           fx1_lined_rock_cavern_epr01_wtir01: {}
   
   uhs_FX2:
     nodes:
       general_node:
         techs:
-          fx2_salt_cavern_epr01_wtir01: {}
-          fx2_aquifer_epr01_wtir01: {}
-          fx2_depleted_gas_field_epr01_wtir01: {}
+          # fx2_salt_cavern_epr01_wtir01: {}
+          # fx2_aquifer_epr01_wtir01: {}
+          # fx2_depleted_gas_field_epr01_wtir01: {}
           fx2_lined_rock_cavern_epr01_wtir01: {}
 
-          fx2_salt_cavern_epr02_wtir01: {}
-          fx2_aquifer_epr02_wtir01: {}
-          fx2_depleted_gas_field_epr02_wtir01: {}
+          # fx2_salt_cavern_epr02_wtir01: {}
+          # fx2_aquifer_epr02_wtir01: {}
+          # fx2_depleted_gas_field_epr02_wtir01: {}
           fx2_lined_rock_cavern_epr02_wtir01: {}
   
   uhs_FX4:

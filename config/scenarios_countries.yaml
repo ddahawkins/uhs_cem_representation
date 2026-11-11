@@ -3,7 +3,7 @@ scenarios:
   # DEU: ['germany']
   # DNK: ['denmark']
   ESP: ['spain']
-  # FIN: ['finland']
+  FIN: ['finland']
   # FRA: ['france']
   # GBR: ['great_britain']
   # HUN: ['hungary']
@@ -57,3 +57,24 @@ overrides:
         flow_cap_max: 3331 #MW https://www.irena.org/-/media/Files/IRENA/Agency/Publication/2026/Mar/IRENA_DAT_RE_Capacity_Statistics_2026.pdf
         storage_cap_min: 104000 # MWh, https://www.ree.es/sites/default/files/14_OPERACION/Documentos/20250901_SpanishPeninsularPowerSystem_NRAA_ERAA24.pdf
         storage_cap_max: 104000 # MWh, https://www.ree.es/sites/default/files/14_OPERACION/Documentos/20250901_SpanishPeninsularPowerSystem_NRAA_ERAA24.pdf
+
+  finland:
+    techs:
+      solar:
+        flow_cap_min: 9351 #MW https://www.irena.org/-/media/Files/IRENA/Agency/Publication/2026/Mar/IRENA_DAT_RE_Capacity_Statistics_2026.pdf
+      onshore_wind:
+        flow_cap_min: 1566 #MW https://www.irena.org/-/media/Files/IRENA/Agency/Publication/2026/Mar/IRENA_DAT_RE_Capacity_Statistics_2026.pdf
+      offshore_wind:
+        flow_cap_min: 32 #MW https://www.irena.org/-/media/Files/IRENA/Agency/Publication/2026/Mar/IRENA_DAT_RE_Capacity_Statistics_2026.pdf
+      nuclear:
+        flow_cap_min: 4369 #MW, today src:=https://world-nuclear.org/nuclear-reactor-database/summary/Finland
+        flow_cap_max: 4369 #MW, today src:=https://world-nuclear.org/nuclear-reactor-database/summary/Finland
+      biomass:
+        flow_cap_min: 3776 #MW https://www.irena.org/-/media/Files/IRENA/Agency/Publication/2026/Mar/IRENA_DAT_RE_Capacity_Statistics_2026.pdf
+        flow_cap_max: 3776 #MW https://www.irena.org/-/media/Files/IRENA/Agency/Publication/2026/Mar/IRENA_DAT_RE_Capacity_Statistics_2026.pdf
+      hydro_run_of_river:
+        flow_cap_min: 3218 #MW https://www.irena.org/-/media/Files/IRENA/Agency/Publication/2026/Mar/IRENA_DAT_RE_Capacity_Statistics_2026.pdf
+        flow_cap_max: 3218 #MW https://www.irena.org/-/media/Files/IRENA/Agency/Publication/2026/Mar/IRENA_DAT_RE_Capacity_Statistics_2026.pdf
+      pumped_hydro:
+        storage_cap_max: 0 #MW https://www.irena.org/-/media/Files/IRENA/Agency/Publication/2026/Mar/IRENA_DAT_RE_Capacity_Statistics_2026.pdf
+  

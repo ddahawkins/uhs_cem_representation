@@ -26,46 +26,51 @@ EXPERIMENTS=(
     # 2009–2012
     # --------------------------------------------------------
 
-    # "NLD B1  weather_2009_3y"
-    "NLD P1  weather_2009_3y"
-    "NLD F1  weather_2009_3y"
-    "NLD FX1 weather_2009_3y"
+    "FIN B1  weather_2009_3y"
+    "FIN P1  weather_2009_3y"
+    "FIN F1  weather_2009_3y"
+    "FIN FX1 weather_2009_3y"
+    "FIN FX2 weather_2009_3y"
 
     # --------------------------------------------------------
     # 2012–2015
     # --------------------------------------------------------
 
-    # "NLD B1  weather_2012_3y"
-    "NLD P1  weather_2012_3y"
-    "NLD F1  weather_2012_3y"
-    "NLD FX1 weather_2012_3y"
+    "FIN B1  weather_2012_3y"
+    "FIN P1  weather_2012_3y"
+    "FIN F1  weather_2012_3y"
+    "FIN FX1 weather_2012_3y"
+    "FIN FX2 weather_2012_3y"
 
     # --------------------------------------------------------
     # 2015–2018
     # --------------------------------------------------------
 
-    # "NLD B1  weather_2015_3y"
-    "NLD P1  weather_2015_3y"
-    "NLD F1  weather_2015_3y"
-    "NLD FX1 weather_2015_3y"
+    "FIN B1  weather_2015_3y"
+    "FIN P1  weather_2015_3y"
+    "FIN F1  weather_2015_3y"
+    "FIN FX1 weather_2015_3y"
+    "FIN FX2 weather_2015_3y"
 
     # --------------------------------------------------------
     # 2018–2021
     # --------------------------------------------------------
 
-    # "NLD B1  weather_2018_3y"
-    "NLD P1  weather_2018_3y"
-    "NLD F1  weather_2018_3y"
-    "NLD FX1 weather_2018_3y"
+    "FIN B1  weather_2018_3y"
+    "FIN P1  weather_2018_3y"
+    "FIN F1  weather_2018_3y"
+    "FIN FX1 weather_2018_3y"
+    "FIN FX2 weather_2018_3y"
 
     # --------------------------------------------------------
     # 2021–2024
     # --------------------------------------------------------
 
-    # "NLD B1  weather_2021_3y"
-    "NLD P1  weather_2021_3y"
-    "NLD F1  weather_2021_3y"
-    "NLD FX1 weather_2021_3y"
+    "FIN B1  weather_2021_3y"
+    "FIN P1  weather_2021_3y"
+    "FIN F1  weather_2021_3y"
+    "FIN FX1 weather_2021_3y"
+    "FIN FX2 weather_2021_3y"
 
 )
 
