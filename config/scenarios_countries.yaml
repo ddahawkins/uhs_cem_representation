@@ -1,11 +1,11 @@
 scenarios:
   # AUT: ['austria']
-  # DEU: ['germany']
+  DEU: ['germany']
   # DNK: ['denmark']
   ESP: ['spain']
   FIN: ['finland']
   # FRA: ['france']
-  # GBR: ['great_britain']
+  GBR: ['great_britain']
   # HUN: ['hungary']
   NLD: ['netherlands']
   # POL: ['poland']
@@ -61,9 +61,9 @@ overrides:
   finland:
     techs:
       solar:
-        flow_cap_min: 9351 #MW https://www.irena.org/-/media/Files/IRENA/Agency/Publication/2026/Mar/IRENA_DAT_RE_Capacity_Statistics_2026.pdf
-      onshore_wind:
         flow_cap_min: 1566 #MW https://www.irena.org/-/media/Files/IRENA/Agency/Publication/2026/Mar/IRENA_DAT_RE_Capacity_Statistics_2026.pdf
+      onshore_wind:
+        flow_cap_min: 9351 #MW https://www.irena.org/-/media/Files/IRENA/Agency/Publication/2026/Mar/IRENA_DAT_RE_Capacity_Statistics_2026.pdf
       offshore_wind:
         flow_cap_min: 32 #MW https://www.irena.org/-/media/Files/IRENA/Agency/Publication/2026/Mar/IRENA_DAT_RE_Capacity_Statistics_2026.pdf
       nuclear:
@@ -78,3 +78,49 @@ overrides:
       pumped_hydro:
         storage_cap_max: 0 #MW https://www.irena.org/-/media/Files/IRENA/Agency/Publication/2026/Mar/IRENA_DAT_RE_Capacity_Statistics_2026.pdf
   
+  germany:
+    techs:
+      solar:
+        flow_cap_min: 106272 #MW https://www.irena.org/-/media/Files/IRENA/Agency/Publication/2026/Mar/IRENA_DAT_RE_Capacity_Statistics_2026.pdf
+      onshore_wind:
+        flow_cap_min: 68135 #MW https://www.irena.org/-/media/Files/IRENA/Agency/Publication/2026/Mar/IRENA_DAT_RE_Capacity_Statistics_2026.pdf
+        flow_cap_max: 105400 #MW geographical/siting potential https://publications.jrc.ec.europa.eu/repository/handle/JRC144438
+      offshore_wind:
+        flow_cap_min: 9673 #MW https://www.irena.org/-/media/Files/IRENA/Agency/Publication/2026/Mar/IRENA_DAT_RE_Capacity_Statistics_2026.pdf
+      nuclear:
+        flow_cap_max: 0 #MW, final reactors closed in 2023 https://www.bundesumweltministerium.de/themen/nukleare-sicherheit/aufsicht-ueber-atomkraftwerke/atomkraftwerke-in-deutschland
+      biomass:
+        flow_cap_min: 10067 #MW https://www.irena.org/-/media/Files/IRENA/Agency/Publication/2026/Mar/IRENA_DAT_RE_Capacity_Statistics_2026.pdf
+        flow_cap_max: 10067 #MW https://www.irena.org/-/media/Files/IRENA/Agency/Publication/2026/Mar/IRENA_DAT_RE_Capacity_Statistics_2026.pdf
+      hydro_run_of_river:
+        flow_cap_min: 5692 #MW, conventional hydro including reservoirs https://www.irena.org/-/media/Files/IRENA/Agency/Publication/2026/Mar/IRENA_DAT_RE_Capacity_Statistics_2026.pdf
+        flow_cap_max: 5692 #MW, conventional hydro including reservoirs https://www.irena.org/-/media/Files/IRENA/Agency/Publication/2026/Mar/IRENA_DAT_RE_Capacity_Statistics_2026.pdf
+      pumped_hydro:
+        flow_cap_min: 5339 #MW https://www.irena.org/-/media/Files/IRENA/Agency/Publication/2026/Mar/IRENA_DAT_RE_Capacity_Statistics_2026.pdf
+        flow_cap_max: 5339 #MW https://www.irena.org/-/media/Files/IRENA/Agency/Publication/2026/Mar/IRENA_DAT_RE_Capacity_Statistics_2026.pdf
+        storage_cap_min: 35000 #MWh, approximate domestic storage energy https://openenergytracker.org/docs/germany/storage/
+        storage_cap_max: 35000 #MWh, approximate domestic storage energy https://openenergytracker.org/docs/germany/storage/
+
+  great_britain:
+    techs:
+      solar:
+        flow_cap_min: 21662 #MW https://www.irena.org/-/media/Files/IRENA/Agency/Publication/2026/Mar/IRENA_DAT_RE_Capacity_Statistics_2026.pdf
+      onshore_wind:
+        flow_cap_min: 16431 #MW https://www.irena.org/-/media/Files/IRENA/Agency/Publication/2026/Mar/IRENA_DAT_RE_Capacity_Statistics_2026.pdf
+        flow_cap_max: 255900 #MW geographical/siting potential, JRC 2025 https://publications.jrc.ec.europa.eu/repository/handle/JRC139999
+      offshore_wind:
+        flow_cap_min: 16965 #MW https://www.irena.org/-/media/Files/IRENA/Agency/Publication/2026/Mar/IRENA_DAT_RE_Capacity_Statistics_2026.pdf
+      nuclear:
+        flow_cap_min: 5883 #MW https://world-nuclear.org/nuclear-reactor-database/summary/United%20Kingdom
+        flow_cap_max: 5883 #MW https://world-nuclear.org/nuclear-reactor-database/summary/United%20Kingdom
+      biomass:
+        flow_cap_min: 7824 #MW https://www.irena.org/-/media/Files/IRENA/Agency/Publication/2026/Mar/IRENA_DAT_RE_Capacity_Statistics_2026.pdf
+        flow_cap_max: 7824 #MW https://www.irena.org/-/media/Files/IRENA/Agency/Publication/2026/Mar/IRENA_DAT_RE_Capacity_Statistics_2026.pdf
+      hydro_run_of_river:
+        flow_cap_min: 2190 #MW, conventional hydro including reservoirs https://www.irena.org/-/media/Files/IRENA/Agency/Publication/2026/Mar/IRENA_DAT_RE_Capacity_Statistics_2026.pdf
+        flow_cap_max: 2190 #MW, conventional hydro including reservoirs https://www.irena.org/-/media/Files/IRENA/Agency/Publication/2026/Mar/IRENA_DAT_RE_Capacity_Statistics_2026.pdf
+      pumped_hydro:
+        flow_cap_min: 2600 #MW https://www.irena.org/-/media/Files/IRENA/Agency/Publication/2026/Mar/IRENA_DAT_RE_Capacity_Statistics_2026.pdf
+        flow_cap_max: 2600 #MW https://www.irena.org/-/media/Files/IRENA/Agency/Publication/2026/Mar/IRENA_DAT_RE_Capacity_Statistics_2026.pdf
+        storage_cap_min: 26700 #MWh https://publications.parliament.uk/pa/ld5804/ldselect/ldsctech/68/6805.htm
+        storage_cap_max: 26700 #MWh https://publications.parliament.uk/pa/ld5804/ldselect/ldsctech/68/6805.htm

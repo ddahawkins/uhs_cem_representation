@@ -88,14 +88,14 @@ overrides:
     nodes:
       general_node:
         techs:
-          # fx2_salt_cavern_epr01_wtir01: {}
-          # fx2_aquifer_epr01_wtir01: {}
-          # fx2_depleted_gas_field_epr01_wtir01: {}
+          fx2_salt_cavern_epr01_wtir01: {}
+          fx2_aquifer_epr01_wtir01: {}
+          fx2_depleted_gas_field_epr01_wtir01: {}
           fx2_lined_rock_cavern_epr01_wtir01: {}
 
-          # fx2_salt_cavern_epr02_wtir01: {}
-          # fx2_aquifer_epr02_wtir01: {}
-          # fx2_depleted_gas_field_epr02_wtir01: {}
+          fx2_salt_cavern_epr02_wtir01: {}
+          fx2_aquifer_epr02_wtir01: {}
+          fx2_depleted_gas_field_epr02_wtir01: {}
           fx2_lined_rock_cavern_epr02_wtir01: {}
   
   uhs_FX4:
