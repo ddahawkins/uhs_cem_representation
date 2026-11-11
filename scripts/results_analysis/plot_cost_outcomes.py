@@ -48,9 +48,10 @@ except ImportError:  # Allow direct execution from this directory.
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
-DEFAULT_INPUT_DIR = PROJECT_ROOT / "hpc" / "results_2h_no_coupling_bounds_no_lrc"
+DEFAULT_INPUT_DIR = PROJECT_ROOT / "hpc" / "results_2h_no_coupling_bounds"
 DEFAULT_OUTPUT_DIR = PROJECT_ROOT / "results" / "figures"
 EXPERIMENT_ORDER = ("B1", "P1", "F1", "FX1", "FX2")
+COUNTRIES = ("NLD","FIN")
 
 # Additional storage technologies. Geological variants and CAES are recognised
 # by the existing `_plots.storage_family` helper.
@@ -92,6 +93,7 @@ def read_case_costs(path: Path) -> dict[str, str | int | float]:
     """Read objective and ALL storage costs from one optimal model's results."""
     case = model_case(path)
     case["experiment"] = case["experiment"].upper()
+    case["country"] = case["country"].upper()
     with xr.open_dataset(path, group="results") as ds:
         for field in ("min_cost_optimisation", "cost"):
             if field not in ds:
@@ -271,7 +273,7 @@ def main() -> None:
         print(f"Reading {path.name}", flush=True)
         try:
             record = read_case_costs(path)
-            if record["experiment"] not in EXPERIMENT_ORDER:
+            if record["country"] not in COUNTRIES or record["experiment"] not in EXPERIMENT_ORDER:
                 warnings.warn(f"Skipping unselected representation: {path.name}",
                               stacklevel=2)
                 continue

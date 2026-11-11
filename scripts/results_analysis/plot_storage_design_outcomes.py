@@ -35,20 +35,23 @@ import numpy as np
 import pandas as pd
 
 try:
-    from ._plots import read_storage_investments
+    from ._plots import read_storage_investments, model_case
 except ImportError:  # Also allow `python storage_design_plots.py`.
-    from _plots import read_storage_investments
+    from _plots import read_storage_investments, model_case
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
-DEFAULT_INPUT_DIR = PROJECT_ROOT / "hpc" / "results_2h_no_coupling_bounds_no_lrc"
+DEFAULT_INPUT_DIR = PROJECT_ROOT / "hpc" / "results_2h_no_coupling_bounds"
 DEFAULT_OUTPUT_DIR = PROJECT_ROOT / "results" / "figures"
+COUNTRIES = ("NLD",)
 
 TECHNOLOGY_ORDER = (
     "compressed_air_storage", "lined_rock_cavern", "salt_cavern",
     "aquifer", "depleted_gas_field",
 )
 TECHNOLOGY_LABELS = {
+    # "battery_4h": "4h Battery",
+    # "battery_8h": "8h Battery",
     "compressed_air_storage": "CAES",
     "lined_rock_cavern": "Lined rock cavern",
     "salt_cavern": "Salt cavern",
@@ -57,6 +60,8 @@ TECHNOLOGY_LABELS = {
 }
 # Fixed technology shapes across runs and figures.
 TECHNOLOGY_MARKERS = {
+    # "battery_4h": "o",
+    # "battery_8h": "o",
     "compressed_air_storage": "^",
     "lined_rock_cavern": "v",
     "salt_cavern": "o",
@@ -152,10 +157,10 @@ def _plot_scatter(
         handlelength=1.05, handletextpad=0.35,
         columnspacing=1.35, borderaxespad=0,
     )
-    fig.text(0.105, 0.945, "Technology", va="center", fontsize=10, weight="semibold")
+    fig.text(0.105, 0.945, "Technology", va="center", fontsize=10, weight="700")
     fig.legend(handles=tech_handles, bbox_to_anchor=(0.255, 0.945),
                ncol=len(tech_handles), **legend_style)
-    fig.text(0.105, 0.9, "Representation", va="center", fontsize=10, weight="semibold")
+    fig.text(0.105, 0.9, "Representation", va="center", fontsize=10, weight="700")
     fig.legend(handles=exp_handles, bbox_to_anchor=(0.255, 0.9),
                ncol=len(exp_handles), **legend_style)
 
@@ -202,6 +207,10 @@ def main() -> None:
     for path in files:
         print(f"Reading {path}", flush=True)
         try:
+            country =  model_case(path)["country"].upper()
+            if country not in COUNTRIES:
+                warnings.warn(f"Skipping unselected representation: {path.name}",stacklevel=2)
+                continue
             frame = read_storage_investments(path)
         except Exception as exc:
             warnings.warn(f"Skipping {path.name}: {type(exc).__name__}: {exc}")

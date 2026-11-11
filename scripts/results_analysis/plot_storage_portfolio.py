@@ -6,8 +6,7 @@ Run from the project root::
 
 Or select countries and export PNG copies::
 
-    pixi run python -m scripts.results_analysis.storage_portfolio_b1_fx1 \
-        --countries NLD ESP --png
+    pixi run python -m scripts.results_analysis.plot_storage_portfolio --countries NLD
 
 Reads hpc/results_2h/*.nc and saves one PDF per country to results/figures/.
 Each weather window has adjacent B1 and FX1 stacked bars; there is no averaging
@@ -44,7 +43,7 @@ except ImportError:  # Support running directly beside _plots.py.
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
-DEFAULT_INPUT_DIR = PROJECT_ROOT / "hpc" / "results_2h_no_coupling_bounds_no_lrc"
+DEFAULT_INPUT_DIR = PROJECT_ROOT / "hpc" / "results_2h_no_coupling_bounds"
 DEFAULT_OUTPUT_DIR = PROJECT_ROOT / "results" / "figures"
 
 EXPERIMENTS = ("B1", "FX1")
@@ -308,7 +307,7 @@ def plot_country(
                 frameon=False, fontsize=10, handlelength=1.25,
                 columnspacing=1.4, labelspacing=0.8,
             )
-        fig.text(0.10, 0.745, country, fontsize=11, weight="semibold")
+        fig.text(0.10, 0.745, country, fontsize=11, weight="700")
 
         output_dir.mkdir(parents=True, exist_ok=True)
         path = output_dir / f"storage_portfolio_{country}_b1_vs_fx1.pdf"

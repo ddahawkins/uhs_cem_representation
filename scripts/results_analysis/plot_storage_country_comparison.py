@@ -2,8 +2,7 @@
 
 Run from the project root::
 
-    pixi run python -m scripts.results_analysis.plot_storage_country_comparison `
-    --countries NLD ESP
+    pixi run python -m scripts.results_analysis.plot_storage_country_comparison --countries NLD FIN
 
 Default input:  hpc/results_2h/*.nc
 Default output: results/figures/storage_capacity_by_country.pdf
@@ -46,13 +45,12 @@ except ImportError:  # Allow running the file directly beside _plots.py.
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
-DEFAULT_INPUT_DIR = PROJECT_ROOT / "hpc" / "results_2h_no_coupling_bounds_no_lrc"
+DEFAULT_INPUT_DIR = PROJECT_ROOT / "hpc" / "results_2h_no_coupling_bounds"
 DEFAULT_OUTPUT_DIR = PROJECT_ROOT / "results" / "figures"
 
 EXPERIMENTS = ("B1", "FX1")
 
 TECHNOLOGY_ORDER = (
-    "battery_2h",
     "battery_4h",
     "battery_8h",
     "compressed_air_storage",
@@ -62,7 +60,6 @@ TECHNOLOGY_ORDER = (
     "depleted_gas_field",
 )
 TECHNOLOGY_SHORT = {
-    "battery_2h": "Bat\n2h",
     "battery_4h": "Bat\n4h",
     "battery_8h": "Bat\n8h",
     "compressed_air_storage": "CAES",
@@ -70,9 +67,7 @@ TECHNOLOGY_SHORT = {
     "salt_cavern": "SC",
     "aquifer": "SA",
     "depleted_gas_field": "DGF",
-    "pumped_hydro_storage": "PHS",
 }
-PHS_IDS = {"pumped_hydro", "pumped_hydro_storage", "pumped_storage"}
 WEATHER_MARKERS = ("o", "s", "D", "^", "v", "P", "X", "h", "<", ">")
 PLASMA = plt.get_cmap("plasma")
 # Retain positions in the established B1, P1, F1, FX1, FX2, FX4 progression.
@@ -94,8 +89,6 @@ def _technology_family(tech_id: str) -> str | None:
     identity = tech_id.lower()
     if identity in TECHNOLOGY_ORDER:
         return identity
-    if identity in PHS_IDS:
-        return "pumped_hydro_storage"
     return storage_family(identity)
 
 
@@ -124,7 +117,7 @@ def read_case_capacities(path: Path) -> pd.DataFrame:
                 capacity_by_family.get(family, 0.0) + max(0.0, installed)
             )
 
-    all_categories = (*TECHNOLOGY_ORDER, "pumped_hydro_storage")
+    all_categories = (*TECHNOLOGY_ORDER,)
     return pd.DataFrame([
         {
             "country": details["country"].upper(),
@@ -233,7 +226,7 @@ def plot_comparison(
     y_scale: str = "linear",
     png: bool = False,
 ) -> tuple[Path, ...]:
-    """Country -> technology -> representation, with aligned weather markers."""
+    """Stack countries vertically with a shared technology x-axis."""
     if frame.empty:
         raise ValueError("No storage capacity results to plot")
     if y_scale not in {"linear", "symlog"}:
@@ -245,8 +238,10 @@ def plot_comparison(
         [country for country in country_order if country in set(frame["country"])]
         if country_order else sorted(frame["country"].unique())
     )
+    if not countries:
+        raise ValueError("None of the requested countries have readable results")
     technologies = [
-        tech for tech in (*TECHNOLOGY_ORDER, "pumped_hydro_storage")
+        tech for tech in (*TECHNOLOGY_ORDER,)
         if tech in set(frame["technology"])
     ]
     weather_order = sorted(set(frame["weather"]), key=_weather_key)
@@ -256,44 +251,28 @@ def plot_comparison(
     }
 
     n_tech = len(technologies)
-    country_span = n_tech + 1.0
-    fig_width = max(12.4, 0.78 * n_tech * len(countries) + 2.4)
-    fig, ax = plt.subplots(figsize=(fig_width, 5.8))
-    fig.subplots_adjust(left=0.08, right=0.97, bottom=0.27, top=0.81)
-
-    positions: dict[tuple[str, str], float] = {}
-    tick_positions, tick_labels = [], []
-    for c_index, country in enumerate(countries):
-        start = c_index * country_span
-        stop = start + n_tech - 1
-        if c_index % 2:
-            ax.axvspan(start - 0.5, stop + 0.5, color="0.97", zorder=0)
-        if c_index:
-            ax.axvline(start - 1.0, color="0.75", linewidth=0.8, zorder=0)
-        for t_index, tech in enumerate(technologies):
-            x = start + t_index
-            positions[(country, tech)] = x
-            tick_positions.append(x)
-            tick_labels.append(TECHNOLOGY_SHORT[tech])
-        midpoint = (start + stop) / 2
-        ax.text(midpoint, -0.20, country, ha="center", va="top",
-                fontsize=11, weight="semibold",
-                transform=ax.get_xaxis_transform(), clip_on=False)
-        ax.plot([start - 0.35, stop + 0.35], [-0.14, -0.14],
-                color="0.65", linewidth=0.75,
-                transform=ax.get_xaxis_transform(), clip_on=False)
+    x_positions = np.arange(n_tech)
+    fig_width = max(11.5, 1.1 * n_tech + 2.5)
+    fig_height = 2.5 * len(countries) + 2.1
+    fig, axes = plt.subplots(
+        nrows=len(countries), ncols=1, sharex=True, squeeze=False,
+        figsize=(fig_width, fig_height),
+    )
+    axes = axes[:, 0]  # Remain iterable for a single-country plot.
+    fig.subplots_adjust(left=0.10, right=0.98, bottom=0.12,
+                        top=0.76, hspace=0.42)
 
     marker_count = 0
     median_count = 0
-    for country in countries:
-        for tech in technologies:
-            x_centre = positions[(country, tech)]
+    for ax, country in zip(axes, countries):
+        country_frame = frame.loc[frame["country"] == country]
+        for t_index, tech in enumerate(technologies):
+            x_centre = x_positions[t_index]
             for experiment, offset in (("B1", -0.19), ("FX1", 0.19)):
-                slot = frame.loc[
-                    (frame["country"] == country)
-                    & (frame["technology"] == tech)
-                    & (frame["experiment"] == experiment)
-                    & frame["available"]
+                slot = country_frame.loc[
+                    (country_frame["technology"] == tech)
+                    & (country_frame["experiment"] == experiment)
+                    & country_frame["available"]
                 ]
                 x = x_centre + offset
                 if slot.empty:
@@ -315,22 +294,28 @@ def plot_comparison(
                         solid_capstyle="butt", zorder=6)
                 median_count += 1
 
-    ax.set_xticks(tick_positions, tick_labels)
-    ax.tick_params(axis="x", length=0, pad=8, labelsize=9)
-    ax.tick_params(axis="y", labelsize=10, colors="0.25")
-    ax.set_xlim(-0.65, (len(countries) - 1) * country_span + n_tech - 0.35)
-    ax.set_ylabel("Installed storage energy capacity (TWh)", fontsize=10)
-    ax.spines[["top", "right"]].set_visible(False)
-    ax.spines[["left", "bottom"]].set_color("0.55")
-    ax.grid(axis="y", color="0.85", linewidth=0.7, alpha=0.7)
-    ax.set_axisbelow(True)
-    if y_scale == "symlog":
-        ax.set_yscale("symlog", linthresh=0.01, linscale=1.0)
-        ax.set_ylim(bottom=0)
-    else:
-        maximum = float(frame["capacity_TWh"].max())
-        maximum = maximum if math.isfinite(maximum) and maximum > 0 else 0.01
-        ax.set_ylim(-maximum * 0.04, maximum * 1.10)
+        ax.set_title(country, loc="left", fontsize=11, weight="bold", pad=7)
+        ax.tick_params(axis="y", labelsize=10, colors="0.25")
+        ax.set_xlim(-0.65, n_tech - 0.35)
+        ax.spines[["top", "right"]].set_visible(False)
+        ax.spines[["left", "bottom"]].set_color("0.55")
+        ax.grid(axis="y", color="0.85", linewidth=0.7, alpha=0.7)
+        ax.set_axisbelow(True)
+        # Each country's scale adapts to its own installed capacity. The
+        # technology positions, representation offsets and markers are shared.
+        country_max = float(country_frame["capacity_TWh"].max())
+        country_max = country_max if math.isfinite(country_max) and country_max > 0 else 0.01
+        if y_scale == "symlog":
+            ax.set_yscale("symlog", linthresh=0.01, linscale=1.0)
+            ax.set_ylim(bottom=0, top=country_max * 1.15)
+        else:
+            ax.set_ylim(-country_max * 0.04, country_max * 1.10)
+
+    # With sharex=True, only the bottom row needs category labels.
+    axes[-1].set_xticks(x_positions, [TECHNOLOGY_SHORT[tech] for tech in technologies])
+    axes[-1].tick_params(axis="x", length=0, pad=8, labelsize=10)
+    fig.supylabel("Installed storage energy capacity (TWh)", x=0.015,
+                 fontsize=11)
 
     rep_handles = [
         Line2D([], [], color="none", linestyle="none", marker="o", markersize=7,
@@ -344,20 +329,15 @@ def plot_comparison(
                label=_weather_label(weather))
         for weather in weather_order
     ]
-    fig.text(0.08, 0.945, "Representation", fontsize=10,
-             weight="semibold", va="center")
-    fig.legend(handles=rep_handles, loc="center left", bbox_to_anchor=(0.22, 0.945),
-               ncol=2, frameon=False, fontsize=10,
-               handlelength=1.0, columnspacing=1.3)
-    fig.text(0.08, 0.885, "Weather window", fontsize=10,
-             weight="semibold", va="center")
-    fig.legend(handles=weather_handles, loc="center left",
-               bbox_to_anchor=(0.22, 0.885),
-               ncol=min(8, len(weather_handles)), frameon=False, fontsize=9,
-               handlelength=1.0, columnspacing=1.25)
-    # An explicit key for the black summary bars.
-    fig.text(0.83, 0.945, "Black bars: median", fontsize=9,
-             color="0.2", va="center")
+    median_handle = Line2D([], [], color="black", linewidth=2.3, label="Median")
+    fig.legend(handles=[*rep_handles, median_handle], loc="upper left",
+               bbox_to_anchor=(0.095, 0.995), ncol=3, frameon=False,
+               title="Representation / summary", fontsize=10,
+               handlelength=1.0, columnspacing=1.5)
+    fig.legend(handles=weather_handles, loc="upper left",
+               bbox_to_anchor=(0.095, 0.90),
+               ncol=min(6, len(weather_handles)), frameon=False, fontsize=9,
+               title="Weather window", handlelength=1.0, columnspacing=1.4)
 
     output_path.parent.mkdir(parents=True, exist_ok=True)
     fig.savefig(output_path, bbox_inches="tight")
