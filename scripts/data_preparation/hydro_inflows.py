@@ -3,7 +3,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-country = "DEU"
+country = "GBR"
 
 root = Path("C:/dev/modelblocks/module_hydropower")
 
