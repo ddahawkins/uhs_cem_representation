@@ -6,7 +6,7 @@ Run from the project root::
 
 Or select countries and export PNG copies::
 
-    pixi run python -m scripts.results_analysis.plot_storage_portfolio --countries FIN
+    pixi run python -m scripts.results_analysis.plot_storage_portfolio --countries ESP DEU --input-dir "hpc/results_2h_with_hydro"
 
 Reads hpc/results_2h/*.nc and saves one PDF per country to results/figures/.
 Each weather window has adjacent B1 and FX1 stacked bars; there is no averaging

@@ -4,6 +4,8 @@ Run from the project root::
 
     pixi run python -m scripts.results_analysis.plot_storage_country_comparison --countries NLD FIN
 
+    pixi run python -m scripts.results_analysis.plot_storage_country_comparison --countries DEU ESP --input-dir "hpc/results_2h_with_hydro"
+
 Default input:  hpc/results_2h/*.nc
 Default output: results/figures/storage_capacity_by_country.pdf
 
