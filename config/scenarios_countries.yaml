@@ -142,9 +142,6 @@ overrides:
       biomass:
         flow_cap_min: 7824 #MW https://www.irena.org/-/media/Files/IRENA/Agency/Publication/2026/Mar/IRENA_DAT_RE_Capacity_Statistics_2026.pdf
         flow_cap_max: 7824 #MW https://www.irena.org/-/media/Files/IRENA/Agency/Publication/2026/Mar/IRENA_DAT_RE_Capacity_Statistics_2026.pdf
-      hydro_run_of_river:
-        flow_cap_min: 2190 #MW, conventional hydro including reservoirs https://www.irena.org/-/media/Files/IRENA/Agency/Publication/2026/Mar/IRENA_DAT_RE_Capacity_Statistics_2026.pdf
-        flow_cap_max: 2190 #MW, conventional hydro including reservoirs https://www.irena.org/-/media/Files/IRENA/Agency/Publication/2026/Mar/IRENA_DAT_RE_Capacity_Statistics_2026.pdf
       pumped_hydro:
         flow_in_cap_min: 2600 #MW https://www.irena.org/-/media/Files/IRENA/Agency/Publication/2026/Mar/IRENA_DAT_RE_Capacity_Statistics_2026.pdf
         flow_in_cap_max: 2600 #MW https://www.irena.org/-/media/Files/IRENA/Agency/Publication/2026/Mar/IRENA_DAT_RE_Capacity_Statistics_2026.pdf
@@ -152,3 +149,11 @@ overrides:
         flow_out_cap_max: 2600 #MW https://www.irena.org/-/media/Files/IRENA/Agency/Publication/2026/Mar/IRENA_DAT_RE_Capacity_Statistics_2026.pdf
         storage_cap_min: 26700 #MWh https://publications.parliament.uk/pa/ld5804/ldselect/ldsctech/68/6805.htm
         storage_cap_max: 26700 #MWh https://publications.parliament.uk/pa/ld5804/ldselect/ldsctech/68/6805.htm
+      hydro_run_of_river:
+        flow_cap_min: 953.6 #MW, ModelBlocks adjusted hydropower inventory
+        flow_cap_max: 953.6 #MW, ModelBlocks adjusted hydropower inventory
+      hydro_reservoir:
+        flow_cap_min: 693.8 #MW, ModelBlocks adjusted hydropower inventory
+        flow_cap_max: 693.8 #MW, ModelBlocks adjusted hydropower inventory
+        storage_cap_min: 900000 #MWh, https://british-hydro.org/hydropower-in-the-uk/ Accessed: 12/Nov/2026
+        storage_cap_max: 900000 #MWh, https://british-hydro.org/hydropower-in-the-uk/ Accessed: 12/Nov/2026
