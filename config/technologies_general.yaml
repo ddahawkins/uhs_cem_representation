@@ -131,11 +131,11 @@ techs:
     # https://raw.githubusercontent.com/PyPSA/technology-data/master/outputs/costs_2030.csv
     lifetime: 40
     cost_flow_cap:                    # 10805.7038 EUR/kW
-      data: 10.8057038
+      data: 0 #10.8057038             #non-investable, so capex removed
       index: monetary
       dims: costs
     cost_om_annual:                   # 1.27%/yr * CAPEX
-      data: 0.1372324383
+      data: 0 #0.1372324383           #non-investable, so annual opex removed
       index: monetary
       dims: costs
     cost_flow_out:                    # 4.459 + 7.4536 / 0.326 = 27.3228 EUR/MWh_e
@@ -155,11 +155,11 @@ techs:
     # https://raw.githubusercontent.com/PyPSA/technology-data/master/outputs/costs_2030.csv
     lifetime: 25
     cost_flow_cap:                    # 4474.2578 EUR/kW_e
-      data: 4.4742578
+      data: 0 #4.4742578              #non-investable, so capex removed
       index: monetary
       dims: costs
     cost_om_annual:                   # 2.8661%/yr * CAPEX
-      data: 0.1282367028
+      data: 0 #0.1282367028           #non-investable, so annual opex removed
       index: monetary
       dims: costs
     cost_flow_out:                    # 6.1237 + 17.3312 / 0.2699 = 70.3371 EUR/MWh_e
@@ -189,25 +189,55 @@ techs:
     name: "Run-of-River Hydro"
     base_tech: supply
     carrier_out: power
-    source_unit: per_cap
+    source_unit: absolute
     source_eff: 1.0
     # Source: PyPSA technology-data 2030, `ror`.
     # PyPSA notes these are legacy DIW / IEA assumptions.
     # https://raw.githubusercontent.com/PyPSA/technology-data/master/outputs/costs_2030.csv
     lifetime: 80
     cost_flow_cap:                    # 4332.7919 EUR/kW_el
-      data: 4.3327919
+      data: 0 #4.3327919              #non-investable, so capex removed
       index: monetary
       dims: costs
     cost_om_annual:                   # 2.0%/yr * CAPEX
-      data: 0.0866558380
-      index: monetary
-      dims: costs
-    cost_flow_out:
-      data: 0.0                       # No RoR VOM supplied
+      data: 0 #0.0866558380           #non-investable, so annual opex removed
       index: monetary
       dims: costs
 
+    # ===========================================================================
+  # CONVENTIONAL RESERVOIR HYDRO
+  #
+  # Existing dispatchable hydropower supplied by natural reservoir inflows.
+  #
+  # Turbine capacity and usable reservoir energy capacity are fixed using
+  # country-specific overrides.
+  #
+  # source_use_max represents natural inflow in MWh per timestep,
+  # derived from ModelBlocks reservoir_inflow_pu.
+  #
+  # source_eff = 1 because inflows are already expressed as electrical
+  # energy equivalents; turbine efficiency is not applied a second time.
+  #
+  # ===========================================================================
+
+  hydro_reservoir:
+    name: "Conventional Reservoir Hydro"
+    base_tech: supply
+    carrier_out: power
+    source_unit: absolute
+    source_eff: 1.0
+    include_storage: true
+    cyclic_storage: true
+    storage_loss: 0.0
+    lifetime: 80
+    cost_flow_cap:                    # 4332.7919 EUR/kW_el
+      data: 0 #4.3327919              #non-investable, so capex removed
+      index: monetary
+      dims: costs
+    cost_om_annual:                   # 2.0%/yr * CAPEX
+      data: 0 #0.0866558380           #non-investable, so annual opex removed
+      index: monetary
+      dims: costs
 
   # ===========================================================================
   # CONVENTIONAL ELECTRICITY STORAGE
@@ -406,27 +436,27 @@ techs:
     flow_out_eff: 0.8944
     storage_loss: 0.0
     cost_flow_in_cap: # 50% of 1.7566579565 MEUR/MW bicharger CAPEX
-        data: 0.8783289783
+        data: 0 #0.8783289783       #non-investable, so capex removed
         index: monetary
         dims: costs
     cost_om_annual_flow_in_cap: # 50% of power-component FOM: 1.7566579565 * 0.9951% / 2
-        data: 0.0087402517
+        data: 0 #0.0087402517       #non-investable, so annual opex removed
         index: monetary
         dims: costs
     cost_flow_out_cap: # 50% of 1.7566579565 MEUR/MW bicharger CAPEX
-        data: 0.8783289783
+        data: 0 #0.8783289783       #non-investable, so capex removed
         index: monetary
         dims: costs
     cost_om_annual_flow_out_cap: # 50% of power-component FOM: 1.7566579565 * 0.9951% / 2
-        data: 0.0087402517
+        data: 0 #0.0087402517       #non-investable, so capex removed
         index: monetary
         dims: costs
     cost_storage_cap: # 71,761.1936 EUR/MWh
-        data: 0.0717611936
+        data: 0 #0.0717611936       #non-investable, so capex removed
         index: monetary
         dims: costs
     cost_om_annual_storage_cap: # 0.43%/yr * storage CAPEX
-        data: 0.0003085731
+        data: 0 #0.0003085731       #non-investable, so annual opex removed
         index: monetary
         dims: costs
 

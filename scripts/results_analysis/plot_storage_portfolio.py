@@ -2,7 +2,7 @@
 
 Run from the project root::
 
-    pixi run python -m scripts.results_analysis.storage_portfolio_b1_fx1
+    pixi run python -m scripts.results_analysis.plot_storage_portfolio
 
 Or select countries and export PNG copies::
 
@@ -43,7 +43,7 @@ except ImportError:  # Support running directly beside _plots.py.
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
-DEFAULT_INPUT_DIR = PROJECT_ROOT / "hpc" / "results_2h_no_coupling_bounds"
+DEFAULT_INPUT_DIR = PROJECT_ROOT / "results" / "results_2h_no_coupling_bounds"
 DEFAULT_OUTPUT_DIR = PROJECT_ROOT / "results" / "figures"
 
 EXPERIMENTS = ("B1", "FX1")

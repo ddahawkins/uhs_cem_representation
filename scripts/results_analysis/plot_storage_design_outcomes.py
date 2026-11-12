@@ -2,7 +2,7 @@
 
 From the project root::
 
-    pixi run python -m scripts.results_analysis.storage_design_plots
+    pixi run python -m scripts.results_analysis.plot_storage_design_outcomes
 
 Defaults:
   input:  hpc/results_2h/*.nc
@@ -10,8 +10,8 @@ Defaults:
 
 Optional::
 
-    pixi run python -m scripts.results_analysis.storage_design_plots \
-        --input-dir hpc/results_2h --output-dir results/figures
+    pixi run python -m scripts.results_analysis.plot_storage_design_outcomes `
+        --input-dir results/dev/all_uhs_techs --output-dir results/figures
 
 Place this file and _plots.py in scripts/results_analysis/.
 The figures deliberately omit batteries, but include CAES and every invested
