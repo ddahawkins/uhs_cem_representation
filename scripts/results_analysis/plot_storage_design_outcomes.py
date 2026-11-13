@@ -238,11 +238,11 @@ def plot_design_outcomes(points: pd.DataFrame, *, output_dir: Path, png: bool = 
             figsize=(FIGURE_MM[0] * MM_TO_INCH, FIGURE_MM[1] * MM_TO_INCH),
             squeeze=False, sharex=False, sharey=False,
         )
-        fig.subplots_adjust(left=0.05, right=1, bottom=0.1,
-                            top=0.9, wspace=0.1, hspace=0.55)
+        fig.subplots_adjust(left=0.05, right=1, bottom=0.11,
+                            top=0.88, wspace=0.1, hspace=0.55)
         for col, (_metric, heading) in enumerate(METRICS):
             pos = axes[0, col].get_position()
-            fig.text(pos.x0 + pos.width / 2, 1, heading,
+            fig.text(pos.x0 + pos.width / 2, .99, heading,
                      ha="center", va="top", fontsize=9.5, weight="bold")
 
         for row, (family, title) in enumerate(TECHNOLOGIES):
