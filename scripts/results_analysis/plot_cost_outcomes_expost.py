@@ -1,27 +1,36 @@
-"""Ex-post comparison of CEM-represented and detailed UHS investment totals (Calliope 0.7).
+"""Compare economic benefits and ex-post UHS costing consequences (Calliope 0.7).
 
-Three-stage, dependency-isolated workflow.
+Two 90 mm, one-axis paper figures with paired offset SYSTEM/STORAGE cost points:
 
-Stage 1, in the CEM environment::
-  pixi run python -m scripts.results_analysis.plot_cost_outcomes_expost export `
-      --countries NLD DEU GBR
+  1. expost_economic_benefit.pdf: ORIGINAL model costs relative to each
+     country/weather's B1 benchmark. The default is percent change;
+     --benefit-unit ratio restores relative costs (B1 = 1).
+  2. expost_repricing_impact.pdf: percent changes caused by repricing the
+     selected UHS installations ex post. Zero means no repricing adjustment.
 
-Stage 2, in the UHS cost-model environment::
+Both figures use no jitter: every weather/country case falls at its exact
+formulation + channel offset. Black segments indicate channel medians.
+The representation check flags cases whose EX-POST CORRECTED system cost exceeds
+its paired EX-POST CORRECTED B1 benchmark. This is not re-optimisation.
+
+Three-stage workflow (keep the original cost-model repricer):
+  # CEM environment
+  pixi run python -m scripts.results_analysis.plot_cost_outcomes_expost export --countries NLD
+
+  # UHS cost-model environment
   pixi run python ../uhs_cem_representation/scripts/results_analysis/reprice_uhs_designs.py `
-      --input ../uhs_cem_representation/results/costs_expost/expost_uhs_designs.csv `
-      --output ../uhs_cem_representation/results/costs_expost/expost_uhs_repriced.csv `
-      --cost-module scripts/experiments/cost_rates.py `
-      --cost-samples outputs/cost_rate_samples/uhs_cost_rates.parquet
+    --input ../uhs_cem_representation/results/costs_expost/expost_uhs_designs.csv `
+    --output ../uhs_cem_representation/results/costs_expost/expost_uhs_repriced.csv `
+    --cost-module scripts/experiments/cost_rates.py `
+    --cost-samples outputs/cost_rate_samples/uhs_cost_rates.parquet
 
-Stage 3, back in the CEM environment::
-  pixi run python -m scripts.results_analysis.plot_cost_outcomes_expost plot `
-      --countries NLD DEU GBR
+  # CEM environment
+  pixi run python -m scripts.results_analysis.plot_cost_outcomes_expost plot --countries NLD
 
-IMPORTANT: This is an EX-POST accounting adjustment, not re-optimisation. Only
-UHS annualised investment costs are re-priced. Other investments, dispatch,
-fixed and variable operating costs, and system constraints are held unchanged.
-The main figure compares original and ex-post corrected relative costs side by
-side, anonymised across country-weather cases.
+The original-cost figure can also be made with only the first stage's CSVs;
+the correction figure is skipped until ex-post repricing is available.
+For comparison, B1 is matched separately for EACH country and weather window.
+Only annualised UHS investment is re-priced; no re-optimisation takes place.
 """
 from __future__ import annotations
 
@@ -34,10 +43,11 @@ from pathlib import Path
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
-from matplotlib.lines import Line2D
 import numpy as np
 import pandas as pd
 import xarray as xr
+from matplotlib.lines import Line2D
+from matplotlib.ticker import FuncFormatter, MaxNLocator, MultipleLocator
 
 try:
     from ._plots import model_case, storage_family, capacity_for_tech
@@ -51,10 +61,15 @@ EXPERIMENT_ORDER = ("B1", "P1", "F1", "FX1",)
 UHS = ("salt_cavern", "aquifer", "depleted_gas_field", "lined_rock_cavern")
 LABEL = {"salt_cavern": "SC", "aquifer": "SA", "depleted_gas_field": "DGF", "lined_rock_cavern": "LRC"}
 BATTERY_RE = re.compile(r"battery_\d+(?:\.\d+)?h$", re.I)
-FONT_SIZE = 10
-FIG_W = 3.5
-ORIGINAL_COLOR = "0.55"
-CORRECTED_COLOR = plt.get_cmap("plasma")(0.7)
+FONT_SIZE = 9
+FIGURE_WIDTH_MM = 90
+DEFAULT_HEIGHT_MM = 90
+MM_TO_INCH = 1 / 25.4
+PLASMA = plt.get_cmap("plasma")
+CHANNEL_COLOURS = {"system": PLASMA(0.16), "storage": PLASMA(0.73)}
+CHANNEL_MARKERS = {"system": "o", "storage": "s"}
+CHANNEL_LABELS = {"system": "Total System cost", "storage": "Total Storage cost"}
+EXPERIMENT_LABELS = {"B1": "B", "P1": "P", "F1": "F", "FX1": "FX"}
 
 
 def _is_storage(t: str) -> bool:
@@ -243,105 +258,185 @@ def attach_corrections(cases: pd.DataFrame, designs: pd.DataFrame, repriced: pd.
 
 
 def compare_b1(cases: pd.DataFrame) -> pd.DataFrame:
+    """Pair each scenario with its own B1, independently of correction success.
+
+    Original comparisons must NOT be filtered on available ex-post repricing.
+    A corrected comparison requires complete repricing of both its own result
+    and the paired B1 result.
+    """
     reference = cases.loc[cases["experiment"] == "B1", [
         "country", "weather", "system_cost", "storage_cost",
-        "system_cost_corrected", "storage_cost_corrected", "correction_complete"]].copy()
+        "system_cost_corrected", "storage_cost_corrected", "correction_complete",
+    ]].copy()
     reference = reference.rename(columns={
         "system_cost": "b1_system", "storage_cost": "b1_storage",
-        "system_cost_corrected": "b1_system_corrected", "storage_cost_corrected": "b1_storage_corrected",
-        "correction_complete": "b1_complete"})
+        "system_cost_corrected": "b1_system_corrected",
+        "storage_cost_corrected": "b1_storage_corrected",
+        "correction_complete": "b1_complete",
+    })
     if reference.duplicated(["country", "weather"]).any():
-        raise ValueError("Duplicate B1 benchmark")
+        raise ValueError("Duplicate B1 benchmark for country/weather")
     pairs = cases.merge(reference, on=["country", "weather"], how="left", validate="many_to_one")
-    valid = (pairs["correction_complete"] & pairs["b1_complete"].fillna(False) &
-             (pairs["b1_system"] > 0) & (pairs["b1_storage"] > 0) &
-             (pairs["b1_system_corrected"] > 0) & (pairs["b1_storage_corrected"] > 0))
-    pairs["matched"] = valid
+    valid_original = (
+        (pairs["b1_system"] > 0) & (pairs["b1_storage"] > 0)
+        & np.isfinite(pairs["system_cost"]) & np.isfinite(pairs["storage_cost"])
+    )
+    valid_corrected = (
+        valid_original & pairs["correction_complete"].fillna(False)
+        & pairs["b1_complete"].fillna(False)
+        & (pairs["b1_system_corrected"] > 0)
+        & (pairs["b1_storage_corrected"] > 0)
+        & np.isfinite(pairs["system_cost_corrected"])
+        & np.isfinite(pairs["storage_cost_corrected"])
+    )
+    pairs["matched_original"] = valid_original
+    pairs["matched_corrected"] = valid_corrected
+    pairs["matched"] = valid_corrected  # retain legacy downstream CSV name
     for component in ("system", "storage"):
-        pairs[f"{component}_original_relative"] = np.where(valid, pairs[f"{component}_cost"] / pairs[f"b1_{component}"], np.nan)
-        pairs[f"{component}_corrected_relative"] = np.where(valid, pairs[f"{component}_cost_corrected"] / pairs[f"b1_{component}_corrected"], np.nan)
+        pairs[f"{component}_original_relative"] = np.where(
+            valid_original,
+            pairs[f"{component}_cost"] / pairs[f"b1_{component}"], np.nan,
+        )
+        pairs[f"{component}_corrected_relative"] = np.where(
+            valid_corrected,
+            pairs[f"{component}_cost_corrected"] / pairs[f"b1_{component}_corrected"],
+            np.nan,
+        )
+        pairs[f"{component}_original_change_pct"] = 100 * (
+            pairs[f"{component}_original_relative"] - 1.0
+        )
+    pairs["corrected_system_exceeds_b1"] = (
+        valid_corrected & (pairs["system_corrected_relative"] > 1.0 + 1e-9)
+    )
     return pairs
 
 
-def _series_values(data: pd.DataFrame, experiment: str, field: str) -> np.ndarray:
-    vals = pd.to_numeric(data.loc[data["experiment"] == experiment, field], errors="coerce").to_numpy(float)
-    return vals[np.isfinite(vals)]
+def _values(frame: pd.DataFrame, experiment: str, column: str) -> np.ndarray:
+    values = pd.to_numeric(
+        frame.loc[frame["experiment"] == experiment, column], errors="coerce"
+    ).to_numpy(float)
+    return values[np.isfinite(values)]
 
 
-def _combined_panel(ax, data: pd.DataFrame, field_original: str, field_corrected: str, ylabel: str, *, baseline: float = 1.0) -> None:
-    ax.axhline(baseline, color="0.5", ls=(0, (3, 2)), lw=.8, zorder=1)
-    ax.grid(axis="y", color="0.88", lw=.55, zorder=0)
-    all_vals: list[float] = []
-    offset = 0.16
-    median_half = 0.11
-    for i, exp in enumerate(EXPERIMENT_ORDER):
-        orig = _series_values(data, exp, field_original)
-        corr = _series_values(data, exp, field_corrected)
-        if orig.size:
-            x = np.full(orig.size, i - offset)
-            ax.scatter(x, orig, s=24, marker="o", facecolors="white", edgecolors=ORIGINAL_COLOR,
-                       linewidths=.9, alpha=.95, zorder=3)
-            ax.hlines(np.median(orig), i - offset - median_half, i - offset + median_half,
-                      color=ORIGINAL_COLOR, lw=2.0, zorder=4)
-            all_vals.extend(orig.tolist())
-        if corr.size:
-            x = np.full(corr.size, i + offset)
-            ax.scatter(x, corr, s=24, marker="o", facecolors=[CORRECTED_COLOR], edgecolors="0.2",
-                       linewidths=.35, alpha=.82, zorder=3)
-            ax.hlines(np.median(corr), i + offset - median_half, i + offset + median_half,
-                      color="black", lw=2.0, zorder=4)
-            all_vals.extend(corr.tolist())
-    if not all_vals:
-        ax.text(.5, .5, "No complete paired cases", transform=ax.transAxes, ha="center", va="center")
-    else:
-        low, high = min(min(all_vals), baseline), max(max(all_vals), baseline)
-        pad = max((high - low) * .12, .02 if baseline == 1 else .15)
-        ax.set_ylim(low - pad, high + pad)
-    ax.set_xlim(-.5, len(EXPERIMENT_ORDER) - .5)
-    ax.spines[["top", "right"]].set_visible(False)
-    ax.set_ylabel(ylabel, labelpad=5)
-    ax.tick_params(direction="out", length=3)
-
-
-def plot_combined_relative_costs(cases: pd.DataFrame, output: Path) -> None:
-    with plt.rc_context({"font.size": FONT_SIZE, "axes.labelsize": FONT_SIZE,
-                         "xtick.labelsize": FONT_SIZE, "ytick.labelsize": FONT_SIZE,
-                         "legend.fontsize": FONT_SIZE, "pdf.fonttype": 42}):
-        fig, axs = plt.subplots(2, 1, figsize=(FIG_W, 5.15), sharex=True)
-        fig.subplots_adjust(left=.28, right=.97, bottom=.11, top=.89, hspace=.2)
-        _combined_panel(axs[0], cases, "system_original_relative", "system_corrected_relative", "Relative system cost", baseline=1.0)
-        _combined_panel(axs[1], cases, "storage_original_relative", "storage_corrected_relative", "Relative storage cost", baseline=1.0)
-        axs[1].set_xticks(range(len(EXPERIMENT_ORDER)), EXPERIMENT_ORDER)
-        axs[1].set_xlabel("Representation")
-        axs[0].tick_params(axis="x", bottom=False)
-        handles = [
-            Line2D([], [], marker="o", linestyle="none", markerfacecolor="white", markeredgecolor=ORIGINAL_COLOR,
-                   markeredgewidth=.9, markersize=5, label="Original"),
-            Line2D([], [], marker="o", linestyle="none", markerfacecolor=CORRECTED_COLOR, markeredgecolor="0.2",
-                   markeredgewidth=.35, markersize=5, label="Ex post corrected"),
-            Line2D([], [], color="black", lw=2.0, label="Median"),
+def _plot_cost_channels(
+    data: pd.DataFrame,
+    output: Path,
+    fields: dict[str, str],
+    *,
+    ylabel: str,
+    reference: float,
+    height_mm: float,
+    svg: bool,
+    mark_crossings: bool = False,
+) -> None:
+    """One Axes, with system and storage at side-by-side x offsets for each formulation."""
+    used = []
+    offset = 0.17
+    median_width = 0.115
+    with plt.rc_context({
+        "font.size": FONT_SIZE, "axes.labelsize": FONT_SIZE,
+        "xtick.labelsize": FONT_SIZE, "ytick.labelsize": FONT_SIZE,
+        "legend.fontsize": FONT_SIZE, "pdf.fonttype": 42,
+        "svg.fonttype": "none",
+    }):
+        fig, ax = plt.subplots(figsize=(FIGURE_WIDTH_MM * MM_TO_INCH, height_mm * MM_TO_INCH))
+        fig.subplots_adjust(left=0.14, right=0.99, top=0.9, bottom=0.1)
+        ax.axhline(reference, color="0.52", linewidth=0.9,
+                   linestyle=(0, (3, 2)), zorder=1)
+        ax.set_axisbelow(True)
+        ax.grid(axis="y", color="0.91", linewidth=0.5)
+        for index, experiment in enumerate(EXPERIMENT_ORDER):
+            local = data.loc[data["experiment"] == experiment]
+            for channel, side in (("system", -1), ("storage", +1)):
+                xpos = index + side * offset
+                series = pd.to_numeric(local[fields[channel]], errors="coerce")
+                valid = series.notna() & np.isfinite(series.to_numpy(float))
+                yvals = series.loc[valid].to_numpy(float)
+                if not yvals.size:
+                    continue
+                used.extend(yvals.tolist())
+                ax.scatter(np.full(len(yvals), xpos), yvals, s=26,
+                           facecolor=CHANNEL_COLOURS[channel],
+                           marker=CHANNEL_MARKERS[channel],
+                           edgecolor="white", linewidth=0.35,
+                           alpha=0.86, zorder=3)
+                ax.hlines(float(np.median(yvals)), xpos - median_width,
+                          xpos + median_width, color="black", linewidth=1.7, zorder=5)
+                if mark_crossings and channel == "system" and "corrected_system_exceeds_b1" in local:
+                    crossings = local.loc[valid & local["corrected_system_exceeds_b1"].fillna(False)]
+                    if not crossings.empty:
+                        ring_y = pd.to_numeric(crossings[fields[channel]], errors="coerce").to_numpy(float)
+                        ax.scatter(np.full(len(ring_y), xpos), ring_y, marker="o", s=63,
+                                   facecolor="none", edgecolor="black", linewidth=0.95,
+                                   zorder=6)
+        ax.set_xlim(-0.53, len(EXPERIMENT_ORDER) - 0.47)
+        ax.set_xticks(range(len(EXPERIMENT_ORDER)),
+                      [EXPERIMENT_LABELS[e] for e in EXPERIMENT_ORDER])
+        ax.set_xlabel("Cost formulation", labelpad=4)
+        ax.set_ylabel(ylabel, labelpad=5)
+        ax.spines[["top", "right"]].set_visible(False)
+        ax.spines[["bottom", "left"]].set_color("0.5")
+        ax.tick_params(axis="x", length=0, pad=5)
+        ax.tick_params(axis="y", length=3)
+        if used:
+            lo, hi = min(*used, reference), max(*used, reference)
+            spread = max(hi - lo, 0.015 if abs(reference) == 1 else 0.15)
+            pad = max(0.095 * spread, 0.005 if abs(reference) == 1 else 0.065)
+            ax.set_ylim(lo - pad, round(hi + pad,0))
+        else:
+            ax.set_ylim(reference - 1, reference + 1)
+        ax.yaxis.set_major_locator(MaxNLocator(nbins=6))
+        ax.yaxis.set_major_formatter(FuncFormatter(lambda v, _: f"{v:g}"))
+        legend = [
+            Line2D([], [], linestyle="none", marker=CHANNEL_MARKERS[ch], markersize=6,
+                   markerfacecolor=CHANNEL_COLOURS[ch], markeredgecolor="white",
+                   label=CHANNEL_LABELS[ch])
+            for ch in ("system", "storage")
         ]
-        fig.legend(handles=handles, ncol=3, bbox_to_anchor=(.5, .995), loc="upper center", frameon=False, handlelength=1.4)
+        # Black bars are identified in the caption, to keep the legend at one row.
+        ax.legend(handles=legend, loc="lower center", bbox_to_anchor=(0.5, 1.015),
+                  frameon=False, ncol=2, handlelength=0.8,
+                  columnspacing=0.9, handletextpad=0.35)
         output.parent.mkdir(parents=True, exist_ok=True)
+        ax.yaxis.set_major_locator(MultipleLocator(1.0))
         fig.savefig(output)
+        if svg:
+            fig.savefig(output.with_suffix(".svg"))
         plt.close(fig)
         print("Saved", output)
 
 
-def plot_two_panel(cases: pd.DataFrame, output: Path, f1: str, f2: str, ylabel1: str, ylabel2: str, *, baseline: float) -> None:
-    with plt.rc_context({"font.size": FONT_SIZE, "axes.labelsize": FONT_SIZE,
-                         "xtick.labelsize": FONT_SIZE, "ytick.labelsize": FONT_SIZE,
-                         "legend.fontsize": FONT_SIZE, "pdf.fonttype": 42}):
-        fig, axs = plt.subplots(2, 1, figsize=(FIG_W, 5.1), sharex=True)
-        fig.subplots_adjust(left=.27, right=.96, bottom=.11, top=.89, hspace=.2)
-        _combined_panel(axs[0], cases, f1, f1, ylabel1, baseline=baseline)
-        _combined_panel(axs[1], cases, f2, f2, ylabel2, baseline=baseline)
-        axs[1].set_xticks(range(len(EXPERIMENT_ORDER)), EXPERIMENT_ORDER)
-        axs[1].set_xlabel("Representation")
-        axs[0].tick_params(axis="x", bottom=False)
-        fig.savefig(output)
-        plt.close(fig)
-        print("Saved", output)
+def plot_economic_benefit(cases: pd.DataFrame, output: Path,
+                          *, unit: str, height_mm: float, svg: bool) -> None:
+    """Original-cost benefit, paired to B1 by country and weather."""
+    data = cases.loc[cases["matched_original"]].copy()
+    if data.empty:
+        raise ValueError("No country/weather B1 matches available for original-cost comparison")
+    if unit == "ratio":
+        fields = {"system": "system_original_relative", "storage": "storage_original_relative"}
+        label, reference = "Cost relative to B (-)", 1.0
+    elif unit == "percent":
+        fields = {"system": "system_original_change_pct", "storage": "storage_original_change_pct"}
+        label, reference = "Cost change relative to B (%)", 0.0
+    else:
+        raise ValueError(f"Invalid economic benefit unit: {unit}")
+    _plot_cost_channels(data, output, fields, ylabel=label, reference=reference,
+                        height_mm=height_mm, svg=svg)
+
+
+def plot_repricing_impact(cases: pd.DataFrame, output: Path,
+                          *, height_mm: float, svg: bool,
+                          mark_crossings: bool) -> None:
+    """Ex-post cost correction per design; no re-optimisation."""
+    data = cases.loc[cases["correction_complete"]].copy()
+    if data.empty:
+        raise ValueError("No complete UHS repricing outcomes are available")
+    _plot_cost_channels(
+        data, output,
+        {"system": "system_effect_pct", "storage": "storage_effect_pct"},
+        ylabel="Ex-post cost adjustment (%)", reference=0.0,
+        height_mm=height_mm, svg=svg, mark_crossings=mark_crossings,
+    )
 
 
 def plot_technology_errors(designs: pd.DataFrame, output: Path) -> None:
@@ -350,7 +445,7 @@ def plot_technology_errors(designs: pd.DataFrame, output: Path) -> None:
         return
     experiments = [e for e in EXPERIMENT_ORDER if e in set(valid["experiment"])]
     with plt.rc_context({"font.size": FONT_SIZE, "pdf.fonttype": 42}):
-        fig, axes = plt.subplots(len(experiments), 1, figsize=(FIG_W, max(2.2, 1.65 * len(experiments)+.75)), sharex=True, squeeze=False)
+        fig, axes = plt.subplots(len(experiments), 1, figsize=(FIGURE_WIDTH_MM * MM_TO_INCH, max(2.2, 1.65 * len(experiments)+.75)), sharex=True, squeeze=False)
         fig.subplots_adjust(left=.25, right=.97, top=.93, bottom=.13, hspace=.26)
         for ax, exp in zip(axes[:,0], experiments):
             local = valid.loc[valid["experiment"] == exp]
@@ -360,14 +455,14 @@ def plot_technology_errors(designs: pd.DataFrame, output: Path) -> None:
                 vals = pd.to_numeric(local.loc[local["technology"] == family, "representation_error_pct"], errors="coerce").dropna().to_numpy()
                 if not vals.size:
                     continue
-                ax.scatter(np.full(len(vals), j), vals, s=24, c=[CORRECTED_COLOR], edgecolor="0.3", lw=.35, alpha=.78)
+                ax.scatter(np.full(len(vals), j), vals, s=24, c=[CHANNEL_COLOURS["storage"]], edgecolor="0.3", lw=.35, alpha=.78)
                 ax.hlines(np.median(vals), j-.11, j+.11, lw=2, color="black")
             ax.set_xlim(-.55, len(UHS)-.45)
             ax.set_ylabel(f"{exp}: error (%)", fontsize=FONT_SIZE)
             ax.spines[["right", "top"]].set_visible(False)
         axes[-1,0].set_xticks(range(len(UHS)), [LABEL[t] for t in UHS])
         handles = [
-            Line2D([], [], marker="o", linestyle="none", markerfacecolor=CORRECTED_COLOR, markeredgecolor="0.2", markersize=5, label="Cases"),
+            Line2D([], [], marker="o", linestyle="none", markerfacecolor=CHANNEL_COLOURS["storage"], markeredgecolor="0.2", markersize=5, label="Cases"),
             Line2D([], [], color="black", linewidth=2, label="Median"),
         ]
         fig.legend(handles=handles, loc="upper center", bbox_to_anchor=(.5,.995), ncol=2, frameon=False, handlelength=1.3, fontsize=FONT_SIZE)
@@ -378,49 +473,106 @@ def plot_technology_errors(designs: pd.DataFrame, output: Path) -> None:
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("mode", choices=["export", "plot"], help="Export CEM designs or plot re-priced comparison")
+    parser.add_argument("mode", choices=["export", "plot"],
+                        help="Export CEM designs or plot original and corrected costs")
     parser.add_argument("--input-dir", type=Path, default=DEFAULT_INPUT)
     parser.add_argument("--output-dir", type=Path, default=DEFAULT_OUTPUT)
     parser.add_argument("--countries", nargs="+", default=None)
     parser.add_argument("--experiments", nargs="+", default=list(EXPERIMENT_ORDER))
+    parser.add_argument("--benefit-unit", choices=("percent", "ratio"), default="percent",
+                        help="Economic figure: percent change from B (default), or cost/B ratio")
+    parser.add_argument("--height-mm", type=float, default=DEFAULT_HEIGHT_MM,
+                        help="Physical height for each 90-mm figure (default 104 mm)")
+    parser.add_argument("--svg", action="store_true", help="Also export editable SVGs")
+    parser.add_argument("--crossing-markers", action="store_true",
+                        help="Omit outlines on corrections where system cost exceeds corrected B")
     parser.add_argument("--with-diagnostics", action="store_true",
-                        help="Also export the earlier diagnostic figures (correction impact and technology-level errors).")
+                        help="Also save UHS technology-level approximation errors")
     args = parser.parse_args()
+    if args.height_mm < 60:
+        parser.error("--height-mm must be at least 60")
     countries = {x.upper() for x in args.countries} if args.countries else None
     experiments = {x.upper() for x in args.experiments}
+    if "B1" not in experiments:
+        parser.error("B1 must be included for paired economic benchmarking")
     out = args.output_dir
     if args.mode == "export":
         export_cases(args.input_dir, out, countries, experiments)
         return
-    cases_file, designs_file, reprice_file = (out / n for n in ("expost_case_costs_original.csv", "expost_uhs_designs.csv", "expost_uhs_repriced.csv"))
-    for path in (cases_file, designs_file):
-        if not path.is_file():
-            parser.error(f"Missing {path}; run export first")
-    cases, designs = (pd.read_csv(p) for p in (cases_file, designs_file))
+
+    cases_file, designs_file, reprice_file = (
+        out / n for n in ("expost_case_costs_original.csv", "expost_uhs_designs.csv",
+                         "expost_uhs_repriced.csv")
+    )
+    if not cases_file.is_file():
+        parser.error(f"Missing {cases_file}; run export first")
+    cases = pd.read_csv(cases_file)
+    cases = cases.loc[cases["experiment"].isin(experiments)
+                      & (cases["country"].isin(countries) if countries else True)].copy()
+    if cases.empty:
+        parser.error("No exported cases match selected countries/formulations")
+
+    if not designs_file.is_file():
+        parser.error(f"Missing {designs_file}; run export first")
+    designs = pd.read_csv(designs_file)
+    designs = designs.loc[designs["case"].isin(cases["case"])].copy()
+
+    reprice_available = reprice_file.is_file() or designs.empty
     if reprice_file.is_file():
         repriced = pd.read_csv(reprice_file)
-    elif designs.empty:
-        repriced = pd.DataFrame(columns=["case", "tech_id", "status", "adjustment_factor", "detailed_tcr_eur", "represented_tcr_eur"])
+        repriced = repriced.loc[repriced["case"].isin(cases["case"])].copy()
     else:
-        parser.error(f"Missing {reprice_file}; run the cost-model repricing step first")
-    cases = cases.loc[cases["experiment"].isin(experiments) & ((cases["country"].isin(countries)) if countries else True)].copy()
-    designs = designs.loc[designs["case"].isin(cases["case"])].copy()
-    repriced = repriced.loc[repriced["case"].isin(cases["case"])].copy()
-    corrected, detailed = attach_corrections(cases, designs, repriced)
-    combined = compare_b1(corrected)
+        repriced = pd.DataFrame(columns=[
+            "case", "tech_id", "status", "adjustment_factor",
+            "detailed_tcr_eur", "represented_tcr_eur",
+        ])
+        if not designs.empty:
+            warnings.warn("Repriced CSV is missing: economic-benefit figure will still be "
+                          "created from original costs; repricing impact will be skipped.",
+                          stacklevel=1)
+
+    # Stage 1 remains valid even without stage 2, so plot its economic comparison.
+    if reprice_available:
+        corrected, detailed = attach_corrections(cases, designs, repriced)
+    else:
+        corrected = cases.copy()
+        corrected["correction_complete"] = False
+        corrected["system_cost_corrected"] = np.nan
+        corrected["storage_cost_corrected"] = np.nan
+        corrected["system_effect_pct"] = np.nan
+        corrected["storage_effect_pct"] = np.nan
+        detailed = pd.DataFrame()
+
+    comparisons = compare_b1(corrected)
     out.mkdir(parents=True, exist_ok=True)
-    detailed.to_csv(out / "expost_uhs_repricing_audit.csv", index=False)
-    combined.to_csv(out / "expost_cost_comparison.csv", index=False)
-    corrected.to_csv(out / "expost_case_costs_corrected.csv", index=False)
-    plot_combined_relative_costs(combined, out / "expost_relative_costs_combined.pdf")
-    if args.with_diagnostics:
-        plot_two_panel(combined, out / "expost_cost_correction_impact.pdf",
-                       "system_effect_pct", "storage_effect_pct", "System cost change (%)", "Storage cost change (%)", baseline=0.)
-        plot_technology_errors(detailed, out / "expost_uhs_representation_error.pdf")
-    unresolved = combined.loc[~combined["correction_complete"], "case"].tolist()
-    print(f"Compared {combined['matched'].sum()} matched, corrected country-weather cases")
-    if unresolved:
-        warnings.warn(f"Excluded {len(unresolved)} incomplete cases: {unresolved[:20]}", stacklevel=1)
+    comparisons.to_csv(out / "expost_cost_comparison.csv", index=False)
+    plot_economic_benefit(comparisons, out / "expost_economic_benefit.pdf",
+                          unit=args.benefit_unit, height_mm=args.height_mm, svg=args.svg)
+
+    if reprice_available:
+        corrected.to_csv(out / "expost_case_costs_corrected.csv", index=False)
+        detailed.to_csv(out / "expost_uhs_repricing_audit.csv", index=False)
+        plot_repricing_impact(comparisons, out / "expost_repricing_impact.pdf",
+                              height_mm=args.height_mm, svg=args.svg,
+                              mark_crossings=args.crossing_markers)
+        if args.with_diagnostics and not detailed.empty:
+            plot_technology_errors(detailed, out / "expost_uhs_representation_error.pdf")
+        unresolved = comparisons.loc[~comparisons["correction_complete"], "case"].tolist()
+        if unresolved:
+            warnings.warn(f"Excluded {len(unresolved)} incompletely repriced cases from "
+                          f"correction plot: {unresolved[:20]}", stacklevel=1)
+        crossings = comparisons.loc[comparisons["corrected_system_exceeds_b1"],
+                                    ["country", "weather", "experiment"]]
+        if crossings.empty:
+            print("No ex-post corrected system costs exceed the paired corrected B1 benchmark")
+        else:
+            print("Ex-post corrected system cost exceeds paired corrected B1 in:")
+            for row in crossings.itertuples(index=False):
+                print(f"  {row.country} / {row.weather} / {row.experiment}")
+    original_count = int(comparisons["matched_original"].sum())
+    correction_count = int(comparisons["matched_corrected"].sum())
+    print(f"Original-cost B1 comparisons: {original_count}; "
+          f"complete corrected B1 comparisons: {correction_count}")
 
 
 if __name__ == "__main__":

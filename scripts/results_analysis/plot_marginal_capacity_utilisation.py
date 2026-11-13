@@ -3,7 +3,7 @@
 Place beside scripts/results_analysis/plot_storage_operations.py, and run from
 project root:
 
-    pixi run python -m scripts.results_analysis.plot_marginal_capacity_utilisation_DGF
+    pixi run python -m scripts.results_analysis.plot_marginal_capacity_utilisation
 
 Default: NLD, three-year weather horizons, B1/P1/F1/FX1. 
 

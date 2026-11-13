@@ -7,16 +7,16 @@ Run from the project root::
 
 Reads timestamps saved by Calliope 0.7 in the NetCDF ``attrs`` group:
 ``runtime.timings.solve_start``, ``solver_exit``, ``solve_complete``,
-``build_start`` and ``build_complete``. The default solver metric is elapsed
-wall-clock time between ``solve_start`` and ``solver_exit``; it is NOT a CPU
-time measurement. Other phases are retained in the audit CSV and can be
-selected with ``--metric``. Results with explicit non-optimal termination
+``build_start`` and ``build_complete``. The default metric is the elapsed wall-clock time between ``build_start``
+and ``solve_complete`` (build + solve). The ``solver`` option measures
+``solve_start`` to ``solver_exit``. Neither is a CPU-time measurement.
+Other phases can be selected with ``--metric``. Results with explicit non-optimal termination
 conditions are excluded from the comparison by default.
 
 Each country/weather pair contributes one FX1/B1 runtime ratio; missing or
 unreadable files are kept in the audit CSV, never treated as zero runtime.
-Outputs: a compact vertical country comparison PDF, a per-pair CSV and a
-per-country summary CSV. Each weather case appears at the country's exact
+Outputs: a single-column (90 x 120 mm) country-comparison PDF;
+optional per-pair and per-country CSVs with ``--export-csv``. Each weather case appears at the country's exact
 x-position, without jitter, and a black horizontal line marks its median.
 Use ``--orientation horizontal`` to retain the original weather-year panels.
 """
@@ -38,7 +38,7 @@ matplotlib.use("Agg")
 
 import matplotlib.pyplot as plt
 from matplotlib.lines import Line2D
-from matplotlib.ticker import FuncFormatter
+from matplotlib.ticker import FuncFormatter, MaxNLocator
 import numpy as np
 import pandas as pd
 
@@ -46,8 +46,18 @@ import pandas as pd
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_INPUT_DIR = PROJECT_ROOT / "results" / "capacity_expansion_models"
 DEFAULT_OUTPUT_DIR = PROJECT_ROOT / "results" / "tractability"
-FONT_SIZE = 10
+FONT_SIZE = 9
 PLASMA = plt.get_cmap("plasma")
+MM_TO_INCH = 1 / 25.4
+FIGURE_WIDTH_MM = 90
+DEFAULT_HEIGHT_MM = 80
+COUNTRY_PRIORITY = ("NLD", "ESP", "DEU", "GBR")
+
+
+def _country_order(countries) -> list[str]:
+    """Always put the primary Dutch case first, then the other study countries."""
+    countries = {str(c).upper() for c in countries}
+    return [c for c in COUNTRY_PRIORITY if c in countries] + sorted(countries - set(COUNTRY_PRIORITY))
 
 FILENAME_PATTERN = re.compile(
     r"^(?P<country>[A-Za-z]{3})_(?P<experiment>B1|FX1)_"
@@ -359,77 +369,91 @@ def plot_comparison_horizontal(pairs: pd.DataFrame, summary: pd.DataFrame,
 
 def plot_comparison(pairs: pd.DataFrame, summary: pd.DataFrame,
                     metric: str, destination: Path,
-                    orientation: str = "vertical") -> None:
-    """Plot weather-specific runtime changes at each country's exact x-position.
+                    orientation: str = "vertical", height_mm: float = DEFAULT_HEIGHT_MM) -> None:
+    """A true single-column figure (90 mm wide) with one point per weather case.
 
-    The solid black horizontal segment identifies the unweighted median across
-    the paired weather cases for that country. Weather cases are not jittered.
+    FX/B runtime change = 100 * (FX_seconds / B_seconds - 1).
+    Negative values therefore mean the FX representation is faster.
+    Black horizontal bars show the median across paired weather horizons.
+    All observations retain their exact country x-position (no jitter).
     """
     if orientation == "horizontal":
         return plot_comparison_horizontal(pairs, summary, metric, destination)
     if orientation != "vertical":
         raise ValueError(f"Unknown plot orientation: {orientation}")
+    if height_mm <= 50:
+        raise ValueError("height_mm must be greater than 50")
 
     valid = pairs.loc[pairs["comparison_status"] == "paired"]
     if valid.empty:
-        raise ValueError("No valid B1/FX1 pairs with runtime metadata for "
-                         f"metric '{metric}'. Inspect the audit CSV or use --inspect.")
+        raise ValueError("No valid B1/FX1 runtime pairs for metric "
+                         f"{metric!r}; inspect timing metadata or the audit CSV.")
 
-    countries = sorted(valid["country"].unique())
+    countries = _country_order(valid["country"].unique())
     changes = valid["runtime_change_pct"].to_numpy(dtype=float)
-    lower = min(-10.0, float(changes.min()))
-    upper = max(10.0, float(changes.max()))
-    padding = max(3.0, (upper - lower) * 0.09)
+    # Zero is a meaningful reference. Do not waste y-axis area on a
+    # mandatory +/-10% band when all observed effects are much larger.
+    lo = min(0.0, float(changes.min()))
+    hi = max(0.0, float(changes.max()))
+    span = max(hi - lo, 1.0)
+    pad = max(1.25, span * 0.055)
     palette = {
         country: PLASMA(shade)
-        for country, shade in zip(countries, np.linspace(0.16, 0.82, len(countries)))
+        for country, shade in zip(countries, np.linspace(0.15, 0.80, len(countries)))
     }
 
-    with plt.rc_context({"font.size": FONT_SIZE, "pdf.fonttype": 42}):
-        fig, ax = plt.subplots(figsize=(3.55, 3.65))
+    with plt.rc_context({"font.size": FONT_SIZE,
+                         "axes.labelsize": 9, "xtick.labelsize": 9,
+                         "ytick.labelsize": 9, "pdf.fonttype": 42}):
+        fig, ax = plt.subplots(figsize=(FIGURE_WIDTH_MM * MM_TO_INCH,
+                                       height_mm * MM_TO_INCH))
         for index, country in enumerate(countries):
             country_changes = valid.loc[
                 valid["country"] == country, "runtime_change_pct"
             ].to_numpy(dtype=float)
-            # Repeated x-coordinates are intentional: no jitter or horizontal
-            # displacement of the individual weather-scenario observations.
             ax.scatter(
                 np.full(len(country_changes), index), country_changes,
-                s=33, color=palette[country], alpha=0.82,
-                edgecolor="white", linewidth=0.35, zorder=3,
+                s=38, color=palette[country], alpha=0.88,
+                edgecolor="white", linewidth=0.3, zorder=3,
             )
-            median = float(np.median(country_changes))
-            ax.hlines(median, index - 0.27, index + 0.27,
-                      color="black", linewidth=2.0, zorder=4)
+            ax.hlines(float(np.median(country_changes)), index - 0.26, index + 0.26,
+                      color="black", linewidth=2.1, zorder=4)
 
-        ax.axhline(0, color="0.45", linewidth=0.9, zorder=1)
+        ax.axhline(0, color="0.35", linewidth=0.95, zorder=1)
         ax.set_xlim(-0.55, len(countries) - 0.45)
-        ax.set_ylim(lower - padding, upper + padding)
+        ax.set_ylim(lo - pad, hi + pad)
         ax.set_xticks(np.arange(len(countries)), countries)
         if len(countries) > 6:
             ax.tick_params(axis="x", labelrotation=45)
             for label in ax.get_xticklabels():
                 label.set_horizontalalignment("right")
-        ax.set_ylabel(f"FX1 vs B1 {metric.replace('_', ' ')} runtime change (%)")
+        ax.tick_params(axis="x", length=0, pad=7)
+        ax.tick_params(axis="y", length=3, pad=3)
+        ax.set_ylabel("Runtime change, FX vs B (%)", labelpad=6)
+        ax.yaxis.set_major_locator(MaxNLocator(nbins=7))
         ax.yaxis.set_major_formatter(FuncFormatter(
             lambda value, _: "0%" if np.isclose(value, 0) else f"{value:+g}%"
         ))
-        ax.grid(axis="y", color="0.87", linewidth=0.55)
+        ax.grid(axis="y", color="0.87", linewidth=0.55, alpha=0.8)
         ax.set_axisbelow(True)
         ax.spines[["top", "right"]].set_visible(False)
-        ax.legend(
+        ax.spines[["left", "bottom"]].set_color("0.55")
+
+        fig.legend(
             handles=[
                 Line2D([], [], linestyle="none", marker="o", markersize=5.5,
                        markerfacecolor="0.48", markeredgecolor="white",
-                       label="Weather scenario"),
-                Line2D([], [], color="black", linewidth=2, label="Median"),
+                       label="Weather horizon"),
+                Line2D([], [], color="black", linewidth=2.1, label="Median"),
             ],
-            loc="lower center", bbox_to_anchor=(0.5, 1.01),
-            ncol=2, frameon=False, columnspacing=1.25, handletextpad=0.45,
-            fontsize=8.5,
+            loc="upper center", bbox_to_anchor=(0.53, 0.99),
+            ncol=2, frameon=False, columnspacing=1.25,
+            handletextpad=0.45, fontsize=9,
         )
-        fig.subplots_adjust(left=0.27, right=0.965, top=0.88,
-                            bottom=0.16 if len(countries) <= 6 else 0.24)
+        # Leave room for the external manuscript caption, not inside the PDF.
+        # Fractions give the data panel ~82% of the printed figure's height.
+        fig.subplots_adjust(left=0.2, right=0.99, top=0.9,
+                            bottom=0.08 if len(countries) <= 6 else 0.16)
         fig.savefig(destination)
         plt.close(fig)
 
@@ -449,13 +473,17 @@ def main() -> None:
     parser.add_argument("--output-dir", type=Path, default=DEFAULT_OUTPUT_DIR)
     parser.add_argument("--countries", nargs="*", help="ISO3 countries; default: all")
     parser.add_argument("--metric", choices=tuple(PHASES), default="build_solve",
-                        help="Timing phase for the relative-runtime plot (default: solver)")
+                        help="Timing phase (default: build_solve, from build_start to solve_complete)")
     parser.add_argument("--orientation", choices=("vertical", "horizontal"),
                         default="vertical",
                         help="Compact country dots with black medians (default) "
                              "or original weather-year panels")
     parser.add_argument("--include-nonoptimal", action="store_true",
                         help="Allow pairs with explicitly non-optimal termination")
+    parser.add_argument("--height-mm", type=float, default=DEFAULT_HEIGHT_MM,
+                        help="Height of 90 mm-wide vertical PDF (default: 120 mm)")
+    parser.add_argument("--export-csv", action="store_true",
+                        help="Also write paired-case and country-summary audit CSV files")
     parser.add_argument("--inspect", type=Path,
                         help="Print runtime metadata keys from one .nc and exit")
     args = parser.parse_args()
@@ -473,16 +501,17 @@ def main() -> None:
     plot_pdf = args.output_dir / (
         f"tractability_{args.metric}_{suffix}{orientation_suffix}.pdf"
     )
-    # pairs.to_csv(pair_csv, index=False)
-    # summary.to_csv(summary_csv, index=False)
-    for output in (pair_csv, summary_csv):
-        print(f"Saved {output}")
+    if args.export_csv:
+        pairs.to_csv(pair_csv, index=False)
+        summary.to_csv(summary_csv, index=False)
+        for output in (pair_csv, summary_csv):
+            print(f"Saved {output}")
     missing = pairs.loc[pairs["comparison_status"] != "paired"]
     if not missing.empty:
         warnings.warn(f"{len(missing)} country-weather pairs cannot be plotted; "
-                      "see the audit CSV for missing cases, timings or solver status", stacklevel=1)
+                      "run with --export-csv to audit missing cases, timings or solver status", stacklevel=1)
     plot_comparison(pairs, summary, args.metric, plot_pdf,
-                    orientation=args.orientation)
+                    orientation=args.orientation, height_mm=args.height_mm)
     print(f"Saved {plot_pdf}")
     valid = pairs.loc[pairs["comparison_status"] == "paired"]
     print(f"Paired {len(valid)}/{len(pairs)} country-weather scenarios; "
