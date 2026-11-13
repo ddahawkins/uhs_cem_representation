@@ -31,6 +31,11 @@ overrides:
       hydro_run_of_river:
         flow_cap_min: 38 #MW https://www.irena.org/-/media/Files/IRENA/Agency/Publication/2026/Mar/IRENA_DAT_RE_Capacity_Statistics_2026.pdf
         flow_cap_max: 38 #MW https://www.irena.org/-/media/Files/IRENA/Agency/Publication/2026/Mar/IRENA_DAT_RE_Capacity_Statistics_2026.pdf
+      hydro_reservoir:
+        flow_cap_min: 0 #MW,
+        flow_cap_max: 0 #MW, 
+        storage_cap_min: 0 #MWh, 
+        storage_cap_max: 0 #MWh,
       pumped_hydro:
         storage_cap_min: 0 #MW https://www.irena.org/-/media/Files/IRENA/Agency/Publication/2026/Mar/IRENA_DAT_RE_Capacity_Statistics_2026.pdf
         storage_cap_max: 0 #MW https://www.irena.org/-/media/Files/IRENA/Agency/Publication/2026/Mar/IRENA_DAT_RE_Capacity_Statistics_2026.pdf
