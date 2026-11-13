@@ -41,8 +41,8 @@ except ImportError:  # Also allow `python storage_design_plots.py`.
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
-DEFAULT_INPUT_DIR = PROJECT_ROOT / "hpc" / "results_2h_no_coupling_bounds"
-DEFAULT_OUTPUT_DIR = PROJECT_ROOT / "results" / "figures"
+DEFAULT_INPUT_DIR = PROJECT_ROOT / "results" / "capacity_expansion_models"
+DEFAULT_OUTPUT_DIR = PROJECT_ROOT / "results" / "design_outcomes"
 COUNTRIES = ("NLD",)
 
 TECHNOLOGY_ORDER = (

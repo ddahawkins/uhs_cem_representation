@@ -45,8 +45,8 @@ except ImportError:
     from _plots import model_case, storage_family, capacity_for_tech
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
-DEFAULT_INPUT = PROJECT_ROOT / "hpc" / "results_2h_no_coupling_bounds"
-DEFAULT_OUTPUT = PROJECT_ROOT / "results" / "figures" / "costs_expost"
+DEFAULT_INPUT = PROJECT_ROOT / "results" / "capacity_expansion_models"
+DEFAULT_OUTPUT = PROJECT_ROOT / "results" / "costs_expost"
 EXPERIMENT_ORDER = ("B1", "P1", "F1", "FX1", "FX2")
 UHS = ("salt_cavern", "aquifer", "depleted_gas_field", "lined_rock_cavern")
 LABEL = {"salt_cavern": "SC", "aquifer": "SA", "depleted_gas_field": "DGF", "lined_rock_cavern": "LRC"}
