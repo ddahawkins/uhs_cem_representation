@@ -3,7 +3,7 @@
 Run from the project root::
 
     pixi run python -m scripts.results_analysis.plot_tractability_comparison `
-        --countries NLD FIN
+        --countries NLD GBR DEU ESP
 
 Reads timestamps saved by Calliope 0.7 in the NetCDF ``attrs`` group:
 ``runtime.timings.solve_start``, ``solver_exit``, ``solve_complete``,

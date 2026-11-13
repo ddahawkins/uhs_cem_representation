@@ -3,18 +3,18 @@
 Three-stage, dependency-isolated workflow.
 
 Stage 1, in the CEM environment::
-  pixi run python -m scripts.results_analysis.plot_cost_outcomes_expost export \
+  pixi run python -m scripts.results_analysis.plot_cost_outcomes_expost export `
       --countries NLD DEU GBR
 
 Stage 2, in the UHS cost-model environment::
-  pixi run python /path/to/reprice_uhs_designs.py \
-      --input /path/to/results/figures/costs_expost/expost_uhs_designs.csv \
-      --output /path/to/results/figures/costs_expost/expost_uhs_repriced.csv \
-      --cost-module scripts/experiments/cost_rates.py \
+  pixi run python ../uhs_cem_representation/scripts/results_analysis/reprice_uhs_designs.py `
+      --input ../uhs_cem_representation/results/costs_expost/expost_uhs_designs.csv `
+      --output ../uhs_cem_representation/results/costs_expost/expost_uhs_repriced.csv `
+      --cost-module scripts/experiments/cost_rates.py `
       --cost-samples outputs/cost_rate_samples/uhs_cost_rates.parquet
 
 Stage 3, back in the CEM environment::
-  pixi run python -m scripts.results_analysis.plot_cost_outcomes_expost plot \
+  pixi run python -m scripts.results_analysis.plot_cost_outcomes_expost plot `
       --countries NLD DEU GBR
 
 IMPORTANT: This is an EX-POST accounting adjustment, not re-optimisation. Only
@@ -47,7 +47,7 @@ except ImportError:
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_INPUT = PROJECT_ROOT / "results" / "capacity_expansion_models"
 DEFAULT_OUTPUT = PROJECT_ROOT / "results" / "costs_expost"
-EXPERIMENT_ORDER = ("B1", "P1", "F1", "FX1", "FX2")
+EXPERIMENT_ORDER = ("B1", "P1", "F1", "FX1",)
 UHS = ("salt_cavern", "aquifer", "depleted_gas_field", "lined_rock_cavern")
 LABEL = {"salt_cavern": "SC", "aquifer": "SA", "depleted_gas_field": "DGF", "lined_rock_cavern": "LRC"}
 BATTERY_RE = re.compile(r"battery_\d+(?:\.\d+)?h$", re.I)

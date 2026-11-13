@@ -57,8 +57,8 @@ except ImportError:  # Allow direct execution from this directory.
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_INPUT_DIR = PROJECT_ROOT / "results" / "capacity_expansion_models"
 DEFAULT_OUTPUT_DIR = PROJECT_ROOT / "results" / "costs"
-EXPERIMENT_ORDER = ("B1", "P1", "F1", "FX1", "FX2")
-COUNTRIES = ("NLD", "FIN")
+EXPERIMENT_ORDER = ("B1", "P1", "F1", "FX1",)
+COUNTRIES = ("NLD",)
 
 # Additional storage technologies. Geological variants and CAES are recognised
 # by the existing `_plots.storage_family` helper.
