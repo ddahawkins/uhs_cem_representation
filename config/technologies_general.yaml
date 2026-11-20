@@ -500,6 +500,7 @@ techs:
     #   CAPEX 650,000 EUR/MW_el; FOM 19,000 EUR/MW_el/year;
     #   VOM 2 EUR/MWh_el; lifetime 30 years;
     #   electricity efficiency 55-60% on the HHV basis (new-build).
+    # Costs inflated to EUR2025 using CEPCI (2024: 596.2, 2025: 800)
     # https://www.rijksoverheid.nl/binaries/rijksoverheid/documenten/rapporten/2022/01/19/co2-free-flexibility-options-for-the-dutch-power-system-door-aurora/Studie_CO2_free_flexibility_options_for_the_Dutch_power_system.PDF
     # CEM uses hydrogen energy on an LHV basis: 0.55 HHV * 1.183 ~= 0.651 LHV.
     # Conservatively use the low end (0.65 LHV) for initial testing.
@@ -510,11 +511,11 @@ techs:
     lifetime: 30
     flow_out_eff: 0.65
     cost_flow_cap:
-      data: [0.65]
+      data: [0.87]
       index: [[monetary, power]]
       dims: [costs, carriers]
     cost_om_annual:
-      data: [0.019]
+      data: [0.025]
       index: [[monetary, power]]
       dims: [costs, carriers]
     cost_flow_out:
