@@ -2,7 +2,7 @@
 .pixi/*
 !.pixi/config.toml
 
-results/
+# results/
 temp/
 
 __pycache__
