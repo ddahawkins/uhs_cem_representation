@@ -2,7 +2,7 @@
 
 #SBATCH --job-name=uhs_dispatch
 #SBATCH --partition=compute-p1
-#SBATCH --time=10:00:00
+#SBATCH --time=5:00:00
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=10
 #SBATCH --mem-per-cpu=1000
@@ -22,55 +22,30 @@ MAX_PARALLEL=20
 # COUNTRY REPRESENTATION WEATHER
 EXPERIMENTS=(
 
-    # # --------------------------------------------------------
-    # # 2009–2012
-    # # --------------------------------------------------------
 
-    "GBR B1  weather_2009_3y"
-    # # "FIN P1  weather_2009_3y"
-    # # "FIN F1  weather_2009_3y"
-    "GBR FX1 weather_2009_3y"
-    # # "FIN FX2 weather_2009_3y"
+    "NLD P1  weather_2009_3y"
+    "NLD P1  weather_2012_3y"
+    "NLD P1  weather_2015_3y"
+    "NLD P1  weather_2018_3y"
+    "NLD P1  weather_2021_3y"
 
-    # # --------------------------------------------------------
-    # # 2012–2015
-    # # --------------------------------------------------------
+    "GBR P1  weather_2009_3y"
+    "GBR P1  weather_2012_3y"
+    "GBR P1  weather_2015_3y"
+    "GBR P1  weather_2018_3y"
+    "GBR P1  weather_2021_3y"
 
-    "GBR B1  weather_2012_3y"
-    # # "FIN P1  weather_2012_3y"
-    # # "FIN F1  weather_2012_3y"
-    "GBR FX1 weather_2012_3y"
-    # # "FIN FX2 weather_2012_3y"
-
-    # # --------------------------------------------------------
-    # # 2015–2018
-    # # --------------------------------------------------------
-
-    "GBR B1  weather_2015_3y"
-    # # "FIN P1  weather_2015_3y"
-    # # "FIN F1  weather_2015_3y"
-    "GBR FX1 weather_2015_3y"
-    # # "FIN FX2 weather_2015_3y"
-
-    # # --------------------------------------------------------
-    # # 2018–2021
-    # # --------------------------------------------------------
-
-    "GBR B1  weather_2018_3y"
-    # # "FIN P1  weather_2018_3y"
-    # # "FIN F1  weather_2018_3y"
-    "GBR FX1 weather_2018_3y"
-    # # "FIN FX2 weather_2018_3y"
-
-    # # --------------------------------------------------------
-    # # 2021–2024
-    # # --------------------------------------------------------
-
-    "GBR B1  weather_2021_3y"
-    # # "FIN P1  weather_2021_3y"
-    # # "FIN F1  weather_2021_3y"
-    "GBR FX1 weather_2021_3y"
-    # # "FIN FX2 weather_2021_3y"
+    "DEU P1  weather_2009_3y"
+    "DEU P1  weather_2012_3y"
+    "DEU P1  weather_2015_3y"
+    "DEU P1  weather_2018_3y"
+    "DEU P1  weather_2021_3y"
+    
+    "ESP P1  weather_2009_3y"
+    "ESP P1  weather_2012_3y"
+    "ESP P1  weather_2015_3y"
+    "ESP P1  weather_2018_3y"
+    "ESP P1  weather_2021_3y"
 
 )
 

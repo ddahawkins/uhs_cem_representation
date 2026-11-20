@@ -2,10 +2,10 @@
 
 #SBATCH --job-name=uhs_dispatch
 #SBATCH --partition=compute-p1
-#SBATCH --time=12:00:00
+#SBATCH --time=10:00:00
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=10
-#SBATCH --mem-per-cpu=2000
+#SBATCH --mem-per-cpu=1000
 #SBATCH --account=research-tpm-ess
 #SBATCH --output=logs/%x-%A_%a.out
 
@@ -16,41 +16,36 @@ set -euo pipefail
 # ============================================================
 
 # Maximum simultaneous optimisations.
-MAX_PARALLEL=5
+MAX_PARALLEL=20
 
 # Format:
 # COUNTRY REPRESENTATION WEATHER
 EXPERIMENTS=(
 
-    # --------------------------------------------------------
-    # 2009–2012
-    # --------------------------------------------------------
 
-    "NLD B9 weather_2009_3y"
+    "NLD B1  weather_2009_3y"
+    "NLD B1  weather_2012_3y"
+    "NLD B1  weather_2015_3y"
+    "NLD B1  weather_2018_3y"
+    "NLD B1  weather_2021_3y"
 
-    # --------------------------------------------------------
-    # 2012–2015
-    # --------------------------------------------------------
+    "GBR B1  weather_2009_3y"
+    "GBR B1  weather_2012_3y"
+    "GBR B1  weather_2015_3y"
+    "GBR B1  weather_2018_3y"
+    "GBR B1  weather_2021_3y"
 
-    "NLD B9 weather_2012_3y"
-
-    # --------------------------------------------------------
-    # 2015–2018
-    # --------------------------------------------------------
-
-    "NLD B9 weather_2015_3y"
-
-    # --------------------------------------------------------
-    # 2018–2021
-    # --------------------------------------------------------
-
-    "NLD B9 weather_2018_3y"
-
-    # --------------------------------------------------------
-    # 2021–2024
-    # --------------------------------------------------------
-
-    "NLD B9 weather_2021_3y"
+    "DEU B1  weather_2009_3y"
+    "DEU B1  weather_2012_3y"
+    "DEU B1  weather_2015_3y"
+    "DEU B1  weather_2018_3y"
+    "DEU B1  weather_2021_3y"
+    
+    "ESP B1  weather_2009_3y"
+    "ESP B1  weather_2012_3y"
+    "ESP B1  weather_2015_3y"
+    "ESP B1  weather_2018_3y"
+    "ESP B1  weather_2021_3y"
 
 )
 

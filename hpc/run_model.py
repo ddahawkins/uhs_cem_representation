@@ -23,7 +23,7 @@ calliope.set_log_verbosity("INFO", include_solver_output=True)
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 MODEL_PATH = PROJECT_ROOT / "config" / "model.yaml"
-OUTPUT_DIR = PROJECT_ROOT / "hpc" / "results_2h_with_hydro"
+OUTPUT_DIR = PROJECT_ROOT / "hpc" / "results"
 
 START_DATE = "2009-04-01"
 END_DATE = "2024-03-31"
