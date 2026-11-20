@@ -71,763 +71,169 @@ techs:
   b1_salt_cavern_epr01_wtir01:
     template: uhs_bundled
     name: 'B1: Salt Cavern (epr01_wtir01)'
-    cost_storage_cap.data: 0.00215713
+    cost_storage_cap.data: 0.00178698
     cost_flow_in_cap.data: 0
     cost_flow_out_cap.data: 0
-    cost_om_annual_storage_cap.data: 4.67652e-05
+    cost_om_annual_storage_cap.data: 3.32226e-05
     cost_om_annual_flow_in_cap.data: 0
     cost_om_annual_flow_out_cap.data: 0
     cost_flow_in.data: 0
     cost_flow_out.data: 0
     energy_to_power_ratio: 288
-    withdrawal_to_injection_ratio: 2.5
-    flow_in_eff: 0.990311
+    withdrawal_to_injection_ratio: 3
+    flow_in_eff: 0.989328
     flow_out_eff: 1
-    soc_24h_a_min: -0.064838
-    soc_24h_b_min: 1.01149
-    soc_24h_a_max: 0.0640983
-    soc_24h_b_max: 0.988649
+    soc_24h_a_min: -0.0833882
+    soc_24h_b_min: 1.01151
+    soc_24h_a_max: 0.0824354
+    soc_24h_b_max: 0.988629
   b1_aquifer_epr01_wtir01:
     template: uhs_bundled
     name: 'B1: Aquifer (epr01_wtir01)'
-    cost_storage_cap.data: 0.000867933
+    cost_storage_cap.data: 0.000977007
     cost_flow_in_cap.data: 0
     cost_flow_out_cap.data: 0
-    cost_om_annual_storage_cap.data: 1.53484e-05
+    cost_om_annual_storage_cap.data: 1.83261e-05
     cost_om_annual_flow_in_cap.data: 0
     cost_om_annual_flow_out_cap.data: 0
     cost_flow_in.data: 0
     cost_flow_out.data: 1.5644e-06
     energy_to_power_ratio: 1584
-    withdrawal_to_injection_ratio: 2.5
+    withdrawal_to_injection_ratio: 3
     flow_in_eff: 0.993796
     flow_out_eff: 0.95
     storage_loss: 1.7253e-06
   b1_depleted_gas_field_epr01_wtir01:
     template: uhs_bundled
     name: 'B1: Depleted Gas Field (epr01_wtir01)'
-    cost_storage_cap.data: 0.000664821
+    cost_storage_cap.data: 0.000812568
     cost_flow_in_cap.data: 0
     cost_flow_out_cap.data: 0
-    cost_om_annual_storage_cap.data: 1.71492e-05
+    cost_om_annual_storage_cap.data: 2.13272e-05
     cost_om_annual_flow_in_cap.data: 0
     cost_om_annual_flow_out_cap.data: 0
     cost_flow_in.data: 0
-    cost_flow_out.data: 3.98083e-06
+    cost_flow_out.data: 3.97906e-06
     energy_to_power_ratio: 1584
-    withdrawal_to_injection_ratio: 2.5
+    withdrawal_to_injection_ratio: 3
     flow_in_eff: 0.990893
-    flow_out_eff: 0.8996
+    flow_out_eff: 0.9
     storage_loss: 1.7253e-06
   b1_lined_rock_cavern_epr01_wtir01:
     template: uhs_bundled
     name: 'B1: Lined Rock Cavern (epr01_wtir01)'
-    cost_storage_cap.data: 0.0055098
+    cost_storage_cap.data: 0.00669682
     cost_flow_in_cap.data: 0
     cost_flow_out_cap.data: 0
-    cost_om_annual_storage_cap.data: 0.000230295
+    cost_om_annual_storage_cap.data: 0.000296468
     cost_om_annual_flow_in_cap.data: 0
     cost_om_annual_flow_out_cap.data: 0
     cost_flow_in.data: 0
     cost_flow_out.data: 0
     energy_to_power_ratio: 180
-    withdrawal_to_injection_ratio: 2.5
-    flow_in_eff: 0.990058
-    flow_out_eff: 1
-  b9_salt_cavern_epr01_wtir01:
-    template: uhs_bundled
-    name: 'B9: Salt Cavern (epr01_wtir01)'
-    cost_storage_cap.data: 0.00335029
-    cost_flow_in_cap.data: 0
-    cost_flow_out_cap.data: 0
-    cost_om_annual_storage_cap.data: 7.87624e-05
-    cost_om_annual_flow_in_cap.data: 0
-    cost_om_annual_flow_out_cap.data: 0
-    cost_flow_in.data: 0
-    cost_flow_out.data: 0
-    energy_to_power_ratio: 192
-    withdrawal_to_injection_ratio: 1.5
-    flow_in_eff: 0.990311
-    flow_out_eff: 1
-    soc_24h_a_min: -0.064838
-    soc_24h_b_min: 1.01149
-    soc_24h_a_max: 0.0640983
-    soc_24h_b_max: 0.988649
-  b9_aquifer_epr01_wtir01:
-    template: uhs_bundled
-    name: 'B9: Aquifer (epr01_wtir01)'
-    cost_storage_cap.data: 0.00100498
-    cost_flow_in_cap.data: 0
-    cost_flow_out_cap.data: 0
-    cost_om_annual_storage_cap.data: 1.91836e-05
-    cost_om_annual_flow_in_cap.data: 0
-    cost_om_annual_flow_out_cap.data: 0
-    cost_flow_in.data: 0
-    cost_flow_out.data: 1.5644e-06
-    energy_to_power_ratio: 1056
-    withdrawal_to_injection_ratio: 1.5
-    flow_in_eff: 0.993796
-    flow_out_eff: 0.95
-    storage_loss: 1.7253e-06
-  b9_depleted_gas_field_epr01_wtir01:
-    template: uhs_bundled
-    name: 'B9: Depleted Gas Field (epr01_wtir01)'
-    cost_storage_cap.data: 0.000863717
-    cost_flow_in_cap.data: 0
-    cost_flow_out_cap.data: 0
-    cost_om_annual_storage_cap.data: 2.26935e-05
-    cost_om_annual_flow_in_cap.data: 0
-    cost_om_annual_flow_out_cap.data: 0
-    cost_flow_in.data: 0
-    cost_flow_out.data: 3.98083e-06
-    energy_to_power_ratio: 1056
-    withdrawal_to_injection_ratio: 1.5
-    flow_in_eff: 0.990893
-    flow_out_eff: 0.8996
-    storage_loss: 1.7253e-06
-  b9_lined_rock_cavern_epr01_wtir01:
-    template: uhs_bundled
-    name: 'B9: Lined Rock Cavern (epr01_wtir01)'
-    cost_storage_cap.data: 0.0071992
-    cost_flow_in_cap.data: 0
-    cost_flow_out_cap.data: 0
-    cost_om_annual_storage_cap.data: 0.000277422
-    cost_om_annual_flow_in_cap.data: 0
-    cost_om_annual_flow_out_cap.data: 0
-    cost_flow_in.data: 0
-    cost_flow_out.data: 0
-    energy_to_power_ratio: 120
-    withdrawal_to_injection_ratio: 1.5
-    flow_in_eff: 0.990058
-    flow_out_eff: 1
-  b9_salt_cavern_epr02_wtir01:
-    template: uhs_bundled
-    name: 'B9: Salt Cavern (epr02_wtir01)'
-    cost_storage_cap.data: 0.00243164
-    cost_flow_in_cap.data: 0
-    cost_flow_out_cap.data: 0
-    cost_om_annual_storage_cap.data: 5.43905e-05
-    cost_om_annual_flow_in_cap.data: 0
-    cost_om_annual_flow_out_cap.data: 0
-    cost_flow_in.data: 0
-    cost_flow_out.data: 0
-    energy_to_power_ratio: 288
-    withdrawal_to_injection_ratio: 1.5
-    flow_in_eff: 0.990311
-    flow_out_eff: 1
-    soc_24h_a_min: -0.064838
-    soc_24h_b_min: 1.01149
-    soc_24h_a_max: 0.0640983
-    soc_24h_b_max: 0.988649
-  b9_aquifer_epr02_wtir01:
-    template: uhs_bundled
-    name: 'B9: Aquifer (epr02_wtir01)'
-    cost_storage_cap.data: 0.000891049
-    cost_flow_in_cap.data: 0
-    cost_flow_out_cap.data: 0
-    cost_om_annual_storage_cap.data: 1.60093e-05
-    cost_om_annual_flow_in_cap.data: 0
-    cost_om_annual_flow_out_cap.data: 0
-    cost_flow_in.data: 0
-    cost_flow_out.data: 1.5644e-06
-    energy_to_power_ratio: 1584
-    withdrawal_to_injection_ratio: 1.5
-    flow_in_eff: 0.993796
-    flow_out_eff: 0.95
-    storage_loss: 1.7253e-06
-  b9_depleted_gas_field_epr02_wtir01:
-    template: uhs_bundled
-    name: 'B9: Depleted Gas Field (epr02_wtir01)'
-    cost_storage_cap.data: 0.000699128
-    cost_flow_in_cap.data: 0
-    cost_flow_out_cap.data: 0
-    cost_om_annual_storage_cap.data: 1.81151e-05
-    cost_om_annual_flow_in_cap.data: 0
-    cost_om_annual_flow_out_cap.data: 0
-    cost_flow_in.data: 0
-    cost_flow_out.data: 3.98083e-06
-    energy_to_power_ratio: 1584
-    withdrawal_to_injection_ratio: 1.5
-    flow_in_eff: 0.990893
-    flow_out_eff: 0.8996
-    storage_loss: 1.7253e-06
-  b9_lined_rock_cavern_epr02_wtir01:
-    template: uhs_bundled
-    name: 'B9: Lined Rock Cavern (epr02_wtir01)'
-    cost_storage_cap.data: 0.00595262
-    cost_flow_in_cap.data: 0
-    cost_flow_out_cap.data: 0
-    cost_om_annual_storage_cap.data: 0.000242728
-    cost_om_annual_flow_in_cap.data: 0
-    cost_om_annual_flow_out_cap.data: 0
-    cost_flow_in.data: 0
-    cost_flow_out.data: 0
-    energy_to_power_ratio: 180
-    withdrawal_to_injection_ratio: 1.5
-    flow_in_eff: 0.990058
-    flow_out_eff: 1
-  b9_salt_cavern_epr03_wtir01:
-    template: uhs_bundled
-    name: 'B9: Salt Cavern (epr03_wtir01)'
-    cost_storage_cap.data: 0.0020657
-    cost_flow_in_cap.data: 0
-    cost_flow_out_cap.data: 0
-    cost_om_annual_storage_cap.data: 4.42256e-05
-    cost_om_annual_flow_in_cap.data: 0
-    cost_om_annual_flow_out_cap.data: 0
-    cost_flow_in.data: 0
-    cost_flow_out.data: 0
-    energy_to_power_ratio: 384
-    withdrawal_to_injection_ratio: 1.5
-    flow_in_eff: 0.990311
-    flow_out_eff: 1
-    soc_24h_a_min: -0.064838
-    soc_24h_b_min: 1.01149
-    soc_24h_a_max: 0.0640983
-    soc_24h_b_max: 0.988649
-  b9_aquifer_epr03_wtir01:
-    template: uhs_bundled
-    name: 'B9: Aquifer (epr03_wtir01)'
-    cost_storage_cap.data: 0.000832633
-    cost_flow_in_cap.data: 0
-    cost_flow_out_cap.data: 0
-    cost_om_annual_storage_cap.data: 1.43773e-05
-    cost_om_annual_flow_in_cap.data: 0
-    cost_om_annual_flow_out_cap.data: 0
-    cost_flow_in.data: 0
-    cost_flow_out.data: 1.5644e-06
-    energy_to_power_ratio: 2112
-    withdrawal_to_injection_ratio: 1.5
-    flow_in_eff: 0.993796
-    flow_out_eff: 0.95
-    storage_loss: 1.7253e-06
-  b9_depleted_gas_field_epr03_wtir01:
-    template: uhs_bundled
-    name: 'B9: Depleted Gas Field (epr03_wtir01)'
-    cost_storage_cap.data: 0.000611702
-    cost_flow_in_cap.data: 0
-    cost_flow_out_cap.data: 0
-    cost_om_annual_storage_cap.data: 1.56801e-05
-    cost_om_annual_flow_in_cap.data: 0
-    cost_om_annual_flow_out_cap.data: 0
-    cost_flow_in.data: 0
-    cost_flow_out.data: 3.98083e-06
-    energy_to_power_ratio: 2112
-    withdrawal_to_injection_ratio: 1.5
-    flow_in_eff: 0.990893
-    flow_out_eff: 0.8996
-    storage_loss: 1.7253e-06
-  b9_lined_rock_cavern_epr03_wtir01:
-    template: uhs_bundled
-    name: 'B9: Lined Rock Cavern (epr03_wtir01)'
-    cost_storage_cap.data: 0.00531552
-    cost_flow_in_cap.data: 0
-    cost_flow_out_cap.data: 0
-    cost_om_annual_storage_cap.data: 0.000224965
-    cost_om_annual_flow_in_cap.data: 0
-    cost_om_annual_flow_out_cap.data: 0
-    cost_flow_in.data: 0
-    cost_flow_out.data: 0
-    energy_to_power_ratio: 240
-    withdrawal_to_injection_ratio: 1.5
-    flow_in_eff: 0.990058
-    flow_out_eff: 1
-  b9_salt_cavern_epr01_wtir02:
-    template: uhs_bundled
-    name: 'B9: Salt Cavern (epr01_wtir02)'
-    cost_storage_cap.data: 0.00293852
-    cost_flow_in_cap.data: 0
-    cost_flow_out_cap.data: 0
-    cost_om_annual_storage_cap.data: 6.73244e-05
-    cost_om_annual_flow_in_cap.data: 0
-    cost_om_annual_flow_out_cap.data: 0
-    cost_flow_in.data: 0
-    cost_flow_out.data: 0
-    energy_to_power_ratio: 192
-    withdrawal_to_injection_ratio: 2.5
-    flow_in_eff: 0.990311
-    flow_out_eff: 1
-    soc_24h_a_min: -0.064838
-    soc_24h_b_min: 1.01149
-    soc_24h_a_max: 0.0640983
-    soc_24h_b_max: 0.988649
-  b9_aquifer_epr01_wtir02:
-    template: uhs_bundled
-    name: 'B9: Aquifer (epr01_wtir02)'
-    cost_storage_cap.data: 0.000969746
-    cost_flow_in_cap.data: 0
-    cost_flow_out_cap.data: 0
-    cost_om_annual_storage_cap.data: 1.81922e-05
-    cost_om_annual_flow_in_cap.data: 0
-    cost_om_annual_flow_out_cap.data: 0
-    cost_flow_in.data: 0
-    cost_flow_out.data: 1.5644e-06
-    energy_to_power_ratio: 1056
-    withdrawal_to_injection_ratio: 2.5
-    flow_in_eff: 0.993796
-    flow_out_eff: 0.95
-    storage_loss: 1.7253e-06
-  b9_depleted_gas_field_epr01_wtir02:
-    template: uhs_bundled
-    name: 'B9: Depleted Gas Field (epr01_wtir02)'
-    cost_storage_cap.data: 0.00081187
-    cost_flow_in_cap.data: 0
-    cost_flow_out_cap.data: 0
-    cost_om_annual_storage_cap.data: 2.12446e-05
-    cost_om_annual_flow_in_cap.data: 0
-    cost_om_annual_flow_out_cap.data: 0
-    cost_flow_in.data: 0
-    cost_flow_out.data: 3.98083e-06
-    energy_to_power_ratio: 1056
-    withdrawal_to_injection_ratio: 2.5
-    flow_in_eff: 0.990893
-    flow_out_eff: 0.8996
-    storage_loss: 1.7253e-06
-  b9_lined_rock_cavern_epr01_wtir02:
-    template: uhs_bundled
-    name: 'B9: Lined Rock Cavern (epr01_wtir02)'
-    cost_storage_cap.data: 0.006531
-    cost_flow_in_cap.data: 0
-    cost_flow_out_cap.data: 0
-    cost_om_annual_storage_cap.data: 0.000258772
-    cost_om_annual_flow_in_cap.data: 0
-    cost_om_annual_flow_out_cap.data: 0
-    cost_flow_in.data: 0
-    cost_flow_out.data: 0
-    energy_to_power_ratio: 120
-    withdrawal_to_injection_ratio: 2.5
-    flow_in_eff: 0.990058
-    flow_out_eff: 1
-  b9_salt_cavern_epr02_wtir02:
-    template: uhs_bundled
-    name: 'B9: Salt Cavern (epr02_wtir02)'
-    cost_storage_cap.data: 0.00215713
-    cost_flow_in_cap.data: 0
-    cost_flow_out_cap.data: 0
-    cost_om_annual_storage_cap.data: 4.67652e-05
-    cost_om_annual_flow_in_cap.data: 0
-    cost_om_annual_flow_out_cap.data: 0
-    cost_flow_in.data: 0
-    cost_flow_out.data: 0
-    energy_to_power_ratio: 288
-    withdrawal_to_injection_ratio: 2.5
-    flow_in_eff: 0.990311
-    flow_out_eff: 1
-    soc_24h_a_min: -0.064838
-    soc_24h_b_min: 1.01149
-    soc_24h_a_max: 0.0640983
-    soc_24h_b_max: 0.988649
-  b9_aquifer_epr02_wtir02:
-    template: uhs_bundled
-    name: 'B9: Aquifer (epr02_wtir02)'
-    cost_storage_cap.data: 0.000867933
-    cost_flow_in_cap.data: 0
-    cost_flow_out_cap.data: 0
-    cost_om_annual_storage_cap.data: 1.53484e-05
-    cost_om_annual_flow_in_cap.data: 0
-    cost_om_annual_flow_out_cap.data: 0
-    cost_flow_in.data: 0
-    cost_flow_out.data: 1.5644e-06
-    energy_to_power_ratio: 1584
-    withdrawal_to_injection_ratio: 2.5
-    flow_in_eff: 0.993796
-    flow_out_eff: 0.95
-    storage_loss: 1.7253e-06
-  b9_depleted_gas_field_epr02_wtir02:
-    template: uhs_bundled
-    name: 'B9: Depleted Gas Field (epr02_wtir02)'
-    cost_storage_cap.data: 0.000664821
-    cost_flow_in_cap.data: 0
-    cost_flow_out_cap.data: 0
-    cost_om_annual_storage_cap.data: 1.71492e-05
-    cost_om_annual_flow_in_cap.data: 0
-    cost_om_annual_flow_out_cap.data: 0
-    cost_flow_in.data: 0
-    cost_flow_out.data: 3.98083e-06
-    energy_to_power_ratio: 1584
-    withdrawal_to_injection_ratio: 2.5
-    flow_in_eff: 0.990893
-    flow_out_eff: 0.8996
-    storage_loss: 1.7253e-06
-  b9_lined_rock_cavern_epr02_wtir02:
-    template: uhs_bundled
-    name: 'B9: Lined Rock Cavern (epr02_wtir02)'
-    cost_storage_cap.data: 0.0055098
-    cost_flow_in_cap.data: 0
-    cost_flow_out_cap.data: 0
-    cost_om_annual_storage_cap.data: 0.000230295
-    cost_om_annual_flow_in_cap.data: 0
-    cost_om_annual_flow_out_cap.data: 0
-    cost_flow_in.data: 0
-    cost_flow_out.data: 0
-    energy_to_power_ratio: 180
-    withdrawal_to_injection_ratio: 2.5
-    flow_in_eff: 0.990058
-    flow_out_eff: 1
-  b9_salt_cavern_epr03_wtir02:
-    template: uhs_bundled
-    name: 'B9: Salt Cavern (epr03_wtir02)'
-    cost_storage_cap.data: 0.00185982
-    cost_flow_in_cap.data: 0
-    cost_flow_out_cap.data: 0
-    cost_om_annual_storage_cap.data: 3.85066e-05
-    cost_om_annual_flow_in_cap.data: 0
-    cost_om_annual_flow_out_cap.data: 0
-    cost_flow_in.data: 0
-    cost_flow_out.data: 0
-    energy_to_power_ratio: 384
-    withdrawal_to_injection_ratio: 2.5
-    flow_in_eff: 0.990311
-    flow_out_eff: 1
-    soc_24h_a_min: -0.064838
-    soc_24h_b_min: 1.01149
-    soc_24h_a_max: 0.0640983
-    soc_24h_b_max: 0.988649
-  b9_aquifer_epr03_wtir02:
-    template: uhs_bundled
-    name: 'B9: Aquifer (epr03_wtir02)'
-    cost_storage_cap.data: 0.000815691
-    cost_flow_in_cap.data: 0
-    cost_flow_out_cap.data: 0
-    cost_om_annual_storage_cap.data: 1.38816e-05
-    cost_om_annual_flow_in_cap.data: 0
-    cost_om_annual_flow_out_cap.data: 0
-    cost_flow_in.data: 0
-    cost_flow_out.data: 1.5644e-06
-    energy_to_power_ratio: 2112
-    withdrawal_to_injection_ratio: 2.5
-    flow_in_eff: 0.993796
-    flow_out_eff: 0.95
-    storage_loss: 1.7253e-06
-  b9_depleted_gas_field_epr03_wtir02:
-    template: uhs_bundled
-    name: 'B9: Depleted Gas Field (epr03_wtir02)'
-    cost_storage_cap.data: 0.000586244
-    cost_flow_in_cap.data: 0
-    cost_flow_out_cap.data: 0
-    cost_om_annual_storage_cap.data: 1.49557e-05
-    cost_om_annual_flow_in_cap.data: 0
-    cost_om_annual_flow_out_cap.data: 0
-    cost_flow_in.data: 0
-    cost_flow_out.data: 3.98083e-06
-    energy_to_power_ratio: 2112
-    withdrawal_to_injection_ratio: 2.5
-    flow_in_eff: 0.990893
-    flow_out_eff: 0.8996
-    storage_loss: 1.7253e-06
-  b9_lined_rock_cavern_epr03_wtir02:
-    template: uhs_bundled
-    name: 'B9: Lined Rock Cavern (epr03_wtir02)'
-    cost_storage_cap.data: 0.00498618
-    cost_flow_in_cap.data: 0
-    cost_flow_out_cap.data: 0
-    cost_om_annual_storage_cap.data: 0.00021564
-    cost_om_annual_flow_in_cap.data: 0
-    cost_om_annual_flow_out_cap.data: 0
-    cost_flow_in.data: 0
-    cost_flow_out.data: 0
-    energy_to_power_ratio: 240
-    withdrawal_to_injection_ratio: 2.5
-    flow_in_eff: 0.990058
-    flow_out_eff: 1
-  b9_salt_cavern_epr01_wtir03:
-    template: uhs_bundled
-    name: 'B9: Salt Cavern (epr01_wtir03)'
-    cost_storage_cap.data: 0.00276205
-    cost_flow_in_cap.data: 0
-    cost_flow_out_cap.data: 0
-    cost_om_annual_storage_cap.data: 6.24224e-05
-    cost_om_annual_flow_in_cap.data: 0
-    cost_om_annual_flow_out_cap.data: 0
-    cost_flow_in.data: 0
-    cost_flow_out.data: 0
-    energy_to_power_ratio: 192
-    withdrawal_to_injection_ratio: 3.5
-    flow_in_eff: 0.990311
-    flow_out_eff: 1
-    soc_24h_a_min: -0.064838
-    soc_24h_b_min: 1.01149
-    soc_24h_a_max: 0.0640983
-    soc_24h_b_max: 0.988649
-  b9_aquifer_epr01_wtir03:
-    template: uhs_bundled
-    name: 'B9: Aquifer (epr01_wtir03)'
-    cost_storage_cap.data: 0.000954902
-    cost_flow_in_cap.data: 0
-    cost_flow_out_cap.data: 0
-    cost_om_annual_storage_cap.data: 1.77674e-05
-    cost_om_annual_flow_in_cap.data: 0
-    cost_om_annual_flow_out_cap.data: 0
-    cost_flow_in.data: 0
-    cost_flow_out.data: 1.5644e-06
-    energy_to_power_ratio: 1056
-    withdrawal_to_injection_ratio: 3.5
-    flow_in_eff: 0.993796
-    flow_out_eff: 0.95
-    storage_loss: 1.7253e-06
-  b9_depleted_gas_field_epr01_wtir03:
-    template: uhs_bundled
-    name: 'B9: Depleted Gas Field (epr01_wtir03)'
-    cost_storage_cap.data: 0.000789827
-    cost_flow_in_cap.data: 0
-    cost_flow_out_cap.data: 0
-    cost_om_annual_storage_cap.data: 2.06237e-05
-    cost_om_annual_flow_in_cap.data: 0
-    cost_om_annual_flow_out_cap.data: 0
-    cost_flow_in.data: 0
-    cost_flow_out.data: 3.98083e-06
-    energy_to_power_ratio: 1056
-    withdrawal_to_injection_ratio: 3.5
-    flow_in_eff: 0.990893
-    flow_out_eff: 0.8996
-    storage_loss: 1.7253e-06
-  b9_lined_rock_cavern_epr01_wtir03:
-    template: uhs_bundled
-    name: 'B9: Lined Rock Cavern (epr01_wtir03)'
-    cost_storage_cap.data: 0.00624644
-    cost_flow_in_cap.data: 0
-    cost_flow_out_cap.data: 0
-    cost_om_annual_storage_cap.data: 0.00025078
-    cost_om_annual_flow_in_cap.data: 0
-    cost_om_annual_flow_out_cap.data: 0
-    cost_flow_in.data: 0
-    cost_flow_out.data: 0
-    energy_to_power_ratio: 120
-    withdrawal_to_injection_ratio: 3.5
-    flow_in_eff: 0.990058
-    flow_out_eff: 1
-  b9_salt_cavern_epr02_wtir03:
-    template: uhs_bundled
-    name: 'B9: Salt Cavern (epr02_wtir03)'
-    cost_storage_cap.data: 0.00203948
-    cost_flow_in_cap.data: 0
-    cost_flow_out_cap.data: 0
-    cost_om_annual_storage_cap.data: 4.34972e-05
-    cost_om_annual_flow_in_cap.data: 0
-    cost_om_annual_flow_out_cap.data: 0
-    cost_flow_in.data: 0
-    cost_flow_out.data: 0
-    energy_to_power_ratio: 288
-    withdrawal_to_injection_ratio: 3.5
-    flow_in_eff: 0.990311
-    flow_out_eff: 1
-    soc_24h_a_min: -0.064838
-    soc_24h_b_min: 1.01149
-    soc_24h_a_max: 0.0640983
-    soc_24h_b_max: 0.988649
-  b9_aquifer_epr02_wtir03:
-    template: uhs_bundled
-    name: 'B9: Aquifer (epr02_wtir03)'
-    cost_storage_cap.data: 0.000858413
-    cost_flow_in_cap.data: 0
-    cost_flow_out_cap.data: 0
-    cost_om_annual_storage_cap.data: 1.50652e-05
-    cost_om_annual_flow_in_cap.data: 0
-    cost_om_annual_flow_out_cap.data: 0
-    cost_flow_in.data: 0
-    cost_flow_out.data: 1.5644e-06
-    energy_to_power_ratio: 1584
-    withdrawal_to_injection_ratio: 3.5
-    flow_in_eff: 0.993796
-    flow_out_eff: 0.95
-    storage_loss: 1.7253e-06
-  b9_depleted_gas_field_epr02_wtir03:
-    template: uhs_bundled
-    name: 'B9: Depleted Gas Field (epr02_wtir03)'
-    cost_storage_cap.data: 0.000650385
-    cost_flow_in_cap.data: 0
-    cost_flow_out_cap.data: 0
-    cost_om_annual_storage_cap.data: 1.67352e-05
-    cost_om_annual_flow_in_cap.data: 0
-    cost_om_annual_flow_out_cap.data: 0
-    cost_flow_in.data: 0
-    cost_flow_out.data: 3.98083e-06
-    energy_to_power_ratio: 1584
-    withdrawal_to_injection_ratio: 3.5
-    flow_in_eff: 0.990893
-    flow_out_eff: 0.8996
-    storage_loss: 1.7253e-06
-  b9_lined_rock_cavern_epr02_wtir03:
-    template: uhs_bundled
-    name: 'B9: Lined Rock Cavern (epr02_wtir03)'
-    cost_storage_cap.data: 0.00532274
-    cost_flow_in_cap.data: 0
-    cost_flow_out_cap.data: 0
-    cost_om_annual_storage_cap.data: 0.000224967
-    cost_om_annual_flow_in_cap.data: 0
-    cost_om_annual_flow_out_cap.data: 0
-    cost_flow_in.data: 0
-    cost_flow_out.data: 0
-    energy_to_power_ratio: 180
-    withdrawal_to_injection_ratio: 3.5
-    flow_in_eff: 0.990058
-    flow_out_eff: 1
-  b9_salt_cavern_epr03_wtir03:
-    template: uhs_bundled
-    name: 'B9: Salt Cavern (epr03_wtir03)'
-    cost_storage_cap.data: 0.00177158
-    cost_flow_in_cap.data: 0
-    cost_flow_out_cap.data: 0
-    cost_om_annual_storage_cap.data: 3.60556e-05
-    cost_om_annual_flow_in_cap.data: 0
-    cost_om_annual_flow_out_cap.data: 0
-    cost_flow_in.data: 0
-    cost_flow_out.data: 0
-    energy_to_power_ratio: 384
-    withdrawal_to_injection_ratio: 3.5
-    flow_in_eff: 0.990311
-    flow_out_eff: 1
-    soc_24h_a_min: -0.064838
-    soc_24h_b_min: 1.01149
-    soc_24h_a_max: 0.0640983
-    soc_24h_b_max: 0.988649
-  b9_aquifer_epr03_wtir03:
-    template: uhs_bundled
-    name: 'B9: Aquifer (epr03_wtir03)'
-    cost_storage_cap.data: 0.000808946
-    cost_flow_in_cap.data: 0
-    cost_flow_out_cap.data: 0
-    cost_om_annual_storage_cap.data: 1.36692e-05
-    cost_om_annual_flow_in_cap.data: 0
-    cost_om_annual_flow_out_cap.data: 0
-    cost_flow_in.data: 0
-    cost_flow_out.data: 1.5644e-06
-    energy_to_power_ratio: 2112
-    withdrawal_to_injection_ratio: 3.5
-    flow_in_eff: 0.993796
-    flow_out_eff: 0.95
-    storage_loss: 1.7253e-06
-  b9_depleted_gas_field_epr03_wtir03:
-    template: uhs_bundled
-    name: 'B9: Depleted Gas Field (epr03_wtir03)'
-    cost_storage_cap.data: 0.000575688
-    cost_flow_in_cap.data: 0
-    cost_flow_out_cap.data: 0
-    cost_om_annual_storage_cap.data: 1.46452e-05
-    cost_om_annual_flow_in_cap.data: 0
-    cost_om_annual_flow_out_cap.data: 0
-    cost_flow_in.data: 0
-    cost_flow_out.data: 3.98083e-06
-    energy_to_power_ratio: 2112
-    withdrawal_to_injection_ratio: 3.5
-    flow_in_eff: 0.990893
-    flow_out_eff: 0.8996
-    storage_loss: 1.7253e-06
-  b9_lined_rock_cavern_epr03_wtir03:
-    template: uhs_bundled
-    name: 'B9: Lined Rock Cavern (epr03_wtir03)'
-    cost_storage_cap.data: 0.00484867
-    cost_flow_in_cap.data: 0
-    cost_flow_out_cap.data: 0
-    cost_om_annual_storage_cap.data: 0.000211644
-    cost_om_annual_flow_in_cap.data: 0
-    cost_om_annual_flow_out_cap.data: 0
-    cost_flow_in.data: 0
-    cost_flow_out.data: 0
-    energy_to_power_ratio: 240
-    withdrawal_to_injection_ratio: 3.5
+    withdrawal_to_injection_ratio: 3
     flow_in_eff: 0.990058
     flow_out_eff: 1
   p1_salt_cavern_epr01_wtir01:
     template: uhs_partially_decoupled
     name: 'P1: Salt Cavern (epr01_wtir01)'
-    cost_storage_cap.data: 0.000741598
+    cost_storage_cap.data: 0.000785131
     cost_flow_in_cap.data: 0
-    cost_flow_out_cap.data: 0.407673
-    cost_om_annual_storage_cap.data: 2.16004e-06
+    cost_flow_out_cap.data: 0.288531
+    cost_om_annual_storage_cap.data: 2.74699e-06
     cost_om_annual_flow_in_cap.data: 0
-    cost_om_annual_flow_out_cap.data: 0.0128463
+    cost_om_annual_flow_out_cap.data: 0.00877696
     cost_flow_in.data: 0
     cost_flow_out.data: 0
     energy_to_power_ratio_min: 1
     energy_to_power_ratio_max: 10000
-    withdrawal_to_injection_ratio: 2.5
-    flow_in_eff: 0.990311
+    withdrawal_to_injection_ratio: 3
+    flow_in_eff: 0.989328
     flow_out_eff: 1
-    soc_24h_a_min: -0.064838
-    soc_24h_b_min: 1.01149
-    soc_24h_a_max: 0.0640983
-    soc_24h_b_max: 0.988649
+    soc_24h_a_min: -0.0833882
+    soc_24h_b_min: 1.01151
+    soc_24h_a_max: 0.0824354
+    soc_24h_b_max: 0.988629
   p1_aquifer_epr01_wtir01:
     template: uhs_partially_decoupled
     name: 'P1: Aquifer (epr01_wtir01)'
-    cost_storage_cap.data: 0.000493811
+    cost_storage_cap.data: 0.000538203
     cost_flow_in_cap.data: 0
-    cost_flow_out_cap.data: 0.59261
-    cost_om_annual_storage_cap.data: 4.13946e-06
+    cost_flow_out_cap.data: 0.695066
+    cost_om_annual_storage_cap.data: 5.04121e-06
     cost_om_annual_flow_in_cap.data: 0
-    cost_om_annual_flow_out_cap.data: 0.017755
+    cost_om_annual_flow_out_cap.data: 0.0210433
     cost_flow_in.data: 0
     cost_flow_out.data: 1.5644e-06
     energy_to_power_ratio_min: 1
-    energy_to_power_ratio_max: 10000
-    withdrawal_to_injection_ratio: 2.5
+    energy_to_power_ratio_max: 4752
+    withdrawal_to_injection_ratio: 3
     flow_in_eff: 0.993796
     flow_out_eff: 0.95
     storage_loss: 1.7253e-06
   p1_depleted_gas_field_epr01_wtir01:
     template: uhs_partially_decoupled
     name: 'P1: Depleted Gas Field (epr01_wtir01)'
-    cost_storage_cap.data: 0.000178071
+    cost_storage_cap.data: 0.000209276
     cost_flow_in_cap.data: 0
-    cost_flow_out_cap.data: 0.771013
-    cost_om_annual_storage_cap.data: 2.72963e-06
+    cost_flow_out_cap.data: 0.955615
+    cost_om_annual_storage_cap.data: 3.3632e-06
     cost_om_annual_flow_in_cap.data: 0
-    cost_om_annual_flow_out_cap.data: 0.0228406
+    cost_om_annual_flow_out_cap.data: 0.0284551
     cost_flow_in.data: 0
-    cost_flow_out.data: 3.98083e-06
+    cost_flow_out.data: 3.97906e-06
     energy_to_power_ratio_min: 1
-    energy_to_power_ratio_max: 10000
-    withdrawal_to_injection_ratio: 2.5
+    energy_to_power_ratio_max: 4752
+    withdrawal_to_injection_ratio: 3
     flow_in_eff: 0.990893
-    flow_out_eff: 0.8996
+    flow_out_eff: 0.9
     storage_loss: 1.7253e-06
   p1_lined_rock_cavern_epr01_wtir01:
     template: uhs_partially_decoupled
     name: 'P1: Lined Rock Cavern (epr01_wtir01)'
-    cost_storage_cap.data: 0.000902939
+    cost_storage_cap.data: 0.000919316
     cost_flow_in_cap.data: 0
-    cost_flow_out_cap.data: 0.829235
+    cost_flow_out_cap.data: 1.03995
     cost_om_annual_storage_cap.data: 3.87415e-06
     cost_om_annual_flow_in_cap.data: 0
-    cost_om_annual_flow_out_cap.data: 0.0407558
+    cost_om_annual_flow_out_cap.data: 0.0526668
     cost_flow_in.data: 0
     cost_flow_out.data: 0
     energy_to_power_ratio_min: 1
     energy_to_power_ratio_max: 10000
-    withdrawal_to_injection_ratio: 2.5
+    withdrawal_to_injection_ratio: 3
     flow_in_eff: 0.990058
     flow_out_eff: 1
   f1_salt_cavern_epr01_wtir01:
     template: uhs_fully_decoupled
     name: 'F1: Salt Cavern (epr01_wtir01)'
-    cost_storage_cap.data: 0.000741598
-    cost_flow_in_cap.data: 0.335265
-    cost_flow_out_cap.data: 0.273566
-    cost_om_annual_storage_cap.data: 2.16004e-06
-    cost_om_annual_flow_in_cap.data: 0.0112155
-    cost_om_annual_flow_out_cap.data: 0.00836009
+    cost_storage_cap.data: 0.000785131
+    cost_flow_in_cap.data: 0.373847
+    cost_flow_out_cap.data: 0.163916
+    cost_om_annual_storage_cap.data: 2.74699e-06
+    cost_om_annual_flow_in_cap.data: 0.0115279
+    cost_om_annual_flow_out_cap.data: 0.00493432
     cost_flow_in.data: 0
     cost_flow_out.data: 0
     energy_to_power_ratio_min: 1
     energy_to_power_ratio_max: 10000
     withdrawal_to_injection_ratio_min: 1
     withdrawal_to_injection_ratio_max: 20
-    flow_in_eff: 0.990311
+    flow_in_eff: 0.989328
     flow_out_eff: 1
-    soc_24h_a_min: -0.064838
-    soc_24h_b_min: 1.01149
-    soc_24h_a_max: 0.0640983
-    soc_24h_b_max: 0.988649
+    soc_24h_a_min: -0.0833882
+    soc_24h_b_min: 1.01151
+    soc_24h_a_max: 0.0824354
+    soc_24h_b_max: 0.988629
   f1_aquifer_epr01_wtir01:
     template: uhs_fully_decoupled
     name: 'F1: Aquifer (epr01_wtir01)'
-    cost_storage_cap.data: 0.000493811
-    cost_flow_in_cap.data: 0.174299
-    cost_flow_out_cap.data: 0.52289
-    cost_om_annual_storage_cap.data: 4.13946e-06
-    cost_om_annual_flow_in_cap.data: 0.00645869
-    cost_om_annual_flow_out_cap.data: 0.0151715
+    cost_storage_cap.data: 0.000538203
+    cost_flow_in_cap.data: 0.231757
+    cost_flow_out_cap.data: 0.617814
+    cost_om_annual_storage_cap.data: 5.04121e-06
+    cost_om_annual_flow_in_cap.data: 0.00904149
+    cost_om_annual_flow_out_cap.data: 0.0180294
     cost_flow_in.data: 0
     cost_flow_out.data: 1.5644e-06
     energy_to_power_ratio_min: 1
@@ -840,30 +246,30 @@ techs:
   f1_depleted_gas_field_epr01_wtir01:
     template: uhs_fully_decoupled
     name: 'F1: Depleted Gas Field (epr01_wtir01)'
-    cost_storage_cap.data: 0.000178071
-    cost_flow_in_cap.data: 0.24283
-    cost_flow_out_cap.data: 0.673881
-    cost_om_annual_storage_cap.data: 2.72963e-06
-    cost_om_annual_flow_in_cap.data: 0.00852473
-    cost_om_annual_flow_out_cap.data: 0.0194307
+    cost_storage_cap.data: 0.000209276
+    cost_flow_in_cap.data: 0.31954
+    cost_flow_out_cap.data: 0.849102
+    cost_om_annual_storage_cap.data: 3.3632e-06
+    cost_om_annual_flow_in_cap.data: 0.0117414
+    cost_om_annual_flow_out_cap.data: 0.0245413
     cost_flow_in.data: 0
-    cost_flow_out.data: 3.98083e-06
+    cost_flow_out.data: 3.97906e-06
     energy_to_power_ratio_min: 1
     energy_to_power_ratio_max: 10000
     withdrawal_to_injection_ratio_min: 1
     withdrawal_to_injection_ratio_max: 20
     flow_in_eff: 0.990893
-    flow_out_eff: 0.8996
+    flow_out_eff: 0.9
     storage_loss: 1.7253e-06
   f1_lined_rock_cavern_epr01_wtir01:
     template: uhs_fully_decoupled
     name: 'F1: Lined Rock Cavern (epr01_wtir01)'
-    cost_storage_cap.data: 0.000902939
-    cost_flow_in_cap.data: 0.753794
-    cost_flow_out_cap.data: 0.527718
+    cost_storage_cap.data: 0.000919316
+    cost_flow_in_cap.data: 1.10922
+    cost_flow_out_cap.data: 0.67021
     cost_om_annual_storage_cap.data: 3.87415e-06
-    cost_om_annual_flow_in_cap.data: 0.0430906
-    cost_om_annual_flow_out_cap.data: 0.0235196
+    cost_om_annual_flow_in_cap.data: 0.0664807
+    cost_om_annual_flow_out_cap.data: 0.0305066
     cost_flow_in.data: 0
     cost_flow_out.data: 0
     energy_to_power_ratio_min: 1
@@ -875,33 +281,33 @@ techs:
   fx1_salt_cavern_epr01_wtir01:
     template: uhs_fully_decoupled
     name: 'FX1: Salt Cavern (epr01_wtir01)'
-    cost_storage_cap.data: 0.000806496
-    cost_flow_in_cap.data: 0.296473
-    cost_flow_out_cap.data: 0.276116
-    cost_om_annual_storage_cap.data: 2.16004e-06
-    cost_om_annual_flow_in_cap.data: 0.0112155
-    cost_om_annual_flow_out_cap.data: 0.00836009
+    cost_storage_cap.data: 0.000614322
+    cost_flow_in_cap.data: 0.350535
+    cost_flow_out_cap.data: 0.239075
+    cost_om_annual_storage_cap.data: 2.01586e-06
+    cost_om_annual_flow_in_cap.data: 0.00973708
+    cost_om_annual_flow_out_cap.data: 0.00613722
     cost_flow_in.data: 0
     cost_flow_out.data: 0
     energy_to_power_ratio_min: 1
     energy_to_power_ratio_max: 10000
     withdrawal_to_injection_ratio_min: 1
     withdrawal_to_injection_ratio_max: 20
-    flow_in_eff: 0.990311
+    flow_in_eff: 0.989328
     flow_out_eff: 1
-    soc_24h_a_min: -0.064838
-    soc_24h_b_min: 1.01149
-    soc_24h_a_max: 0.0640983
-    soc_24h_b_max: 0.988649
+    soc_24h_a_min: -0.0833882
+    soc_24h_b_min: 1.01151
+    soc_24h_a_max: 0.0824354
+    soc_24h_b_max: 0.988629
   fx1_aquifer_epr01_wtir01:
     template: uhs_fully_decoupled
     name: 'FX1: Aquifer (epr01_wtir01)'
-    cost_storage_cap.data: 0.000653092
-    cost_flow_in_cap.data: 0.141328
-    cost_flow_out_cap.data: 0.283019
-    cost_om_annual_storage_cap.data: 4.13946e-06
-    cost_om_annual_flow_in_cap.data: 0.00645869
-    cost_om_annual_flow_out_cap.data: 0.0151715
+    cost_storage_cap.data: 0.000729584
+    cost_flow_in_cap.data: 0.178667
+    cost_flow_out_cap.data: 0.33064
+    cost_om_annual_storage_cap.data: 1.08425e-05
+    cost_om_annual_flow_in_cap.data: 0.00496298
+    cost_om_annual_flow_out_cap.data: 0.0101408
     cost_flow_in.data: 0
     cost_flow_out.data: 1.5644e-06
     energy_to_power_ratio_min: 1
@@ -914,479 +320,35 @@ techs:
   fx1_depleted_gas_field_epr01_wtir01:
     template: uhs_fully_decoupled
     name: 'FX1: Depleted Gas Field (epr01_wtir01)'
-    cost_storage_cap.data: 0.000351
-    cost_flow_in_cap.data: 0.206547
-    cost_flow_out_cap.data: 0.411614
-    cost_om_annual_storage_cap.data: 2.72963e-06
-    cost_om_annual_flow_in_cap.data: 0.00852473
-    cost_om_annual_flow_out_cap.data: 0.0194307
+    cost_storage_cap.data: 0.000430199
+    cost_flow_in_cap.data: 0.261118
+    cost_flow_out_cap.data: 0.511933
+    cost_om_annual_storage_cap.data: 1.00597e-05
+    cost_om_annual_flow_in_cap.data: 0.00725327
+    cost_om_annual_flow_out_cap.data: 0.0152363
     cost_flow_in.data: 0
-    cost_flow_out.data: 3.98083e-06
+    cost_flow_out.data: 3.97906e-06
     energy_to_power_ratio_min: 1
     energy_to_power_ratio_max: 10000
     withdrawal_to_injection_ratio_min: 1
     withdrawal_to_injection_ratio_max: 20
     flow_in_eff: 0.990893
-    flow_out_eff: 0.8996
+    flow_out_eff: 0.9
     storage_loss: 1.7253e-06
   fx1_lined_rock_cavern_epr01_wtir01:
     template: uhs_fully_decoupled
     name: 'FX1: Lined Rock Cavern (epr01_wtir01)'
-    cost_storage_cap.data: 0.00243586
-    cost_flow_in_cap.data: 0.302123
-    cost_flow_out_cap.data: 0.431621
-    cost_om_annual_storage_cap.data: 3.87415e-06
-    cost_om_annual_flow_in_cap.data: 0.0430906
-    cost_om_annual_flow_out_cap.data: 0.0235196
+    cost_storage_cap.data: 0.00291825
+    cost_flow_in_cap.data: 0.381945
+    cost_flow_out_cap.data: 0.550973
+    cost_om_annual_storage_cap.data: 0.000125011
+    cost_om_annual_flow_in_cap.data: 0.0106096
+    cost_om_annual_flow_out_cap.data: 0.0272652
     cost_flow_in.data: 0
     cost_flow_out.data: 0
     energy_to_power_ratio_min: 1
     energy_to_power_ratio_max: 10000
     withdrawal_to_injection_ratio_min: 1
-    withdrawal_to_injection_ratio_max: 20
-    flow_in_eff: 0.990058
-    flow_out_eff: 1
-  fx2_salt_cavern_epr01_wtir01:
-    template: uhs_fully_decoupled
-    name: 'FX2: Salt Cavern (epr01_wtir01)'
-    cost_storage_cap.data: 0.000526433
-    cost_flow_in_cap.data: 0.296473
-    cost_flow_out_cap.data: 0.336445
-    cost_om_annual_storage_cap.data: 2.59205e-06
-    cost_om_annual_flow_in_cap.data: 0.0104705
-    cost_om_annual_flow_out_cap.data: 0.0081321
-    cost_flow_in.data: 0
-    cost_flow_out.data: 0
-    energy_to_power_ratio_min: 144
-    energy_to_power_ratio_max: 288
-    withdrawal_to_injection_ratio_min: 1
-    withdrawal_to_injection_ratio_max: 20
-    flow_in_eff: 0.990311
-    flow_out_eff: 1
-    soc_24h_a_min: -0.064838
-    soc_24h_b_min: 1.01149
-    soc_24h_a_max: 0.0640983
-    soc_24h_b_max: 0.988649
-  fx2_aquifer_epr01_wtir01:
-    template: uhs_fully_decoupled
-    name: 'FX2: Aquifer (epr01_wtir01)'
-    cost_storage_cap.data: 0.000657965
-    cost_flow_in_cap.data: 0.141328
-    cost_flow_out_cap.data: 0.273615
-    cost_om_annual_storage_cap.data: 4.13946e-06
-    cost_om_annual_flow_in_cap.data: 0.00582546
-    cost_om_annual_flow_out_cap.data: 0.0132508
-    cost_flow_in.data: 0
-    cost_flow_out.data: 1.5644e-06
-    energy_to_power_ratio_min: 792
-    energy_to_power_ratio_max: 1584
-    withdrawal_to_injection_ratio_min: 1
-    withdrawal_to_injection_ratio_max: 20
-    flow_in_eff: 0.993796
-    flow_out_eff: 0.95
-    storage_loss: 1.7253e-06
-  fx2_depleted_gas_field_epr01_wtir01:
-    template: uhs_fully_decoupled
-    name: 'FX2: Depleted Gas Field (epr01_wtir01)'
-    cost_storage_cap.data: 0.000368809
-    cost_flow_in_cap.data: 0.206547
-    cost_flow_out_cap.data: 0.385772
-    cost_om_annual_storage_cap.data: 2.72963e-06
-    cost_om_annual_flow_in_cap.data: 0.0078279
-    cost_om_annual_flow_out_cap.data: 0.0172831
-    cost_flow_in.data: 0
-    cost_flow_out.data: 3.98083e-06
-    energy_to_power_ratio_min: 792
-    energy_to_power_ratio_max: 1584
-    withdrawal_to_injection_ratio_min: 1
-    withdrawal_to_injection_ratio_max: 20
-    flow_in_eff: 0.990893
-    flow_out_eff: 0.8996
-    storage_loss: 1.7253e-06
-  fx2_lined_rock_cavern_epr01_wtir01:
-    template: uhs_fully_decoupled
-    name: 'FX2: Lined Rock Cavern (epr01_wtir01)'
-    cost_storage_cap.data: 0.00248279
-    cost_flow_in_cap.data: 0.302123
-    cost_flow_out_cap.data: 0.379781
-    cost_om_annual_storage_cap.data: 3.87415e-06
-    cost_om_annual_flow_in_cap.data: 0.034416
-    cost_om_annual_flow_out_cap.data: 0.0193764
-    cost_flow_in.data: 0
-    cost_flow_out.data: 0
-    energy_to_power_ratio_min: 90
-    energy_to_power_ratio_max: 180
-    withdrawal_to_injection_ratio_min: 1
-    withdrawal_to_injection_ratio_max: 20
-    flow_in_eff: 0.990058
-    flow_out_eff: 1
-  fx2_salt_cavern_epr02_wtir01:
-    template: uhs_fully_decoupled
-    name: 'FX2: Salt Cavern (epr02_wtir01)'
-    cost_storage_cap.data: 0.000911186
-    cost_flow_in_cap.data: 0.296473
-    cost_flow_out_cap.data: 0.244358
-    cost_om_annual_storage_cap.data: 2.16004e-06
-    cost_om_annual_flow_in_cap.data: 0.0119605
-    cost_om_annual_flow_out_cap.data: 0.00889798
-    cost_flow_in.data: 0
-    cost_flow_out.data: 0
-    energy_to_power_ratio_min: 288
-    energy_to_power_ratio_max: 864
-    withdrawal_to_injection_ratio_min: 1
-    withdrawal_to_injection_ratio_max: 20
-    flow_in_eff: 0.990311
-    flow_out_eff: 1
-    soc_24h_a_min: -0.064838
-    soc_24h_b_min: 1.01149
-    soc_24h_a_max: 0.0640983
-    soc_24h_b_max: 0.988649
-  fx2_aquifer_epr02_wtir01:
-    template: uhs_fully_decoupled
-    name: 'FX2: Aquifer (epr02_wtir01)'
-    cost_storage_cap.data: 0.000649733
-    cost_flow_in_cap.data: 0.141328
-    cost_flow_out_cap.data: 0.292816
-    cost_om_annual_storage_cap.data: 4.13946e-06
-    cost_om_annual_flow_in_cap.data: 0.00709193
-    cost_om_annual_flow_out_cap.data: 0.01704
-    cost_flow_in.data: 0
-    cost_flow_out.data: 1.5644e-06
-    energy_to_power_ratio_min: 1584
-    energy_to_power_ratio_max: 4752
-    withdrawal_to_injection_ratio_min: 1
-    withdrawal_to_injection_ratio_max: 20
-    flow_in_eff: 0.993796
-    flow_out_eff: 0.95
-    storage_loss: 1.7253e-06
-  fx2_depleted_gas_field_epr02_wtir01:
-    template: uhs_fully_decoupled
-    name: 'FX2: Depleted Gas Field (epr02_wtir01)'
-    cost_storage_cap.data: 0.000337743
-    cost_flow_in_cap.data: 0.206547
-    cost_flow_out_cap.data: 0.440769
-    cost_om_annual_storage_cap.data: 2.72963e-06
-    cost_om_annual_flow_in_cap.data: 0.00922156
-    cost_om_annual_flow_out_cap.data: 0.0214084
-    cost_flow_in.data: 0
-    cost_flow_out.data: 3.98083e-06
-    energy_to_power_ratio_min: 1584
-    energy_to_power_ratio_max: 4752
-    withdrawal_to_injection_ratio_min: 1
-    withdrawal_to_injection_ratio_max: 20
-    flow_in_eff: 0.990893
-    flow_out_eff: 0.8996
-    storage_loss: 1.7253e-06
-  fx2_lined_rock_cavern_epr02_wtir01:
-    template: uhs_fully_decoupled
-    name: 'FX2: Lined Rock Cavern (epr02_wtir01)'
-    cost_storage_cap.data: 0.00240262
-    cost_flow_in_cap.data: 0.302123
-    cost_flow_out_cap.data: 0.484085
-    cost_om_annual_storage_cap.data: 3.87415e-06
-    cost_om_annual_flow_in_cap.data: 0.0517652
-    cost_om_annual_flow_out_cap.data: 0.0276075
-    cost_flow_in.data: 0
-    cost_flow_out.data: 0
-    energy_to_power_ratio_min: 180
-    energy_to_power_ratio_max: 540
-    withdrawal_to_injection_ratio_min: 1
-    withdrawal_to_injection_ratio_max: 20
-    flow_in_eff: 0.990058
-    flow_out_eff: 1
-  fx4_salt_cavern_epr01_wtir01:
-    template: uhs_fully_decoupled
-    name: 'FX4: Salt Cavern (epr01_wtir01)'
-    cost_storage_cap.data: 0.000526433
-    cost_flow_in_cap.data: 0.296473
-    cost_flow_out_cap.data: 0.336445
-    cost_om_annual_storage_cap.data: 2.59205e-06
-    cost_om_annual_flow_in_cap.data: 0.00979993
-    cost_om_annual_flow_out_cap.data: 0.0081321
-    cost_flow_in.data: 0
-    cost_flow_out.data: 0
-    energy_to_power_ratio_min: 144
-    energy_to_power_ratio_max: 288
-    withdrawal_to_injection_ratio_min: 1
-    withdrawal_to_injection_ratio_max: 2.5
-    flow_in_eff: 0.990311
-    flow_out_eff: 1
-    soc_24h_a_min: -0.064838
-    soc_24h_b_min: 1.01149
-    soc_24h_a_max: 0.0640983
-    soc_24h_b_max: 0.988649
-  fx4_aquifer_epr01_wtir01:
-    template: uhs_fully_decoupled
-    name: 'FX4: Aquifer (epr01_wtir01)'
-    cost_storage_cap.data: 0.000657214
-    cost_flow_in_cap.data: 0.141328
-    cost_flow_out_cap.data: 0.274044
-    cost_om_annual_storage_cap.data: 4.13946e-06
-    cost_om_annual_flow_in_cap.data: 0.00525555
-    cost_om_annual_flow_out_cap.data: 0.0132508
-    cost_flow_in.data: 0
-    cost_flow_out.data: 1.5644e-06
-    energy_to_power_ratio_min: 792
-    energy_to_power_ratio_max: 1584
-    withdrawal_to_injection_ratio_min: 1
-    withdrawal_to_injection_ratio_max: 2.5
-    flow_in_eff: 0.993796
-    flow_out_eff: 0.95
-    storage_loss: 1.7253e-06
-  fx4_depleted_gas_field_epr01_wtir01:
-    template: uhs_fully_decoupled
-    name: 'FX4: Depleted Gas Field (epr01_wtir01)'
-    cost_storage_cap.data: 0.000368292
-    cost_flow_in_cap.data: 0.206547
-    cost_flow_out_cap.data: 0.386067
-    cost_om_annual_storage_cap.data: 2.72963e-06
-    cost_om_annual_flow_in_cap.data: 0.00720075
-    cost_om_annual_flow_out_cap.data: 0.0172831
-    cost_flow_in.data: 0
-    cost_flow_out.data: 3.98083e-06
-    energy_to_power_ratio_min: 792
-    energy_to_power_ratio_max: 1584
-    withdrawal_to_injection_ratio_min: 1
-    withdrawal_to_injection_ratio_max: 2.5
-    flow_in_eff: 0.990893
-    flow_out_eff: 0.8996
-    storage_loss: 1.7253e-06
-  fx4_lined_rock_cavern_epr01_wtir01:
-    template: uhs_fully_decoupled
-    name: 'FX4: Lined Rock Cavern (epr01_wtir01)'
-    cost_storage_cap.data: 0.0024775
-    cost_flow_in_cap.data: 0.302123
-    cost_flow_out_cap.data: 0.380124
-    cost_om_annual_storage_cap.data: 3.87415e-06
-    cost_om_annual_flow_in_cap.data: 0.0266089
-    cost_om_annual_flow_out_cap.data: 0.0193764
-    cost_flow_in.data: 0
-    cost_flow_out.data: 0
-    energy_to_power_ratio_min: 90
-    energy_to_power_ratio_max: 180
-    withdrawal_to_injection_ratio_min: 1
-    withdrawal_to_injection_ratio_max: 2.5
-    flow_in_eff: 0.990058
-    flow_out_eff: 1
-  fx4_salt_cavern_epr02_wtir01:
-    template: uhs_fully_decoupled
-    name: 'FX4: Salt Cavern (epr02_wtir01)'
-    cost_storage_cap.data: 0.000911186
-    cost_flow_in_cap.data: 0.296473
-    cost_flow_out_cap.data: 0.244358
-    cost_om_annual_storage_cap.data: 2.16004e-06
-    cost_om_annual_flow_in_cap.data: 0.010843
-    cost_om_annual_flow_out_cap.data: 0.00889798
-    cost_flow_in.data: 0
-    cost_flow_out.data: 0
-    energy_to_power_ratio_min: 288
-    energy_to_power_ratio_max: 864
-    withdrawal_to_injection_ratio_min: 1
-    withdrawal_to_injection_ratio_max: 2.5
-    flow_in_eff: 0.990311
-    flow_out_eff: 1
-    soc_24h_a_min: -0.064838
-    soc_24h_b_min: 1.01149
-    soc_24h_a_max: 0.0640983
-    soc_24h_b_max: 0.988649
-  fx4_aquifer_epr02_wtir01:
-    template: uhs_fully_decoupled
-    name: 'FX4: Aquifer (epr02_wtir01)'
-    cost_storage_cap.data: 0.00064847
-    cost_flow_in_cap.data: 0.141328
-    cost_flow_out_cap.data: 0.294048
-    cost_om_annual_storage_cap.data: 4.13946e-06
-    cost_om_annual_flow_in_cap.data: 0.00614208
-    cost_om_annual_flow_out_cap.data: 0.01704
-    cost_flow_in.data: 0
-    cost_flow_out.data: 1.5644e-06
-    energy_to_power_ratio_min: 1584
-    energy_to_power_ratio_max: 4752
-    withdrawal_to_injection_ratio_min: 1
-    withdrawal_to_injection_ratio_max: 2.5
-    flow_in_eff: 0.993796
-    flow_out_eff: 0.95
-    storage_loss: 1.7253e-06
-  fx4_depleted_gas_field_epr02_wtir01:
-    template: uhs_fully_decoupled
-    name: 'FX4: Depleted Gas Field (epr02_wtir01)'
-    cost_storage_cap.data: 0.000336874
-    cost_flow_in_cap.data: 0.206547
-    cost_flow_out_cap.data: 0.441617
-    cost_om_annual_storage_cap.data: 2.72963e-06
-    cost_om_annual_flow_in_cap.data: 0.00817632
-    cost_om_annual_flow_out_cap.data: 0.0214084
-    cost_flow_in.data: 0
-    cost_flow_out.data: 3.98083e-06
-    energy_to_power_ratio_min: 1584
-    energy_to_power_ratio_max: 4752
-    withdrawal_to_injection_ratio_min: 1
-    withdrawal_to_injection_ratio_max: 2.5
-    flow_in_eff: 0.990893
-    flow_out_eff: 0.8996
-    storage_loss: 1.7253e-06
-  fx4_lined_rock_cavern_epr02_wtir01:
-    template: uhs_fully_decoupled
-    name: 'FX4: Lined Rock Cavern (epr02_wtir01)'
-    cost_storage_cap.data: 0.00239372
-    cost_flow_in_cap.data: 0.302123
-    cost_flow_out_cap.data: 0.485071
-    cost_om_annual_storage_cap.data: 3.87415e-06
-    cost_om_annual_flow_in_cap.data: 0.0387533
-    cost_om_annual_flow_out_cap.data: 0.0276075
-    cost_flow_in.data: 0
-    cost_flow_out.data: 0
-    energy_to_power_ratio_min: 180
-    energy_to_power_ratio_max: 540
-    withdrawal_to_injection_ratio_min: 1
-    withdrawal_to_injection_ratio_max: 2.5
-    flow_in_eff: 0.990058
-    flow_out_eff: 1
-  fx4_salt_cavern_epr01_wtir02:
-    template: uhs_fully_decoupled
-    name: 'FX4: Salt Cavern (epr01_wtir02)'
-    cost_storage_cap.data: 0.000526433
-    cost_flow_in_cap.data: 0.296473
-    cost_flow_out_cap.data: 0.336445
-    cost_om_annual_storage_cap.data: 2.59205e-06
-    cost_om_annual_flow_in_cap.data: 0.011141
-    cost_om_annual_flow_out_cap.data: 0.0081321
-    cost_flow_in.data: 0
-    cost_flow_out.data: 0
-    energy_to_power_ratio_min: 144
-    energy_to_power_ratio_max: 288
-    withdrawal_to_injection_ratio_min: 2.5
-    withdrawal_to_injection_ratio_max: 20
-    flow_in_eff: 0.990311
-    flow_out_eff: 1
-    soc_24h_a_min: -0.064838
-    soc_24h_b_min: 1.01149
-    soc_24h_a_max: 0.0640983
-    soc_24h_b_max: 0.988649
-  fx4_aquifer_epr01_wtir02:
-    template: uhs_fully_decoupled
-    name: 'FX4: Aquifer (epr01_wtir02)'
-    cost_storage_cap.data: 0.000658717
-    cost_flow_in_cap.data: 0.141328
-    cost_flow_out_cap.data: 0.273187
-    cost_om_annual_storage_cap.data: 4.13946e-06
-    cost_om_annual_flow_in_cap.data: 0.00639537
-    cost_om_annual_flow_out_cap.data: 0.0132508
-    cost_flow_in.data: 0
-    cost_flow_out.data: 1.5644e-06
-    energy_to_power_ratio_min: 792
-    energy_to_power_ratio_max: 1584
-    withdrawal_to_injection_ratio_min: 2.5
-    withdrawal_to_injection_ratio_max: 20
-    flow_in_eff: 0.993796
-    flow_out_eff: 0.95
-    storage_loss: 1.7253e-06
-  fx4_depleted_gas_field_epr01_wtir02:
-    template: uhs_fully_decoupled
-    name: 'FX4: Depleted Gas Field (epr01_wtir02)'
-    cost_storage_cap.data: 0.000369326
-    cost_flow_in_cap.data: 0.206547
-    cost_flow_out_cap.data: 0.385477
-    cost_om_annual_storage_cap.data: 2.72963e-06
-    cost_om_annual_flow_in_cap.data: 0.00845505
-    cost_om_annual_flow_out_cap.data: 0.0172831
-    cost_flow_in.data: 0
-    cost_flow_out.data: 3.98083e-06
-    energy_to_power_ratio_min: 792
-    energy_to_power_ratio_max: 1584
-    withdrawal_to_injection_ratio_min: 2.5
-    withdrawal_to_injection_ratio_max: 20
-    flow_in_eff: 0.990893
-    flow_out_eff: 0.8996
-    storage_loss: 1.7253e-06
-  fx4_lined_rock_cavern_epr01_wtir02:
-    template: uhs_fully_decoupled
-    name: 'FX4: Lined Rock Cavern (epr01_wtir02)'
-    cost_storage_cap.data: 0.00248809
-    cost_flow_in_cap.data: 0.302123
-    cost_flow_out_cap.data: 0.379439
-    cost_om_annual_storage_cap.data: 3.87415e-06
-    cost_om_annual_flow_in_cap.data: 0.0422232
-    cost_om_annual_flow_out_cap.data: 0.0193764
-    cost_flow_in.data: 0
-    cost_flow_out.data: 0
-    energy_to_power_ratio_min: 90
-    energy_to_power_ratio_max: 180
-    withdrawal_to_injection_ratio_min: 2.5
-    withdrawal_to_injection_ratio_max: 20
-    flow_in_eff: 0.990058
-    flow_out_eff: 1
-  fx4_salt_cavern_epr02_wtir02:
-    template: uhs_fully_decoupled
-    name: 'FX4: Salt Cavern (epr02_wtir02)'
-    cost_storage_cap.data: 0.000911186
-    cost_flow_in_cap.data: 0.296473
-    cost_flow_out_cap.data: 0.244358
-    cost_om_annual_storage_cap.data: 2.16004e-06
-    cost_om_annual_flow_in_cap.data: 0.0130781
-    cost_om_annual_flow_out_cap.data: 0.00889798
-    cost_flow_in.data: 0
-    cost_flow_out.data: 0
-    energy_to_power_ratio_min: 288
-    energy_to_power_ratio_max: 864
-    withdrawal_to_injection_ratio_min: 2.5
-    withdrawal_to_injection_ratio_max: 20
-    flow_in_eff: 0.990311
-    flow_out_eff: 1
-    soc_24h_a_min: -0.064838
-    soc_24h_b_min: 1.01149
-    soc_24h_a_max: 0.0640983
-    soc_24h_b_max: 0.988649
-  fx4_aquifer_epr02_wtir02:
-    template: uhs_fully_decoupled
-    name: 'FX4: Aquifer (epr02_wtir02)'
-    cost_storage_cap.data: 0.000650995
-    cost_flow_in_cap.data: 0.141328
-    cost_flow_out_cap.data: 0.291584
-    cost_om_annual_storage_cap.data: 4.13946e-06
-    cost_om_annual_flow_in_cap.data: 0.00804177
-    cost_om_annual_flow_out_cap.data: 0.01704
-    cost_flow_in.data: 0
-    cost_flow_out.data: 1.5644e-06
-    energy_to_power_ratio_min: 1584
-    energy_to_power_ratio_max: 4752
-    withdrawal_to_injection_ratio_min: 2.5
-    withdrawal_to_injection_ratio_max: 20
-    flow_in_eff: 0.993796
-    flow_out_eff: 0.95
-    storage_loss: 1.7253e-06
-  fx4_depleted_gas_field_epr02_wtir02:
-    template: uhs_fully_decoupled
-    name: 'FX4: Depleted Gas Field (epr02_wtir02)'
-    cost_storage_cap.data: 0.000338612
-    cost_flow_in_cap.data: 0.206547
-    cost_flow_out_cap.data: 0.439921
-    cost_om_annual_storage_cap.data: 2.72963e-06
-    cost_om_annual_flow_in_cap.data: 0.0102668
-    cost_om_annual_flow_out_cap.data: 0.0214084
-    cost_flow_in.data: 0
-    cost_flow_out.data: 3.98083e-06
-    energy_to_power_ratio_min: 1584
-    energy_to_power_ratio_max: 4752
-    withdrawal_to_injection_ratio_min: 2.5
-    withdrawal_to_injection_ratio_max: 20
-    flow_in_eff: 0.990893
-    flow_out_eff: 0.8996
-    storage_loss: 1.7253e-06
-  fx4_lined_rock_cavern_epr02_wtir02:
-    template: uhs_fully_decoupled
-    name: 'FX4: Lined Rock Cavern (epr02_wtir02)'
-    cost_storage_cap.data: 0.00241151
-    cost_flow_in_cap.data: 0.302123
-    cost_flow_out_cap.data: 0.483099
-    cost_om_annual_storage_cap.data: 3.87415e-06
-    cost_om_annual_flow_in_cap.data: 0.0647771
-    cost_om_annual_flow_out_cap.data: 0.0276075
-    cost_flow_in.data: 0
-    cost_flow_out.data: 0
-    energy_to_power_ratio_min: 180
-    energy_to_power_ratio_max: 540
-    withdrawal_to_injection_ratio_min: 2.5
     withdrawal_to_injection_ratio_max: 20
     flow_in_eff: 0.990058
     flow_out_eff: 1
