@@ -28,12 +28,9 @@ import yaml
 EXPERIMENTS = {
     # CSV experiment ID: (scenario prefix, expected method, n_epr, n_wtir)
     "B1": ("B1", "bundled", 1, 1),
-    "B9": ("B9", "bundled", 3, 3),
     "P1": ("P1", "partially_decoupled", 1, 1),
     "F1": ("F1", "fully_decoupled", 1, 1),
     "FX1": ("FX1", "fully_decoupled_cross_driver", 1, 1),
-    "FX2": ("FX2", "fully_decoupled_cross_driver", 2, 1),
-    "FX4": ("FX4", "fully_decoupled_cross_driver", 2, 2),
 }
 
 TECHNOLOGIES = (
