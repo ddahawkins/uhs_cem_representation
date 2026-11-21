@@ -59,8 +59,9 @@ EXPERIMENTS = ("B1", "P1", "F1", "FX1")
 EXPERIMENT_LABELS = {"B1": "B", "P1": "P", "F1": "F", "FX1": "FX"}
 TECHNOLOGIES = (
     ("salt_cavern", "Salt cavern"),
-    ("aquifer", "Saline aquifer"),
+    # ("aquifer", "Saline aquifer"),
     ("depleted_gas_field", "Depleted gas field"),
+    # ("lined_rock_cavern", "Lined Rock Cavern")
 )
 METRICS = (
     ("EPR_days", "Energy-to-power ratio, EPR (days)"),
