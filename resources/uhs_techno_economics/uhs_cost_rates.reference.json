@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "source_model_sha256": "6ff9c78ddab05d445260b37b129686de92b87278681f3b58f1d4f953998ca651",
+  "technologies": {
+    "aquifer": {
+      "design_file_reference_energy_gwh": 2571.34,
+      "design_file_reference_epr_days": 66.0,
+      "design_file_reference_wtir": 2.0,
+      "epr_domain_days": [
+        16.5,
+        264.0
+      ],
+      "reference_energy_gwh": 2571.34,
+      "reference_epr_days": 66.0,
+      "reference_site": "Gournay Sur Aronde",
+      "reference_wtir": 2.0,
+      "wtir_domain": [
+        1.0,
+        10.0
+      ]
+    },
+    "depleted_gas_field": {
+      "design_file_reference_energy_gwh": 2336.66,
+      "design_file_reference_epr_days": 66.0,
+      "design_file_reference_wtir": 2.0,
+      "epr_domain_days": [
+        16.5,
+        264.0
+      ],
+      "reference_energy_gwh": 2336.66,
+      "reference_epr_days": 66.0,
+      "reference_site": "Sabbioncello",
+      "reference_wtir": 2.0,
+      "wtir_domain": [
+        1.0,
+        10.0
+      ]
+    },
+    "lined_rock_cavern": {
+      "design_file_reference_energy_gwh": 21.33,
+      "design_file_reference_epr_days": 7.5,
+      "design_file_reference_wtir": 2.0,
+      "epr_domain_days": [
+        1.875,
+        30.0
+      ],
+      "reference_energy_gwh": 21.33,
+      "reference_epr_days": 7.5,
+      "reference_site": "Skallen",
+      "reference_wtir": 2.0,
+      "wtir_domain": [
+        1.0,
+        10.0
+      ]
+    },
+    "salt_cavern": {
+      "design_file_reference_energy_gwh": 397.36,
+      "design_file_reference_epr_days": 12.0,
+      "design_file_reference_wtir": 2.0,
+      "epr_domain_days": [
+        3.0,
+        48.0
+      ],
+      "reference_energy_gwh": 397.36,
+      "reference_epr_days": 12.0,
+      "reference_site": "Xanten",
+      "reference_wtir": 2.0,
+      "wtir_domain": [
+        1.0,
+        10.0
+      ]
+    }
+  }
+}
