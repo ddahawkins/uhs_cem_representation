@@ -2,7 +2,7 @@
 
 #SBATCH --job-name=uhs_dispatch
 #SBATCH --partition=compute-p1
-#SBATCH --time=10:00:00
+#SBATCH --time=16:00:00
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=10
 #SBATCH --mem-per-cpu=1000
@@ -23,29 +23,29 @@ MAX_PARALLEL=20
 EXPERIMENTS=(
 
 
-    "NLD B1  weather_2009_3y"
-    "NLD B1  weather_2012_3y"
-    "NLD B1  weather_2015_3y"
-    "NLD B1  weather_2018_3y"
-    "NLD B1  weather_2021_3y"
+    # "NLD B1  weather_2009_3y"
+    # "NLD B1  weather_2012_3y"
+    # "NLD B1  weather_2015_3y"
+    # "NLD B1  weather_2018_3y"
+    # "NLD B1  weather_2021_3y"
 
-    "GBR B1  weather_2009_3y"
-    "GBR B1  weather_2012_3y"
-    "GBR B1  weather_2015_3y"
-    "GBR B1  weather_2018_3y"
-    "GBR B1  weather_2021_3y"
+    # "GBR B1  weather_2009_3y"
+    # "GBR B1  weather_2012_3y"
+    # "GBR B1  weather_2015_3y"
+    # "GBR B1  weather_2018_3y"
+    # "GBR B1  weather_2021_3y"
 
     "DEU B1  weather_2009_3y"
     "DEU B1  weather_2012_3y"
-    "DEU B1  weather_2015_3y"
-    "DEU B1  weather_2018_3y"
-    "DEU B1  weather_2021_3y"
+    # "DEU B1  weather_2015_3y"
+    # "DEU B1  weather_2018_3y"
+    # "DEU B1  weather_2021_3y"
     
-    "ESP B1  weather_2009_3y"
-    "ESP B1  weather_2012_3y"
-    "ESP B1  weather_2015_3y"
-    "ESP B1  weather_2018_3y"
-    "ESP B1  weather_2021_3y"
+    # "ESP B1  weather_2009_3y"
+    # "ESP B1  weather_2012_3y"
+    # "ESP B1  weather_2015_3y"
+    # "ESP B1  weather_2018_3y"
+    # "ESP B1  weather_2021_3y"
 
 )
 
