@@ -13,16 +13,16 @@ formulation + channel offset. Black segments indicate channel medians.
 The representation check flags cases whose EX-POST CORRECTED system cost exceeds
 its paired EX-POST CORRECTED B1 benchmark. This is not re-optimisation.
 
-Three-stage workflow (keep the original cost-model repricer):
+Three-stage workflow (the NetCDF is the authority for represented CEM costs):
   # CEM environment
   pixi run python -m scripts.results_analysis.plot_cost_outcomes_expost export --countries NLD
 
-  # UHS cost-model environment
+  # UHS cost-model environment; use the exact historical source revision
   pixi run python ../uhs_cem_representation/scripts/results_analysis/reprice_uhs_designs.py `
     --input ../uhs_cem_representation/results/costs_expost/expost_uhs_designs.csv `
     --output ../uhs_cem_representation/results/costs_expost/expost_uhs_repriced.csv `
     --cost-module scripts/experiments/cost_rates.py `
-    --cost-samples outputs/cost_rate_samples/uhs_cost_rates.parquet
+    --reference-manifest outputs/cost_rate_samples/WTIR3/uhs_cost_rates.reference.json
 
   # CEM environment
   pixi run python -m scripts.results_analysis.plot_cost_outcomes_expost plot --countries NLD
@@ -30,7 +30,9 @@ Three-stage workflow (keep the original cost-model repricer):
 The original-cost figure can also be made with only the first stage's CSVs;
 the correction figure is skipped until ex-post repricing is available.
 For comparison, B1 is matched separately for EACH country and weather window.
-Only annualised UHS investment is re-priced; no re-optimisation takes place.
+Both annualised UHS investment and fixed operation are re-priced; variable
+operation remains unchanged because the export does not identify injection
+and withdrawal throughput separately. No re-optimisation takes place.
 """
 from __future__ import annotations
 
@@ -109,19 +111,39 @@ def scalar_variable(ds: xr.Dataset, field: str) -> float:
     return value
 
 
+def _input_for_tech(inputs: xr.Dataset, field: str, tech: str) -> float:
+    """Optional CEM input used only for validating a fixed B reference."""
+    if field not in inputs:
+        return float("nan")
+    arr = inputs[field].sel(techs=tech).squeeze(drop=True)
+    if arr.size != 1:
+        raise ValueError(f"{field}: expected one value for {tech}, found {arr.shape}")
+    return float(arr.item())
+
+
 def read_case(path: Path) -> tuple[dict, list[dict]]:
     case = model_case(path)
     case.update(country=case["country"].upper(), experiment=case["experiment"].upper(), weather=case["weather"].lower())
     designs = []
-    with xr.open_dataset(path, group="results") as ds:
-        for field in ("cost", "min_cost_optimisation", "cost_investment_annualised", "storage_cap", "flow_in_cap", "flow_out_cap"):
+    with xr.open_dataset(path, group="inputs") as inputs, xr.open_dataset(path, group="results") as ds:
+        for field in ("cost", "min_cost_optimisation", "cost_investment", "cost_investment_annualised", "storage_cap", "flow_in_cap", "flow_out_cap", "cost_operation_fixed"):
             if field not in ds:
                 raise ValueError(f"{path.name}: missing {field}")
+        for field in ("timestep_resolution", "timestep_weights"):
+            if field not in inputs:
+                raise ValueError(f"{path.name}: missing input {field}; cannot scale annual fixed OPEX")
+        period_weight = float((inputs["timestep_resolution"] * inputs["timestep_weights"]).sum().item() / 8760.0)
+        if not math.isfinite(period_weight) or period_weight <= 0:
+            raise ValueError(f"{path.name}: invalid model-period weighting {period_weight}")
         all_techs = [str(t) for t in ds.coords["techs"].values]
         storage_techs = [t for t in all_techs if _is_storage(t)]
         geological_techs = [t for t in all_techs if storage_family(t) in UHS]
-        row = {**case, "file": str(path),
-               "system_cost": scalar_variable(ds, "min_cost_optimisation"),
+        objective = scalar_variable(ds, "min_cost_optimisation")
+        summed_cost = float(monetary(ds["cost"]).fillna(0).sum().item())
+        if not math.isclose(objective, summed_cost, rel_tol=1e-6, abs_tol=1e-5):
+            raise ValueError(f"{path.name}: objective does not reconcile with summed monetary costs")
+        row = {**case, "file": str(path), "period_weight_years": period_weight,
+               "system_cost": objective,
                "storage_cost": tech_cost(ds, "cost", storage_techs),
                "uhs_cost": tech_cost(ds, "cost", geological_techs),
                "uhs_investment_annualised": tech_cost(ds, "cost_investment_annualised", geological_techs),
@@ -135,9 +157,13 @@ def read_case(path: Path) -> tuple[dict, list[dict]]:
             if min(e, pin, pout) < -1e-6:
                 raise ValueError(f"Negative installed capacity: {tech}")
             inv = tech_cost(ds, "cost_investment_annualised", [tech])
+            raw_inv = tech_cost(ds, "cost_investment", [tech])
             rec = {**case, "tech_id": tech, "technology": storage_family(tech),
                    "storage_MWh": e, "injection_MW": pin, "withdrawal_MW": pout,
-                   "cem_investment_annualised": inv,
+                   "cem_investment_annualised": inv, "cem_investment_unannualised": raw_inv,
+                   "period_weight_years": period_weight,
+                   "input_reference_epr_days": _input_for_tech(inputs, "energy_to_power_ratio", tech) / 24.0,
+                   "input_reference_wtir": _input_for_tech(inputs, "withdrawal_to_injection_ratio", tech),
                    "cem_total_cost": tech_cost(ds, "cost", [tech]),
                    "EPR_days": e / pout / 24. if pout > 0 else float("nan"),
                    "WTIR": pout / pin if pin > 0 else float("nan"),
@@ -179,7 +205,9 @@ def export_cases(input_dir: Path, output_dir: Path, countries: set[str] | None, 
         raise ValueError("Duplicate country/weather/experiment cases")
     design_fields = ["country", "weather", "experiment", "case", "tech_id", "technology",
                      "storage_MWh", "injection_MW", "withdrawal_MW", "EPR_days", "WTIR",
-                     "cem_investment_annualised", "cem_total_cost", "cost_operation_fixed",
+                     "cem_investment_annualised", "cem_investment_unannualised",
+                     "period_weight_years", "input_reference_epr_days", "input_reference_wtir",
+                     "cem_total_cost", "cost_operation_fixed",
                      "cost_operation_variable", "design_status"]
     variant_frame = pd.DataFrame.from_records(designs, columns=design_fields)
     if not variant_frame.empty and variant_frame.duplicated(["case", "tech_id"]).any():
@@ -198,56 +226,89 @@ def attach_corrections(cases: pd.DataFrame, designs: pd.DataFrame, repriced: pd.
         output["repricing_valid"] = 0
         output["correction_complete"] = True
         output["uhs_correction_annualised"] = 0.0
+        output["uhs_tcr_correction_annualised"] = 0.0
+        output["uhs_fom_correction_annualised"] = 0.0
         output["system_cost_corrected"] = output["system_cost"]
         output["storage_cost_corrected"] = output["storage_cost"]
         output["system_effect_pct"] = 0.0
         output["storage_effect_pct"] = np.where(output["storage_cost"] > 0, 0.0, np.nan)
-        return output, pd.DataFrame(columns=[*designs.columns, "included", "representation_error_pct"])
+        return output, pd.DataFrame(columns=[*designs.columns, "included", "representation_error_pct",
+                                              "fixed_opex_representation_error_pct"])
 
-    required = {"case", "tech_id", "status", "represented_tcr_eur", "detailed_tcr_eur", "adjustment_factor"}
+    required = {"case", "tech_id", "status", "represented_tcr_eur", "detailed_tcr_eur",
+                "adjustment_factor", "represented_fom_eur_per_year", "detailed_fom_eur_per_year",
+                "fixed_opex_adjustment_factor", "cem_fixed_opex_annualised"}
     missing = required - set(repriced.columns)
     if missing:
-        raise ValueError(f"Repriced CSV missing columns {sorted(missing)}. Re-run the updated re-pricer.")
+        raise ValueError(f"Repriced CSV missing {sorted(missing)}. Re-run the TCR+FOM re-pricer.")
+    if "cost_operation_fixed" not in designs.columns:
+        raise ValueError("Exported UHS designs lack cost_operation_fixed; re-run the export stage.")
     if repriced.duplicated(["case", "tech_id"]).any():
         raise ValueError("Duplicate repricing records")
     merged = designs.merge(repriced, on=["case", "tech_id"], how="left", validate="one_to_one",
                            suffixes=("", "_reprice"), indicator=True)
-    for col in ("adjustment_factor", "represented_tcr_eur", "detailed_tcr_eur", "cem_investment_annualised"):
+    for col in ("adjustment_factor", "represented_tcr_eur", "detailed_tcr_eur", "cem_investment_annualised",
+                "fixed_opex_adjustment_factor", "represented_fom_eur_per_year",
+                "detailed_fom_eur_per_year", "cost_operation_fixed", "cem_fixed_opex_annualised"):
         merged[col] = pd.to_numeric(merged[col], errors="coerce")
-    ratio = merged["detailed_tcr_eur"] / merged["represented_tcr_eur"]
+    tcr_ratio = merged["detailed_tcr_eur"] / merged["represented_tcr_eur"]
+    fom_ratio = merged["detailed_fom_eur_per_year"] / merged["represented_fom_eur_per_year"]
     valid = ((merged["_merge"] == "both") & (merged["status"] == "ok") &
              (merged["design_status"] == "ok") &
              (merged["represented_tcr_eur"] > 0) & (merged["detailed_tcr_eur"] > 0) &
+             (merged["represented_fom_eur_per_year"] > 0) & (merged["detailed_fom_eur_per_year"] > 0) &
              (merged["cem_investment_annualised"] > 0) &
-             np.isfinite(ratio) & np.isfinite(merged["adjustment_factor"]) &
-             np.isclose(ratio, merged["adjustment_factor"], rtol=1e-7, atol=1e-10))
+             (merged["cost_operation_fixed"] > 0) &
+             np.isfinite(tcr_ratio) & np.isfinite(merged["adjustment_factor"]) &
+             np.isclose(tcr_ratio, merged["adjustment_factor"], rtol=1e-7, atol=1e-10) &
+             np.isfinite(fom_ratio) & np.isfinite(merged["fixed_opex_adjustment_factor"]) &
+             np.isclose(fom_ratio, merged["fixed_opex_adjustment_factor"], rtol=1e-7, atol=1e-10) &
+             np.isclose(merged["cem_fixed_opex_annualised"], merged["cost_operation_fixed"],
+                        rtol=1e-8, atol=1e-5))
     if "cem_investment_annualised_reprice" in merged:
         recorded = pd.to_numeric(merged["cem_investment_annualised_reprice"], errors="coerce")
         valid &= np.isclose(recorded, merged["cem_investment_annualised"], rtol=1e-8, atol=1e-5)
 
     merged["included"] = valid
-    merged["corrected_investment_annualised"] = np.where(valid, merged["cem_investment_annualised"] * ratio, np.nan)
+    merged["corrected_investment_annualised"] = np.where(valid, merged["cem_investment_annualised"] * tcr_ratio, np.nan)
+    merged["corrected_fixed_opex_annualised"] = np.where(valid, merged["cost_operation_fixed"] * fom_ratio, np.nan)
     merged["delta_investment_annualised"] = merged["corrected_investment_annualised"] - merged["cem_investment_annualised"]
+    merged["delta_fixed_opex_annualised"] = merged["corrected_fixed_opex_annualised"] - merged["cost_operation_fixed"]
+    merged["delta_total_annualised"] = merged["delta_investment_annualised"] + merged["delta_fixed_opex_annualised"]
     merged["representation_error_pct"] = np.where(
         valid, 100.0 * (merged["represented_tcr_eur"] - merged["detailed_tcr_eur"]) /
         merged["detailed_tcr_eur"], np.nan)
+    merged["fixed_opex_representation_error_pct"] = np.where(
+        valid, 100.0 * (merged["represented_fom_eur_per_year"] - merged["detailed_fom_eur_per_year"]) /
+        merged["detailed_fom_eur_per_year"], np.nan)
 
     totals = merged.groupby("case", as_index=False).agg(
         repricing_expected=("tech_id", "size"), repricing_valid=("included", "sum"),
-        uhs_correction_annualised=("delta_investment_annualised", lambda x: x.sum(min_count=1)),
+        uhs_correction_annualised=("delta_total_annualised", lambda x: x.sum(min_count=1)),
+        uhs_tcr_correction_annualised=("delta_investment_annualised", lambda x: x.sum(min_count=1)),
+        uhs_fom_correction_annualised=("delta_fixed_opex_annualised", lambda x: x.sum(min_count=1)),
         represented_uhs_tcr_eur=("represented_tcr_eur", lambda x: x.sum(min_count=1)),
         detailed_uhs_tcr_eur=("detailed_tcr_eur", lambda x: x.sum(min_count=1)),
+        represented_uhs_fom_eur_per_year=("represented_fom_eur_per_year", lambda x: x.sum(min_count=1)),
+        detailed_uhs_fom_eur_per_year=("detailed_fom_eur_per_year", lambda x: x.sum(min_count=1)),
     )
     output = cases.merge(totals, on="case", how="left", validate="one_to_one")
     output["repricing_expected"] = output["repricing_expected"].fillna(0).astype(int)
     output["repricing_valid"] = output["repricing_valid"].fillna(0).astype(int)
     output["correction_complete"] = output["repricing_expected"] == output["repricing_valid"]
-    output.loc[output["repricing_expected"] == 0, ["uhs_correction_annualised", "represented_uhs_tcr_eur", "detailed_uhs_tcr_eur"]] = 0.0
-    output.loc[~output["correction_complete"], ["uhs_correction_annualised", "represented_uhs_tcr_eur", "detailed_uhs_tcr_eur"]] = np.nan
+    correction_fields = ["uhs_correction_annualised", "uhs_tcr_correction_annualised",
+                         "uhs_fom_correction_annualised", "represented_uhs_tcr_eur", "detailed_uhs_tcr_eur",
+                         "represented_uhs_fom_eur_per_year", "detailed_uhs_fom_eur_per_year"]
+    output.loc[output["repricing_expected"] == 0, correction_fields] = 0.0
+    output.loc[~output["correction_complete"], correction_fields] = np.nan
     output["uhs_representation_error_pct"] = np.where(
         (output["correction_complete"]) & (output["detailed_uhs_tcr_eur"] > 0),
         100.0 * (output["represented_uhs_tcr_eur"] - output["detailed_uhs_tcr_eur"]) /
         output["detailed_uhs_tcr_eur"].replace(0.0, np.nan), np.nan)
+    output["uhs_fom_representation_error_pct"] = np.where(
+        (output["correction_complete"]) & (output["detailed_uhs_fom_eur_per_year"] > 0),
+        100.0 * (output["represented_uhs_fom_eur_per_year"] - output["detailed_uhs_fom_eur_per_year"]) /
+        output["detailed_uhs_fom_eur_per_year"].replace(0.0, np.nan), np.nan)
     output["system_cost_corrected"] = output["system_cost"] + output["uhs_correction_annualised"]
     output["storage_cost_corrected"] = output["storage_cost"] + output["uhs_correction_annualised"]
     output["system_effect_pct"] = 100.0 * output["uhs_correction_annualised"] / output["system_cost"]
@@ -439,7 +500,9 @@ def plot_repricing_impact(cases: pd.DataFrame, output: Path,
     )
 
 
-def plot_technology_errors(designs: pd.DataFrame, output: Path) -> None:
+def plot_technology_errors(designs: pd.DataFrame, output: Path, *,
+                           error_field: str = "representation_error_pct",
+                           cost_label: str = "TCR") -> None:
     valid = designs.loc[designs["included"]].copy()
     if valid.empty:
         return
@@ -452,13 +515,13 @@ def plot_technology_errors(designs: pd.DataFrame, output: Path) -> None:
             ax.axhline(0, color="0.5", ls=(0, (3, 2)), lw=.8)
             ax.grid(axis="y", color="0.88", lw=.55)
             for j, family in enumerate(UHS):
-                vals = pd.to_numeric(local.loc[local["technology"] == family, "representation_error_pct"], errors="coerce").dropna().to_numpy()
+                vals = pd.to_numeric(local.loc[local["technology"] == family, error_field], errors="coerce").dropna().to_numpy()
                 if not vals.size:
                     continue
                 ax.scatter(np.full(len(vals), j), vals, s=24, c=[CHANNEL_COLOURS["storage"]], edgecolor="0.3", lw=.35, alpha=.78)
                 ax.hlines(np.median(vals), j-.11, j+.11, lw=2, color="black")
             ax.set_xlim(-.55, len(UHS)-.45)
-            ax.set_ylabel(f"{exp}: error (%)", fontsize=FONT_SIZE)
+            ax.set_ylabel(f"{exp}: {cost_label} error (%)", fontsize=FONT_SIZE)
             ax.spines[["right", "top"]].set_visible(False)
         axes[-1,0].set_xticks(range(len(UHS)), [LABEL[t] for t in UHS])
         handles = [
@@ -557,6 +620,10 @@ def main() -> None:
                               mark_crossings=args.crossing_markers)
         if args.with_diagnostics and not detailed.empty:
             plot_technology_errors(detailed, out / "expost_uhs_representation_error.pdf")
+            plot_technology_errors(
+                detailed, out / "expost_uhs_fom_representation_error.pdf",
+                error_field="fixed_opex_representation_error_pct", cost_label="FOM",
+            )
         unresolved = comparisons.loc[~comparisons["correction_complete"], "case"].tolist()
         if unresolved:
             warnings.warn(f"Excluded {len(unresolved)} incompletely repriced cases from "
