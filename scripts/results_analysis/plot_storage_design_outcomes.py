@@ -52,14 +52,14 @@ except ImportError:  # Run directly when the script is alongside _plots.py.
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
-DEFAULT_INPUT_DIR = PROJECT_ROOT / "results" / "capacity_expansion_models"
+DEFAULT_INPUT_DIR = PROJECT_ROOT / "hpc" / "results_wtir_2"
 DEFAULT_OUTPUT_DIR = PROJECT_ROOT / "results" / "design_outcomes"
 COUNTRY = "NLD"  # Intentionally fixed: only NLD tested all formulations.
 EXPERIMENTS = ("B1", "P1", "F1", "FX1")
 EXPERIMENT_LABELS = {"B1": "B", "P1": "P", "F1": "F", "FX1": "FX"}
 TECHNOLOGIES = (
     ("salt_cavern", "Salt cavern"),
-    # ("aquifer", "Saline aquifer"),
+    ("aquifer", "Saline aquifer"),
     ("depleted_gas_field", "Depleted gas field"),
     # ("lined_rock_cavern", "Lined Rock Cavern")
 )

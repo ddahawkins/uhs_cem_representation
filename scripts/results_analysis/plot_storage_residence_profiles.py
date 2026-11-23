@@ -59,7 +59,7 @@ except ImportError:
     from _plots import model_case, storage_family
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
-DEFAULT_INPUT_DIR = PROJECT_ROOT / "results" / "capacity_expansion_models"
+DEFAULT_INPUT_DIR = PROJECT_ROOT / "hpc" / "results_wtir_2"
 DEFAULT_OUTPUT_DIR = PROJECT_ROOT / "results" / "residence_profiles"
 MM = 1/25.4
 HOURS_PER_YEAR = 24 * 365.2425
