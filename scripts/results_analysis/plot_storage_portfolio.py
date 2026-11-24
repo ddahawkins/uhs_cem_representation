@@ -52,7 +52,7 @@ except ImportError:  # Also support running directly beside _plots.py.
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
-DEFAULT_INPUT_DIR = PROJECT_ROOT / "hpc" / "results_wtir_2"
+DEFAULT_INPUT_DIR = PROJECT_ROOT / "results" / "capacity_expansion_models"
 DEFAULT_OUTPUT_DIR = PROJECT_ROOT / "results" / "storage_portfolio"
 DEFAULT_COUNTRIES = ("NLD", "ESP", "DEU", "GBR")
 FIGURE_SIZE_MM = (90, 220)  # Full-height single-column; caption is external.

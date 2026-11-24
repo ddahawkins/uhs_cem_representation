@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "source_model_sha256": "6ff9c78ddab05d445260b37b129686de92b87278681f3b58f1d4f953998ca651",
+  "source_model_sha256": "8f277f0bc59503fdc8ffde082fbc43802537530c05f0b33514edf35843d9ae69",
   "technologies": {
     "aquifer": {
       "design_file_reference_energy_gwh": 2571.34,
@@ -54,16 +54,16 @@
       ]
     },
     "salt_cavern": {
-      "design_file_reference_energy_gwh": 397.36,
+      "design_file_reference_energy_gwh": 1064.73,
       "design_file_reference_epr_days": 12.0,
       "design_file_reference_wtir": 2.0,
       "epr_domain_days": [
         3.0,
         48.0
       ],
-      "reference_energy_gwh": 397.36,
+      "reference_energy_gwh": 1064.73,
       "reference_epr_days": 12.0,
-      "reference_site": "Xanten",
+      "reference_site": "Manosque",
       "reference_wtir": 2.0,
       "wtir_domain": [
         1.0,

@@ -17,12 +17,19 @@ Three-stage workflow (the NetCDF is the authority for represented CEM costs):
   # CEM environment
   pixi run python -m scripts.results_analysis.plot_cost_outcomes_expost export --countries NLD
 
+  #change dir
+  cd ../uhs_techno_economic_modelling
+
   # UHS cost-model environment; use the exact historical source revision
   pixi run python ../uhs_cem_representation/scripts/results_analysis/reprice_uhs_designs.py `
     --input ../uhs_cem_representation/results/costs_expost/expost_uhs_designs.csv `
     --output ../uhs_cem_representation/results/costs_expost/expost_uhs_repriced.csv `
     --cost-module scripts/experiments/cost_rates.py `
-    --reference-manifest outputs/cost_rate_samples/WTIR3/uhs_cost_rates.reference.json
+    --reference-manifest ../uhs_cem_representation/resources/uhs_techno_economics/uhs_cost_rates.reference.json `
+    --cem-cost-unit-eur 1000000
+
+  #change dir
+    cd ../uhs_cem_representation
 
   # CEM environment
   pixi run python -m scripts.results_analysis.plot_cost_outcomes_expost plot --countries NLD
