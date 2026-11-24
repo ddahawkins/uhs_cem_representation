@@ -3,7 +3,7 @@
 Run from the project root next to plot_storage_residence_profiles.py::
 
     pixi run python -m scripts.results_analysis.plot_storage_operations `
-        --country NLD --experiment FX1 --weather 2018-2021
+        --country GBR --experiment FX1 --weather 2018-2021
 
 The case selector accepts 2018, 2018_3y, weather_2018_3y, or 2018-2021.
 The default selector is NLD / FX1 / 2018-2021; --list-cases lists models.

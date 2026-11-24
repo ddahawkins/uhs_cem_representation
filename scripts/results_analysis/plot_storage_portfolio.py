@@ -52,7 +52,7 @@ except ImportError:  # Also support running directly beside _plots.py.
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
-DEFAULT_INPUT_DIR = PROJECT_ROOT / "results" / "capacity_expansion_models"
+DEFAULT_INPUT_DIR = PROJECT_ROOT / "hpc" / "results_wtir_2_manosque"
 DEFAULT_OUTPUT_DIR = PROJECT_ROOT / "results" / "storage_portfolio"
 DEFAULT_COUNTRIES = ("NLD", "ESP", "DEU", "GBR")
 FIGURE_SIZE_MM = (90, 220)  # Full-height single-column; caption is external.
@@ -63,11 +63,10 @@ EXPERIMENT_LABELS = {"B1": "B", "FX1": "FX"}
 
 # Only expandable/model-selected storage belongs in the coloured bars.
 TECHNOLOGY_ORDER = (
-    "battery_2h", "battery_4h", "battery_8h", "compressed_air_storage",
+    "battery_4h", "battery_8h", "compressed_air_storage",
     "lined_rock_cavern", "salt_cavern", "aquifer", "depleted_gas_field",
 )
 TECH_LABELS = {
-    "battery_2h": "Battery 2h",
     "battery_4h": "Battery 4h",
     "battery_8h": "Battery 8h",
     "compressed_air_storage": "CAES",
@@ -87,7 +86,7 @@ HYDRO_STORAGE_IDS = {
 PLASMA = plt.get_cmap("plasma")
 TECH_COLORS = {
     tech: PLASMA(x)
-    for tech, x in zip(TECHNOLOGY_ORDER, np.linspace(0.06, 0.90, len(TECHNOLOGY_ORDER)))
+    for tech, x in zip(TECHNOLOGY_ORDER, np.linspace(0.01, 0.90, len(TECHNOLOGY_ORDER)))
 }
 
 

@@ -52,7 +52,7 @@ except ImportError:  # Run directly when the script is alongside _plots.py.
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
-DEFAULT_INPUT_DIR = PROJECT_ROOT / "results" / "capacity_expansion_models"
+DEFAULT_INPUT_DIR = PROJECT_ROOT / "hpc" / "results_wtir_2_manosque"
 DEFAULT_OUTPUT_DIR = PROJECT_ROOT / "results" / "design_outcomes"
 COUNTRY = "NLD"  # Intentionally fixed: only NLD tested all formulations.
 EXPERIMENTS = ("B1", "P1", "F1", "FX1")
