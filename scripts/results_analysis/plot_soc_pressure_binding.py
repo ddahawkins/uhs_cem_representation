@@ -25,7 +25,7 @@ Dependencies: numpy, pandas, xarray, h5netcdf, matplotlib (for timeseries).
 Examples (from the uhs_cem_representation repository):
 
     pixi run python scripts/results_analysis/plot_soc_pressure_binding.py summary `
-        --results-dir hpc/results_wtir_2_manosque --countries NLD DEU ESP GBR --formulations FX1 B1 `
+        --results-dir hpc/results_wtir_2_soc_pressure --countries NLD DEU ESP GBR --formulations FX1 B1 `
         --weather 2009_3y 2012_3y 2015_3y 2018_3y 2021_ey --output-dir results/soc_pressure
 
     pixi run python scripts/results_analysis/plot_soc_pressure_binding.py timeseries `
@@ -34,7 +34,7 @@ Examples (from the uhs_cem_representation repository):
 
     # Select a specific period rather than the automatically chosen binding event:
     pixi run python scripts/results_analysis/plot_soc_pressure_binding.py timeseries `
-        --results-dir hpc/results_wtir_2_manosque --country DEU --formulation B1 `
+        --results-dir hpc/results_wtir_2_soc_pressure --country GBR --formulation FX1 `
         --weather 2018_3y --start-date 2018-01-01 --end-date 2021-01-31
 """
 

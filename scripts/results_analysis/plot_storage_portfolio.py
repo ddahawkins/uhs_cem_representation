@@ -52,7 +52,7 @@ except ImportError:  # Also support running directly beside _plots.py.
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
-DEFAULT_INPUT_DIR = PROJECT_ROOT / "hpc" / "results_wtir_2_manosque"
+DEFAULT_INPUT_DIR = PROJECT_ROOT / "hpc" / "results_wtir_2_soc_pressure"
 DEFAULT_OUTPUT_DIR = PROJECT_ROOT / "results" / "storage_portfolio"
 DEFAULT_COUNTRIES = ("NLD", "ESP", "DEU", "GBR")
 FIGURE_SIZE_MM = (90, 220)  # Full-height single-column; caption is external.
@@ -216,18 +216,21 @@ def _paired_weather(
         (str(case["weather"]), str(case["experiment"])): case
         for case in country_cases
     }
+
     b1 = {weather for weather, experiment in cases if experiment == "B1"}
     fx1 = {weather for weather, experiment in cases if experiment == "FX1"}
+
     if unpaired := sorted(b1.symmetric_difference(fx1), key=_weather_key):
         warnings.warn(
             f"{country}: missing a B1 or FX1 result for: "
-            f"{', '.join(unpaired)} (will mark n/a, not zero)", stacklevel=2,
+            f"{', '.join(unpaired)} (will mark missing bars as n/a)",
+            stacklevel=2,
         )
-    shared = sorted(b1.intersection(fx1), key=_weather_key)
-    if not shared:
-        warnings.warn(f"{country}: no paired B1/FX1 windows", stacklevel=2)
-    return shared, cases
 
+    # Include weather windows where EITHER formulation exists.
+    available = sorted(b1.union(fx1), key=_weather_key)
+
+    return available, cases
 
 def _format_twh(value: float) -> str:
     """Keep small hydro capacities distinguishable from zero."""
@@ -296,12 +299,21 @@ def _draw_country_panel(
     available_windows = 0
 
     for i, weather in enumerate(weather_order):
-        if any((weather, experiment) not in case_lookup for experiment in EXPERIMENTS):
-            ax.text(i, 0.10, "n/a", ha="center", va="bottom", fontsize=8,
-                    color="0.45", transform=ax.get_xaxis_transform())
-            continue
-        available_windows += 1
         for experiment, side in (("B1", -1), ("FX1", +1)):
+
+            x_pos = i + side * offset
+
+            # Mark only the missing formulation as unavailable.
+            if (weather, experiment) not in case_lookup:
+                ax.text(
+                    x_pos, 0.10, "n/a",
+                    ha="center", va="bottom", fontsize=7,
+                    color="0.45",
+                    transform=ax.get_xaxis_transform(),
+                )
+                continue
+
+            available_windows += 1
             case = case_lookup[(weather, experiment)]
             capacities = case["capacities"]
             x_pos = i + side * offset
@@ -412,7 +424,7 @@ def plot_combined(
         all_weather.update(available)
     weather_order = sorted(all_weather, key=_weather_key)
     if not weather_order:
-        raise ValueError("No paired B1/FX1 weather windows for selected countries")
+        raise ValueError("No B1/FX1 weather windows for selected countries")
 
     with plt.rc_context({
         "font.family": "DejaVu Sans", "font.size": 9, "axes.labelsize": 9,

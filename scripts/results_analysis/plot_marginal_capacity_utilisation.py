@@ -47,8 +47,8 @@ import numpy as np
 import pandas as pd
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
-DEFAULT_INPUT_DIR = PROJECT_ROOT / "results" / "capacity_expansion_models"
-DEFAULT_OUTPUT_DIR = PROJECT_ROOT / "results" / "capacity_utilisation" / "dgf_nld"
+DEFAULT_INPUT_DIR = PROJECT_ROOT / "hpc" / "results_wtir_2_soc_pressure"
+DEFAULT_OUTPUT_DIR = PROJECT_ROOT / "results" / "capacity_utilisation"
 
 COUNTRY = "NLD"                        # Intentionally fixed to the Dutch case study.
 FAMILY = "depleted_gas_field"          # Intentionally excludes all other technologies.
