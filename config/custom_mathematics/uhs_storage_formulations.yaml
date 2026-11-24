@@ -822,12 +822,12 @@ constraints:
       AND soc_24h_b_min
       AND (
         cyclic_storage==True
-        OR timesteps<=get_val_at_index(timesteps=-25)
+        OR timesteps<=get_val_at_index(timesteps=-13)
       )
 
     equations:
       - expression: >-
-          roll(storage, timesteps=-24)
+          roll(storage, timesteps=-12)
           >=
           soc_24h_a_min * storage_cap
           + soc_24h_b_min * storage
@@ -852,12 +852,12 @@ constraints:
       AND soc_24h_b_max
       AND (
         cyclic_storage==True
-        OR timesteps<=get_val_at_index(timesteps=-25)
+        OR timesteps<=get_val_at_index(timesteps=-13)
       )
 
     equations:
       - expression: >-
-          roll(storage, timesteps=-24)
+          roll(storage, timesteps=-12)
           <=
           soc_24h_a_max * storage_cap
           + soc_24h_b_max * storage
