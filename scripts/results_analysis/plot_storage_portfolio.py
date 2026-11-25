@@ -1,23 +1,26 @@
-"""Plot B1/FX1 storage portfolios in a compact four-country journal figure.
+"""Plot selected storage formulations in a compact four-country journal figure.
 
-Default: a 90 x 185 mm, single-column, four-row PDF (NLD, ESP, DEU, GBR).
+Default: a 90 x 220 mm, single-column, four-row PDF (NLD, ESP, DEU, GBR).
 
     pixi run python -m scripts.results_analysis.plot_storage_portfolio
 
 Options:
     --countries NLD ESP DEU GBR
+    --experiments B1 P1 F1 FX1   override selected methods in EXPERIMENTS
     --input-dir PATH
     --output-dir PATH
     --show-totals       add numerical bar totals (may be crowded at 90 mm)
     --separate          optional individual-country full-width PDFs
     --png               also save 300-dpi PNGs
 
-Each three-year April--March weather sample has adjacent B (= B1) and FX (= FX1)
-stacks. The outer sample labels (e.g. 'Apr 2009') appear only below the last
-panel; B/FX appears in EVERY country panel. No pooling or averaging of samples.
+Each three-year April--March weather sample has adjacent stacks for the
+selected B (= B1), P (= P1), F (= F1) and/or FX (= FX1) formulations. Choose
+any subset and ordering via EXPERIMENTS or the --experiments CLI argument.
+The outer sample labels appear only below the last panel; formulation labels
+appear in every country panel. No pooling or averaging of samples.
 Axes are independent (neither sharex nor sharey), but weather-group locations
-are aligned across countries. Missing country/weather pairs are marked 'n/a'
-rather than plotted as zero.
+are aligned across countries. Each missing country/weather/formulation result
+is marked 'n/a' rather than plotted as zero.
 
 Fixed / non-expandable hydro storage (combined reservoirs and pumped storage)
 is excluded from stacked bars, but its total installed energy capacity is
@@ -46,9 +49,9 @@ from matplotlib.patches import Patch
 from matplotlib.ticker import FormatStrFormatter, MaxNLocator, MultipleLocator
 
 try:
-    from ._plots import capacity_for_tech, model_case, storage_family
+    from ._plots import capacity_for_tech, storage_family
 except ImportError:  # Also support running directly beside _plots.py.
-    from _plots import capacity_for_tech, model_case, storage_family
+    from _plots import capacity_for_tech, storage_family
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
@@ -58,8 +61,9 @@ DEFAULT_COUNTRIES = ("NLD", "ESP", "DEU", "GBR")
 FIGURE_SIZE_MM = (90, 220)  # Full-height single-column; caption is external.
 MM_TO_INCH = 1 / 25.4
 WEATHER_START_MONTH = "Apr"
-EXPERIMENTS = ("B1", "FX1")
-EXPERIMENT_LABELS = {"B1": "B", "FX1": "FX"}
+# Include any subset, in the desired left-to-right order. P1 is also supported.
+EXPERIMENTS = ("B1","P1", "F1", "FX1")
+EXPERIMENT_LABELS = {"B1": "B", "P1": "P", "F1": "F", "FX1": "FX"}
 
 # Only expandable/model-selected storage belongs in the coloured bars.
 TECHNOLOGY_ORDER = (
@@ -100,7 +104,14 @@ def _storage_family(tech_id: str) -> str | None:
     tech_id = tech_id.lower()
     if re.fullmatch(r"battery_\d+h", tech_id):
         return tech_id
-    return storage_family(tech_id)
+    family = storage_family(tech_id)
+    if family is None:
+        # Some _plots.py versions recognise B/FX prefixed IDs but not P/F.
+        # Retrying without the formulation prefix makes that case portable.
+        bare_id = re.sub(r"^(?:b1|p1|f1|fx1)_", "", tech_id)
+        if bare_id != tech_id:
+            family = storage_family(bare_id)
+    return family
 
 
 def _weather_key(weather: str) -> tuple[int, str]:
@@ -122,13 +133,48 @@ def _weather_label_short(weather: str) -> str:
     return f"{year}–{year+3-2000}"
 
 
-def read_portfolio(path: Path) -> dict[str, object]:
+def _model_case(path: Path) -> dict[str, str]:
+    """Parse all four formulation IDs directly from the result filename.
+
+    Local parsing avoids relying on _plots.model_case recognising every
+    experiment (some older helper versions only recognise B1 and FX1).
+    """
+    match = re.fullmatch(
+        r"(?P<country>[A-Za-z]{3})_(?P<experiment>B1|P1|F1|FX1)_"
+        r"(?P<weather>weather_.+)",
+        path.stem,
+        flags=re.IGNORECASE,
+    )
+    if match is None:
+        raise ValueError(f"Unrecognised result filename: {path.name}")
+    return {
+        "country": match.group("country").upper(),
+        "experiment": match.group("experiment").upper(),
+        "weather": match.group("weather").lower(),
+        "case": path.stem,
+    }
+
+
+def _experiment_layout(experiments: tuple[str, ...]) -> tuple[dict[str, float], float]:
+    """Centre 1--4 bars in each window without overlaps or fixed B/FX positions."""
+    count = len(experiments)
+    step = 0.82 / count
+    offsets = {
+        experiment: (index - (count - 1) / 2) * step
+        for index, experiment in enumerate(experiments)
+    }
+    return offsets, min(0.32, step * 0.85)
+
+
+def read_portfolio(
+    path: Path, *, experiments: tuple[str, ...] = EXPERIMENTS,
+) -> dict[str, object]:
     """Read installed energy capacity in TWh; separate fixed hydro from bars."""
     import xarray as xr
 
-    case = model_case(path)
-    if case["experiment"].upper() not in EXPERIMENTS:
-        raise ValueError(f"Not a B1/FX1 result: {path.name}")
+    case = _model_case(path)
+    if case["experiment"] not in experiments:
+        raise ValueError(f"Not a selected formulation: {path.name}")
 
     capacities: dict[str, float] = {}
     hydro_twh = 0.0
@@ -167,8 +213,9 @@ def read_portfolio(path: Path) -> dict[str, object]:
 
 def load_portfolios(
     input_dir: Path, *, countries: list[str] | None = None,
+    experiments: tuple[str, ...] = EXPERIMENTS,
 ) -> list[dict[str, object]]:
-    """Collect B1/FX1 portfolios, rejecting duplicate country/weather results."""
+    """Collect selected portfolios, rejecting duplicate case results."""
     files = sorted(
         p for p in input_dir.expanduser().glob("*.nc")
         if not p.name.endswith(".pending.nc")
@@ -180,14 +227,16 @@ def load_portfolios(
     portfolios: list[dict[str, object]] = []
     observed: set[tuple[str, str, str]] = set()
     for path in files:
-        if not re.match(r"^[A-Za-z]{3}_(?:B1|FX1)_", path.stem, re.I):
+        if not re.match(r"^[A-Za-z]{3}_(?:B1|P1|F1|FX1)_", path.stem, re.I):
             continue
         try:
-            case = model_case(path)
+            case = _model_case(path)
+            if case["experiment"] not in experiments:
+                continue
             if requested and case["country"].upper() not in requested:
                 continue
             print(f"Reading {path.name}", flush=True)
-            portfolio = read_portfolio(path)
+            portfolio = read_portfolio(path, experiments=experiments)
         except Exception as exc:
             warnings.warn(f"Skipping {path.name}: {exc}", stacklevel=2)
             continue
@@ -201,35 +250,33 @@ def load_portfolios(
         portfolios.append(portfolio)
 
     if not portfolios:
-        raise ValueError("No readable B1 or FX1 NetCDF results found")
+        raise ValueError(f"No readable {', '.join(experiments)} NetCDF results found")
     if requested:
         found = {str(portfolio["country"]) for portfolio in portfolios}
         if missing := requested - found:
-            warnings.warn(f"No B1/FX1 results for {sorted(missing)}", stacklevel=2)
+            warnings.warn(f"No selected results for {sorted(missing)}", stacklevel=2)
     return portfolios
 
 
-def _paired_weather(
+def _available_weather(
     country_cases: list[dict[str, object]], country: str,
+    experiments: tuple[str, ...] = EXPERIMENTS,
 ) -> tuple[list[str], dict[tuple[str, str], dict[str, object]]]:
     cases = {
         (str(case["weather"]), str(case["experiment"])): case
         for case in country_cases
     }
 
-    b1 = {weather for weather, experiment in cases if experiment == "B1"}
-    fx1 = {weather for weather, experiment in cases if experiment == "FX1"}
-
-    if unpaired := sorted(b1.symmetric_difference(fx1), key=_weather_key):
+    # A missing formulation must not suppress another formulation's result.
+    available = sorted({weather for weather, _ in cases}, key=_weather_key)
+    missing = [(weather, experiment) for weather in available
+               for experiment in experiments if (weather, experiment) not in cases]
+    if missing:
         warnings.warn(
-            f"{country}: missing a B1 or FX1 result for: "
-            f"{', '.join(unpaired)} (will mark missing bars as n/a)",
+            f"{country}: {len(missing)} missing weather/formulation results "
+            "(will mark missing bars as n/a)",
             stacklevel=2,
         )
-
-    # Include weather windows where EITHER formulation exists.
-    available = sorted(b1.union(fx1), key=_weather_key)
-
     return available, cases
 
 def _format_twh(value: float) -> str:
@@ -272,11 +319,12 @@ def _draw_country_panel(
     weather_order: list[str],
     case_lookup: dict[tuple[str, str], dict[str, object]],
     *,
+    experiments: tuple[str, ...] = EXPERIMENTS,
     letter: str,
     show_weather_labels: bool,
     show_totals: bool,
 ) -> set[str]:
-    """Draw independently scaled country panel, always retaining B/FX ticks."""
+    """Draw country panel with one bar slot per selected formulation."""
     ax.set_title(f"({letter})  {country}" if letter else country,
                  loc="left", fontsize=10, weight="bold", pad=5)
     ax.text(1.0, 1.045, _hydro_annotation(country, country_cases),
@@ -285,29 +333,31 @@ def _draw_country_panel(
     ax.spines[["top", "right"]].set_visible(False)
     ax.spines[["left", "bottom"]].set_color("0.50")
     ax.tick_params(axis="y", labelsize=9, colors="0.20", length=2.5, pad=2)
-    ax.tick_params(axis="x", labelsize=8, length=0, pad=2)
+    ax.tick_params(axis="x", labelsize=8 if len(experiments) <= 2 else 7,
+                   length=0, pad=2)
     ax.yaxis.set_major_locator(MaxNLocator(nbins=3, min_n_ticks=2))
     ax.set_axisbelow(True)
     # Only light vertical window separators: no horizontal grid or shading.
     for i in range(len(weather_order) - 1):
         ax.axvline(i + 0.5, color="0.84", lw=0.55, zorder=0)
 
-    bar_width, offset = 0.32, 0.205
+    offsets, bar_width = _experiment_layout(experiments)
     used: set[str] = set()
     max_total = 0.0
     totals: dict[tuple[str, str], float] = {}
     available_windows = 0
 
     for i, weather in enumerate(weather_order):
-        for experiment, side in (("B1", -1), ("FX1", +1)):
-
-            x_pos = i + side * offset
+        for experiment in experiments:
+            x_pos = i + offsets[experiment]
 
             # Mark only the missing formulation as unavailable.
             if (weather, experiment) not in case_lookup:
                 ax.text(
                     x_pos, 0.10, "n/a",
-                    ha="center", va="bottom", fontsize=7,
+                    ha="center", va="bottom",
+                    fontsize=6.5 if len(experiments) >= 4 else 7,
+                    rotation=90 if len(experiments) >= 4 else 0,
                     color="0.45",
                     transform=ax.get_xaxis_transform(),
                 )
@@ -316,7 +366,6 @@ def _draw_country_panel(
             available_windows += 1
             case = case_lookup[(weather, experiment)]
             capacities = case["capacities"]
-            x_pos = i + side * offset
             bottom = 0.0
             for tech in TECHNOLOGY_ORDER:
                 height = float(capacities.get(tech, 0.0))
@@ -330,11 +379,11 @@ def _draw_country_panel(
             totals[(weather, experiment)] = bottom
             max_total = max(max_total, bottom)
 
-    # Each axis is independent: B and FX labels appear in all four panels.
-    tick_positions = [i + side * offset
-                      for i in range(len(weather_order)) for side in (-1, +1)]
+    # Each axis is independent: selected formulation labels appear on each panel.
+    tick_positions = [i + offsets[experiment]
+                      for i in range(len(weather_order)) for experiment in experiments]
     tick_labels = [EXPERIMENT_LABELS[experiment]
-                   for _ in weather_order for experiment in EXPERIMENTS]
+                   for _ in weather_order for experiment in experiments]
     ax.set_xticks(tick_positions, tick_labels)
     ax.set_xlim(-0.52, max(0.5, len(weather_order) - 0.48))
 
@@ -355,16 +404,18 @@ def _draw_country_panel(
         ax.set_ylim(0, max_total * (1.2 if show_totals else 1.07))
         if show_totals:
             for i, weather in enumerate(weather_order):
-                for experiment, side in (("B1", -1), ("FX1", +1)):
+                for experiment in experiments:
                     total = totals.get((weather, experiment), 0.0)
                     if total <= 1e-10:
                         continue
                     text = f"{total:.2f}" if total < 1 else f"{total:.1f}"
-                    ax.annotate(text, xy=(i + side * offset, total), xytext=(0, 2),
+                    ax.annotate(text, xy=(i + offsets[experiment], total), xytext=(0, 2),
                                 textcoords="offset points", ha="center", va="bottom",
-                                fontsize=8, color="0.25")
-    # Use readable 0.1 TWh increments for Spain.
-    if country == "ESP" and max_total > 1e-10:
+                                fontsize=8 if len(experiments) <= 2 else 6.5,
+                                color="0.25")
+    # Use readable 0.1 TWh increments only when Spain's investment is small.
+    # Larger portfolios must use automatic ticks, not dozens of 0.1 TWh ticks.
+    if country == "ESP" and 1e-10 < max_total <= 0.5:
         ax.yaxis.set_major_locator(MultipleLocator(0.1))
         ax.yaxis.set_major_formatter(FormatStrFormatter("%.1f"))
         ax.set_ylim(0, max(ax.get_ylim()[1], 0.2))
@@ -400,10 +451,11 @@ def plot_combined(
     countries: list[str],
     output_dir: Path,
     *,
+    experiments: tuple[str, ...] = EXPERIMENTS,
     png: bool = False,
     show_totals: bool = False,
 ) -> tuple[Path, ...]:
-    """Create vertically stacked, 90 x 185 mm single-column comparison."""
+    """Create vertically stacked, 90 x 220 mm single-column comparison."""
     countries = _country_order(countries)
     if not countries:
         return ()
@@ -419,12 +471,12 @@ def plot_combined(
     lookups: dict[str, dict[tuple[str, str], dict[str, object]]] = {}
     all_weather: set[str] = set()
     for country, cases in by_country.items():
-        available, lookup = _paired_weather(cases, country)
+        available, lookup = _available_weather(cases, country, experiments)
         lookups[country] = lookup
         all_weather.update(available)
     weather_order = sorted(all_weather, key=_weather_key)
     if not weather_order:
-        raise ValueError("No B1/FX1 weather windows for selected countries")
+        raise ValueError("No selected formulation weather windows for selected countries")
 
     with plt.rc_context({
         "font.family": "DejaVu Sans", "font.size": 9, "axes.labelsize": 9,
@@ -434,18 +486,18 @@ def plot_combined(
         fig, axes = plt.subplots(len(countries), 1,
                                  figsize=tuple(d * MM_TO_INCH for d in FIGURE_SIZE_MM),
                                  sharex=False, sharey=False, squeeze=False)
-        fig.subplots_adjust(left=0.16, right=1, top=0.91,
+        fig.subplots_adjust(left=0.13, right=1, top=0.91,
                             bottom=0.07, hspace=0.5)
         used: set[str] = set()
         for i, (ax, country) in enumerate(zip(axes.flat, countries)):
             used.update(_draw_country_panel(
                 ax, country, by_country[country], weather_order,
-                lookups[country], letter="abcd"[i],
+                lookups[country], letter="abcd"[i], experiments=experiments,
                 show_weather_labels=(i == len(countries) - 1),
                 show_totals=show_totals,
             ))
 
-        fig.supylabel("Model-selected storage capacity (TWh)", x=0.022,
+        fig.supylabel("Model-selected storage capacity (TWh)", x=0.001,
                      y=0.50, fontsize=9)
         handles = _legend_handles(used)
         if handles:
@@ -465,11 +517,12 @@ def plot_country(
     country_cases: list[dict[str, object]],
     output_dir: Path,
     *,
+    experiments: tuple[str, ...] = EXPERIMENTS,
     png: bool = False,
     show_totals: bool = False,
 ) -> tuple[Path, ...]:
     """Optional 190 x 80 mm individual-country figure, with sample labels."""
-    weather_order, lookup = _paired_weather(country_cases, country)
+    weather_order, lookup = _available_weather(country_cases, country, experiments)
     if not weather_order:
         return ()
     with plt.rc_context({
@@ -478,11 +531,12 @@ def plot_country(
         "axes.unicode_minus": False,
     }):
         fig, ax = plt.subplots(figsize=(190 * MM_TO_INCH, 80 * MM_TO_INCH))
-        fig.subplots_adjust(left=0.115, right=0.985, top=0.77, bottom=0.25)
+        fig.subplots_adjust(left=0.08, right=0.985, top=0.77, bottom=0.25)
         used = _draw_country_panel(ax, country, country_cases, weather_order,
-                                   lookup, letter="", show_weather_labels=True,
+                                   lookup, letter="", experiments=experiments,
+                                   show_weather_labels=True,
                                    show_totals=show_totals)
-        ax.set_ylabel("Storage capacity (TWh)", fontsize=9)
+        ax.set_ylabel("Storage capacity (TWh)", fontsize=8)
         handles = _legend_handles(used)
         if handles:
             fig.legend(handles=_legend_row_major(handles, len(handles)),
@@ -498,6 +552,13 @@ def main() -> None:
     parser.add_argument("--output-dir", type=Path, default=DEFAULT_OUTPUT_DIR)
     parser.add_argument("--countries", nargs="+", default=list(DEFAULT_COUNTRIES),
                         help="ISO3 country codes; NLD is always first if included")
+    parser.add_argument(
+        "--experiments", nargs="+", type=str.upper,
+        choices=tuple(EXPERIMENT_LABELS), default=list(EXPERIMENTS),
+        metavar="METHOD",
+        help="Formulations to plot, in bar order (B1 P1 F1 FX1); "
+             "defaults to the EXPERIMENTS global",
+    )
     parser.add_argument("--separate", action="store_true",
                         help="Also available: wide, individual-country PDF export")
     parser.add_argument("--show-totals", action="store_true",
@@ -506,15 +567,19 @@ def main() -> None:
     args = parser.parse_args()
 
     countries = _country_order(args.countries)
-    portfolios = load_portfolios(args.input_dir, countries=countries)
+    experiments = tuple(dict.fromkeys(args.experiments))
+    portfolios = load_portfolios(args.input_dir, countries=countries,
+                                 experiments=experiments)
     if args.separate:
         for country in countries:
             cases = [case for case in portfolios if case["country"] == country]
             for output in plot_country(country, cases, args.output_dir,
+                                       experiments=experiments,
                                        png=args.png, show_totals=args.show_totals):
                 print(f"Saved {output}")
     else:
         for output in plot_combined(portfolios, countries, args.output_dir,
+                                    experiments=experiments,
                                     png=args.png, show_totals=args.show_totals):
             print(f"Saved {output}")
 

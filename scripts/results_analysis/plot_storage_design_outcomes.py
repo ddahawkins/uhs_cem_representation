@@ -1,4 +1,4 @@
-"""NLD-only selected UHS design outcomes: EPR and WTIR across formulations.
+"""Selected UHS design outcomes: EPR and WTIR across countries/formulations.
 
 Creates one 190 x 112 mm, six-panel (3 technologies x 2 design metrics)
 vector PDF, with one point per *invested* technology/weather/formulation case
@@ -10,11 +10,14 @@ anonymously in the plot, not averaged before plotting.
 Options:
     --input-dir PATH     NetCDF model results (default: results/capacity_expansion_models)
     --output-dir PATH    Figure + supporting CSVs (default: results/design_outcomes)
+    --countries NLD DEU  Optional country list (default: COUNTRIES global)
     --horizon 3y         Only three-year weather samples (default); use 'all' for all
     --png                Also produce a 300 dpi PNG
 
-Only NLD_B1, NLD_P1, NLD_F1, and NLD_FX1 are included. B / P / F / FX
-identify those single-sample formulations on the x-axes. Salt cavern,
+Selected countries' B1, P1, F1, and FX1 cases are included. B / P / F / FX
+identify formulations on the x-axes. With one country, Plasma colours
+distinguish formulations; with multiple countries, Plasma colours distinguish
+countries and their points/medians are offset within each formulation. Salt cavern,
 aquifer, and depleted gas field are retained; CAES, batteries, hydropower,
 and lined rock caverns are excluded.
 
@@ -43,6 +46,7 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
+from matplotlib.lines import Line2D
 from matplotlib.ticker import MaxNLocator, ScalarFormatter
 
 try:
@@ -52,9 +56,9 @@ except ImportError:  # Run directly when the script is alongside _plots.py.
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
-DEFAULT_INPUT_DIR = PROJECT_ROOT / "hpc" / "results_wtir_2_manosque"
+DEFAULT_INPUT_DIR = PROJECT_ROOT / "hpc" / "results_wtir_2_soc_pressure"
 DEFAULT_OUTPUT_DIR = PROJECT_ROOT / "results" / "design_outcomes"
-COUNTRY = "NLD"  # Intentionally fixed: only NLD tested all formulations.
+COUNTRIES = ("NLD", "DEU", "GBR")  # E.g. ("NLD", "DEU", "GBR"); CLI --countries overrides.
 EXPERIMENTS = ("B1", "P1", "F1", "FX1")
 EXPERIMENT_LABELS = {"B1": "B", "P1": "P", "F1": "F", "FX1": "FX"}
 TECHNOLOGIES = (
@@ -78,15 +82,30 @@ COLUMNS = [
 ]
 
 
-def _eligible_case(path: Path, horizon: str) -> dict[str, str] | None:
-    """Apply explicit NLD, formulation, and weather-horizon filters before I/O."""
+def normalise_countries(values: tuple[str, ...] | list[str]) -> tuple[str, ...]:
+    """Accept country codes separated by spaces and/or commas, preserving order."""
+    countries = tuple(dict.fromkeys(
+        code.strip().upper()
+        for item in values
+        for code in item.split(",")
+        if code.strip()
+    ))
+    if not countries or any(len(code) != 3 or not code.isalpha() for code in countries):
+        raise ValueError("Provide one or more three-letter country codes, e.g. NLD DEU GBR")
+    return countries
+
+
+def _eligible_case(
+    path: Path, horizon: str, countries: tuple[str, ...]
+) -> dict[str, str] | None:
+    """Apply country, formulation, and weather-horizon filters before I/O."""
     if path.name.endswith(".pending.nc"):
         return None
     try:
         case = model_case(path)
     except ValueError:
         return None
-    if case["country"].upper() != COUNTRY:
+    if case["country"].upper() not in countries:
         return None
     if case["experiment"].upper() not in EXPERIMENTS:
         return None
@@ -97,8 +116,11 @@ def _eligible_case(path: Path, horizon: str) -> dict[str, str] | None:
     return case
 
 
-def load_data(input_dir: Path, *, horizon: str = "3y") -> tuple[pd.DataFrame, pd.DataFrame]:
-    """Read NLD-only cases and retain one design per invested family per case."""
+def load_data(
+    input_dir: Path, *, horizon: str = "3y", countries: tuple[str, ...] = COUNTRIES
+) -> tuple[pd.DataFrame, pd.DataFrame]:
+    """Read selected countries and retain one design per invested family per case."""
+    countries = normalise_countries(countries)
     input_dir = input_dir.expanduser()
     if not input_dir.is_dir():
         raise FileNotFoundError(f"Missing NetCDF results directory: {input_dir}")
@@ -106,27 +128,27 @@ def load_data(input_dir: Path, *, horizon: str = "3y") -> tuple[pd.DataFrame, pd
     paths: list[Path] = []
     cases_seen: set[tuple[str, str]] = set()
     for path in sorted(input_dir.glob("*.nc")):
-        case = _eligible_case(path, horizon)
+        case = _eligible_case(path, horizon, countries)
         if case is None:
             continue
-        key = (case["experiment"].upper(), case["weather"].lower())
+        key = (case["country"].upper(), case["experiment"].upper(), case["weather"].lower())
         if key in cases_seen:
-            raise ValueError(f"Duplicate NLD formulation / weather result: {key}")
+            raise ValueError(f"Duplicate country / formulation / weather result: {key}")
         cases_seen.add(key)
         paths.append(path)
     if not paths:
         raise FileNotFoundError(
-            f"No NLD B1/P1/F1/FX1 *{horizon}* weather results in {input_dir}"
+            f"No B1/P1/F1/FX1 *{horizon}* weather results for {countries} in {input_dir}"
         )
 
     records = []
     case_rows = []
     tech_ids = {x[0] for x in TECHNOLOGIES}
     for path in paths:
-        case = _eligible_case(path, horizon)
+        case = _eligible_case(path, horizon, countries)
         assert case is not None
         case_rows.append({
-            "country": COUNTRY, "experiment": case["experiment"].upper(),
+            "country": case["country"].upper(), "experiment": case["experiment"].upper(),
             "weather": case["weather"].lower(), "case": case["case"],
         })
         print(f"Reading {path.name}", flush=True)
@@ -146,7 +168,7 @@ def load_data(input_dir: Path, *, horizon: str = "3y") -> tuple[pd.DataFrame, pd
                 "This plot expects one design per technology/weather/formulation "
                 "in B1/P1/F1/FX1; do not silently weight a weather case twice."
             )
-        frame["country"] = COUNTRY
+        frame["country"] = case["country"].upper()
         frame["experiment"] = case["experiment"].upper()
         frame["weather"] = case["weather"].lower()
         if (frame[["storage_MWh", "injection_MW", "withdrawal_MW"]] <= 0).any().any():
@@ -159,37 +181,49 @@ def load_data(input_dir: Path, *, horizon: str = "3y") -> tuple[pd.DataFrame, pd
     points = (pd.concat(records, ignore_index=True) if records
               else pd.DataFrame(columns=COLUMNS))
     if points.empty:
-        raise ValueError("No invested salt caverns, aquifers, or depleted gas fields in selected NLD runs")
-    if cases_df["experiment"].nunique() < len(EXPERIMENTS):
-        missing = sorted(set(EXPERIMENTS) - set(cases_df["experiment"]))
-        warnings.warn(f"Missing requested formulations in selected NetCDF results: {missing}", stacklevel=2)
-    counts = cases_df.groupby("experiment").size().to_dict()
-    print("Eligible weather cases by formulation:", counts)
+        raise ValueError("No invested salt caverns, aquifers, or depleted gas fields in selected runs")
+    for country in countries:
+        country_cases = cases_df.loc[cases_df["country"] == country]
+        missing = sorted(set(EXPERIMENTS) - set(country_cases["experiment"]))
+        if missing:
+            warnings.warn(
+                f"{country}: missing requested formulations in NetCDF results: {missing}",
+                stacklevel=2,
+            )
+    counts = cases_df.groupby(["country", "experiment"]).size().to_dict()
+    print("Eligible weather cases by country/formulation:", counts)
     return points, cases_df
 
 
-def summarise(points: pd.DataFrame, cases: pd.DataFrame) -> pd.DataFrame:
-    """One row per technology/formulation, including absent investment cases."""
+def summarise(
+    points: pd.DataFrame, cases: pd.DataFrame, *, countries: tuple[str, ...] = COUNTRIES
+) -> pd.DataFrame:
+    """One row per country/technology/formulation, even without investment."""
     records = []
-    for family, _label in TECHNOLOGIES:
-        for experiment in EXPERIMENTS:
-            block = points.loc[
-                (points["technology"] == family) &
-                (points["experiment"] == experiment)
-            ]
-            record: dict[str, object] = {
-                "country": COUNTRY,
-                "technology": family,
-                "experiment": experiment,
-                "weather_cases_available": int((cases["experiment"] == experiment).sum()),
-                "weather_cases_invested": int(len(block)),
-            }
-            for metric in ("EPR_days", "WTIR"):
-                values = block[metric].to_numpy(dtype=float)
-                record[f"{metric}_median"] = float(np.median(values)) if len(values) else np.nan
-                record[f"{metric}_min"] = float(np.min(values)) if len(values) else np.nan
-                record[f"{metric}_max"] = float(np.max(values)) if len(values) else np.nan
-            records.append(record)
+    for country in normalise_countries(countries):
+        for family, _label in TECHNOLOGIES:
+            for experiment in EXPERIMENTS:
+                block = points.loc[
+                    (points["country"] == country) &
+                    (points["technology"] == family) &
+                    (points["experiment"] == experiment)
+                ]
+                record: dict[str, object] = {
+                    "country": country,
+                    "technology": family,
+                    "experiment": experiment,
+                    "weather_cases_available": int((
+                        (cases["country"] == country) &
+                        (cases["experiment"] == experiment)
+                    ).sum()),
+                    "weather_cases_invested": int(len(block)),
+                }
+                for metric in ("EPR_days", "WTIR"):
+                    values = block[metric].to_numpy(dtype=float)
+                    record[f"{metric}_median"] = float(np.median(values)) if len(values) else np.nan
+                    record[f"{metric}_min"] = float(np.min(values)) if len(values) else np.nan
+                    record[f"{metric}_max"] = float(np.max(values)) if len(values) else np.nan
+                records.append(record)
     return pd.DataFrame.from_records(records)
 
 
@@ -226,8 +260,78 @@ def _set_y_range(ax: plt.Axes, values: np.ndarray, metric: str) -> None:
     ax.set_ylim(max(0.0, lower), upper)
 
 
-def plot_design_outcomes(points: pd.DataFrame, *, output_dir: Path, png: bool = False) -> tuple[Path, ...]:
-    """Create the 3 x 2 journal figure, using black bars for medians."""
+def _set_aquifer_wtir_axis(ax: plt.Axes, values: np.ndarray) -> None:
+    """Use integer WTIR ticks without forcing saline aquifers to include 1.
+
+    An integer-valued constant (typically WTIR = 2) is centred in the panel,
+    rather than showing arbitrary fractional ticks around that value.
+    """
+    if not len(values):
+        ax.set_ylim(1.5, 2.5)
+        ax.set_yticks([2])
+        return
+
+    low, high = float(values.min()), float(values.max())
+    if np.isclose(low, high) and np.isclose(low, round(low)):
+        centre = int(round(low))
+        ax.set_ylim(max(0.0, centre - 0.5), centre + 0.5)
+        ax.set_yticks([centre])
+        return
+
+    # If future scenarios produce varying WTIRs, expand to integer tick bounds.
+    lower_tick = max(0, int(np.floor(low)))
+    upper_tick = max(lower_tick + 1, int(np.ceil(high)))
+    ax.set_ylim(max(0.0, lower_tick - 0.5), upper_tick + 0.5)
+    ax.yaxis.set_major_locator(MaxNLocator(nbins=4, integer=True, min_n_ticks=1))
+
+def _set_aquifer_epr_axis(ax: plt.Axes, values: np.ndarray) -> None:
+    """Use integer WTIR ticks without forcing saline aquifers to include 1.
+
+    An integer-valued constant (typically WTIR = 2) is centred in the panel,
+    rather than showing arbitrary fractional ticks around that value.
+    """
+    if not len(values):
+        ax.set_ylim(65, 67)
+        ax.set_yticks([66])
+        return
+
+    low, high = float(values.min()), float(values.max())
+    if np.isclose(low, high) and np.isclose(low, round(low)):
+        centre = int(round(low))
+        ax.set_ylim(max(0.0, centre - 0.5), centre + 0.5)
+        ax.set_yticks([centre])
+        return
+
+    # If future scenarios produce varying WTIRs, expand to integer tick bounds.
+    lower_tick = max(0, int(np.floor(low)))
+    upper_tick = max(lower_tick + 1, int(np.ceil(high)))
+    ax.set_ylim(max(0.0, lower_tick - 0.5), upper_tick + 0.5)
+    ax.yaxis.set_major_locator(MaxNLocator(nbins=4, integer=True, min_n_ticks=1))
+
+
+def plot_design_outcomes(
+    points: pd.DataFrame, *, output_dir: Path, countries: tuple[str, ...] = COUNTRIES,
+    png: bool = False,
+) -> tuple[Path, ...]:
+    """Create the 3 x 2 journal figure, using black bars for medians.
+
+    For one country, colours represent formulations, as in the original plot.
+    For multiple countries, colours represent countries; each country receives
+    its own within-formulation position and median, with a country legend.
+    """
+    countries = normalise_countries(countries)
+    multiple_countries = len(countries) > 1
+    country_colours = dict(zip(
+        countries, PLASMA(np.linspace(0.10, 0.88, len(countries)))
+    ))
+    # Keep all country groups within their formulation's unit-width column.
+    offset_span = min(0.54, 0.22 * (len(countries) - 1))
+    country_offsets = dict(zip(
+        countries, np.linspace(-offset_span / 2, offset_span / 2, len(countries))
+    ))
+    median_halfwidth = (min(0.12, 0.30 / len(countries))
+                        if multiple_countries else 0.18)
+    jitter_amplitude = 0 #(min(0.045, 0.15 / len(countries)) if multiple_countries else 0.12)
     with plt.rc_context({
         "font.family": "DejaVu Sans", "font.size": 9,
         "axes.labelsize": 9, "xtick.labelsize": 9, "ytick.labelsize": 9,
@@ -237,14 +341,28 @@ def plot_design_outcomes(points: pd.DataFrame, *, output_dir: Path, png: bool = 
         fig, axes = plt.subplots(
             len(TECHNOLOGIES), len(METRICS),
             figsize=(FIGURE_MM[0] * MM_TO_INCH, FIGURE_MM[1] * MM_TO_INCH),
-            squeeze=False, sharex=False, sharey=False,
+            squeeze=False, sharex=False, sharey=False,gridspec_kw={"height_ratios": [1, 0.6, 1]},
         )
-        fig.subplots_adjust(left=0.05, right=1, bottom=0.11,
-                            top=0.88, wspace=0.1, hspace=0.55)
+        top = (0.82 if len(countries) > 6 else 0.83) if multiple_countries else 0.88
+        fig.subplots_adjust(left=0.05, right=1, bottom=0.08,
+                            top=top, wspace=0.1, hspace=0.55)
         for col, (_metric, heading) in enumerate(METRICS):
             pos = axes[0, col].get_position()
-            fig.text(pos.x0 + pos.width / 2, .99, heading,
+            fig.text(pos.x0 + pos.width / 2, .94, heading,
                      ha="center", va="top", fontsize=9.5, weight="bold")
+
+        if multiple_countries:
+            handles = [Line2D(
+                [0], [0], marker="o", linestyle="None", markersize=5,
+                markerfacecolor=country_colours[country], markeredgecolor="white",
+                label=country,
+            ) for country in countries]
+            fig.legend(
+                handles=handles, loc="upper center", bbox_to_anchor=(0.5, 1),
+                ncol=min(6, len(countries)), frameon=False, fontsize=8,
+                columnspacing=1.3, handlelength=0.6, handletextpad=0.45,
+                borderaxespad=0,
+            )
 
         for row, (family, title) in enumerate(TECHNOLOGIES):
             subset = points.loc[points["technology"] == family]
@@ -257,8 +375,15 @@ def plot_design_outcomes(points: pd.DataFrame, *, output_dir: Path, png: bool = 
                              ha="left", va="bottom", fontsize=9.5, weight="bold")
 
                 all_values = subset[metric].to_numpy(dtype=float)
-                _set_y_range(ax, all_values, metric)
-                ax.yaxis.set_major_locator(MaxNLocator(nbins=4, integer=True, min_n_ticks=3))
+                if family == "aquifer" and metric == "WTIR":
+                    _set_aquifer_wtir_axis(ax, all_values)
+                elif family == "aquifer" and metric == "EPR_days":
+                    _set_aquifer_epr_axis(ax, all_values)
+                else:
+                    _set_y_range(ax, all_values, metric)
+                    ax.yaxis.set_major_locator(
+                        MaxNLocator(nbins=4, integer=True, min_n_ticks=3)
+                    )
                 fmt = ScalarFormatter(useOffset=False)
                 fmt.set_scientific(False)
                 ax.yaxis.set_major_formatter(fmt)
@@ -281,31 +406,48 @@ def plot_design_outcomes(points: pd.DataFrame, *, output_dir: Path, png: bool = 
                                    zorder=1)
 
                 for xpos, experiment in enumerate(EXPERIMENTS):
-                    group = subset.loc[subset["experiment"] == experiment]
-                    if group.empty:
-                        continue
-                    yvalues = group[metric].to_numpy(dtype=float)
-                    xvalues = xpos + _stable_jitter(group)
-                    ax.scatter(
-                        xvalues, yvalues, s=27,
-                        facecolor=EXPERIMENT_COLORS[experiment],
-                        edgecolor="white", linewidth=0.36,
-                        alpha=0.95, zorder=3,
-                    )
-                    # Black median on a white underlay remains legible over all
-                    # Plasma colours, including the darkest purple.
-                    med = float(np.median(yvalues))
-                    ax.plot([xpos - 0.18, xpos + 0.18], [med, med],
-                            color="white", lw=2, solid_capstyle="butt", zorder=4)
-                    ax.plot([xpos - 0.18, xpos + 0.18], [med, med],
-                            color="black", lw=2.0, solid_capstyle="butt", zorder=5)
+                    for country in countries:
+                        group = subset.loc[
+                            (subset["experiment"] == experiment) &
+                            (subset["country"] == country)
+                        ]
+                        if group.empty:
+                            continue
+                        yvalues = group[metric].to_numpy(dtype=float)
+                        centre = xpos + country_offsets[country]
+                        xvalues = centre + _stable_jitter(
+                            group, amplitude=jitter_amplitude
+                        )
+                        colour = (country_colours[country] if multiple_countries
+                                  else EXPERIMENT_COLORS[experiment])
+                        ax.scatter(
+                            xvalues, yvalues,
+                            s=max(12, 27 - 1.2 * len(countries)) if multiple_countries else 27,
+                            facecolor=colour,
+                            edgecolor="white", linewidth=0.36,
+                            alpha=0.95, zorder=3,
+                        )
+                        # A separate black median, outlined white, for each
+                        # country/formulation group (not pooled across countries).
+                        med = float(np.median(yvalues))
+                        ax.plot(
+                            [centre - median_halfwidth, centre + median_halfwidth],
+                            [med, med], color="white", lw=2.2,
+                            solid_capstyle="butt", zorder=4,
+                        )
+                        ax.plot(
+                            [centre - median_halfwidth, centre + median_halfwidth],
+                            [med, med], color="black", lw=1.65 if multiple_countries else 2,
+                            solid_capstyle="butt", zorder=5,
+                        )
         fig.supxlabel(
             "Cost formulation",
-            x=0.535, y=0.025,
+            x=0.535, y=0.00,
             fontsize=9,
         )
         output_dir.mkdir(parents=True, exist_ok=True)
-        path = output_dir / "storage_design_outcomes_NLD.pdf"
+        country_suffix = "_".join(countries)
+        path = output_dir / f"storage_design_outcomes_{country_suffix}.pdf"
         fig.savefig(path, facecolor="white")  # Physical width and height exact.
         outputs = [path]
         if png:
@@ -320,23 +462,32 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--input-dir", type=Path, default=DEFAULT_INPUT_DIR)
     parser.add_argument("--output-dir", type=Path, default=DEFAULT_OUTPUT_DIR)
+    parser.add_argument(
+        "--countries", nargs="+", default=None,
+        help="Country codes (space- or comma-separated), e.g. NLD DEU GBR; "
+             "defaults to COUNTRIES in the script",
+    )
     parser.add_argument("--horizon", default="3y",
                         help="Weather horizon suffix (default: 3y); 'all' to disable")
     parser.add_argument("--png", action="store_true", help="Also export 300 dpi PNG")
     args = parser.parse_args()
 
-    points, cases = load_data(args.input_dir, horizon=args.horizon)
-    summary = summarise(points, cases)
+    countries = normalise_countries(args.countries if args.countries is not None else COUNTRIES)
+    points, cases = load_data(args.input_dir, horizon=args.horizon, countries=countries)
+    summary = summarise(points, cases, countries=countries)
     args.output_dir.mkdir(parents=True, exist_ok=True)
-    points_file = args.output_dir / "storage_design_outcomes_NLD_points.csv"
-    summary_file = args.output_dir / "storage_design_outcomes_NLD_summary.csv"
+    country_suffix = "_".join(countries)
+    points_file = args.output_dir / f"storage_design_outcomes_{country_suffix}_points.csv"
+    summary_file = args.output_dir / f"storage_design_outcomes_{country_suffix}_summary.csv"
     points.to_csv(points_file, index=False)
     summary.to_csv(summary_file, index=False)
-    for out in plot_design_outcomes(points, output_dir=args.output_dir, png=args.png):
+    for out in plot_design_outcomes(
+        points, output_dir=args.output_dir, countries=countries, png=args.png
+    ):
         print(f"Saved {out}")
     print(f"Saved {points_file}")
     print(f"Saved {summary_file}")
-    print(summary[["technology", "experiment", "weather_cases_available",
+    print(summary[["country", "technology", "experiment", "weather_cases_available",
                    "weather_cases_invested", "EPR_days_median", "WTIR_median"]].to_string(index=False))
 
 

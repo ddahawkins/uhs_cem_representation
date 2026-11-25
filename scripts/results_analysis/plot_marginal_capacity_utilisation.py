@@ -1,30 +1,31 @@
-"""Compare Dutch depleted-gas-field marginal power utilisation across formulations.
+"""Compare pooled depleted-gas-field marginal power utilisation across formulations.
 
-Place beside scripts/results_analysis/plot_storage_operations.py, and run from
+Place beside scripts/results_analysis/plot_storage_residence_profiles.py, and run from
 project root:
 
     pixi run python -m scripts.results_analysis.plot_marginal_capacity_utilisation
 
-Default: NLD, three-year weather horizons, B1/P1/F1/FX1. 
+Default: NLD, GBR and DEU; three-year horizons; B1/P1/F1/FX1.
 
     pixi run python -m scripts.results_analysis.plot_marginal_capacity_utilisation `
-        --experiments B1 P1 F1 FX1 
+        --countries NLD GBR DEU --experiments B1 P1 F1 FX1
 
 Only DGF injection/withdrawal capacity is analysed. No energy-capacity metrics
 are calculated. The resulting figure is 190 x 76 mm (Elsevier two-column width).
 
-Each selected weather case has its *own* installed directional power capacity
+Each country/weather case has its *own* installed directional power capacity
 split into equal marginal capacity increments. Its equivalent full-load hours
-per year are calculated for each increment, then averaged equally across
-weather cases with a usable profile. Scenarios without DGF investment are
-excluded from the mean, not represented as zero. Scenarios with DGF selected
-but no dispatch correctly contribute a zero curve. The legend shows DGF
-selection counts (selected weather windows / matching weather windows).
+per year are calculated for each increment, then averaged equally over all
+country/weather cases with a usable profile, with no country distinction in
+the plots. Scenarios without DGF investment are excluded from the mean, not
+represented as zero. Scenarios with DGF selected but no dispatch contribute
+a zero curve. Country identifiers remain in the per-case and audit CSVs.
 
-Pairing defaults to common weather windows across ALL selected formulations.
-Input filenames must follow NLD_B1_weather_2009_3y.nc, etc. This script uses
-the established plot_storage_operations.load_stores and _series extractors and
-keeps the original B1-only fixed-ratio fallback for missing power capacities.
+Pairing defaults to common weather windows across ALL selected formulations
+within each country. Input filenames must follow NLD_B1_weather_2009_3y.nc,
+GBR_B1_weather_2009_3y.nc, etc. This script uses the established
+plot_storage_residence_profiles load_stores and _series extractors and keeps
+the original B1-only fixed-ratio fallback for missing power capacities.
 
 Outputs: vector PDF, per-case profiles, averaged profiles, selection and audit
 CSVs. Add --svg for a vector copy suitable for PowerPoint.
@@ -46,12 +47,17 @@ from matplotlib.ticker import MaxNLocator, PercentFormatter
 import numpy as np
 import pandas as pd
 
+if __package__:
+    from .plot_storage_residence_profiles import _read_design_csv, _series, load_stores
+else:
+    from plot_storage_residence_profiles import _read_design_csv, _series, load_stores
+
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_INPUT_DIR = PROJECT_ROOT / "hpc" / "results_wtir_2_soc_pressure"
 DEFAULT_OUTPUT_DIR = PROJECT_ROOT / "results" / "capacity_utilisation"
 
-COUNTRY = "NLD"                        # Intentionally fixed to the Dutch case study.
-FAMILY = "depleted_gas_field"          # Intentionally excludes all other technologies.
+DEFAULT_COUNTRIES = ("NLD","GBR", "DEU")
+FAMILY = "salt_cavern"          # Intentionally excludes all other technologies.
 DEFAULT_EXPERIMENTS = ("B1", "P1", "F1", "FX1")
 EXPERIMENT_LABELS = {"B1": "B", "P1": "P", "F1": "F", "FX1": "FX",
                      "FX2": "FX2", "FX4": "FX4"}
@@ -77,10 +83,10 @@ CASE_PATTERN = re.compile(
 )
 
 
-def discover_cases(input_dir: Path, experiments: list[str], horizon: str,
-                   common_weather: bool) -> list[tuple[Path, dict]]:
-    """Read NLD-only case filenames, selecting matched weather samples by default."""
-    all_cases: dict[tuple[str, str], Path] = {}
+def discover_cases(input_dir: Path, countries: list[str], experiments: list[str],
+                   horizon: str, common_weather: bool) -> list[tuple[Path, dict]]:
+    """Find requested countries and match experiment weather windows per country."""
+    all_cases: dict[tuple[str, str, str], Path] = {}
     for path in sorted(input_dir.expanduser().glob("*.nc")):
         if path.name.endswith(".pending.nc"):
             continue
@@ -88,39 +94,51 @@ def discover_cases(input_dir: Path, experiments: list[str], horizon: str,
         if match is None:
             continue
         group = match.groupdict()
-        if group["country"].upper() != COUNTRY or group["horizon"].lower() != horizon.lower():
+        country = group["country"].upper()
+        if country not in countries or group["horizon"].lower() != horizon.lower():
             continue
         experiment = group["experiment"].upper()
         if experiment not in experiments:
             continue
-        key = (experiment, group["weather"].lower())
+        key = (country, experiment, group["weather"].lower())
         if key in all_cases:
             raise ValueError(f"Duplicate result case {key}: {path}")
         all_cases[key] = path
     if not all_cases:
         raise FileNotFoundError(
-            f"No NLD results for {experiments} and horizon={horizon} in {input_dir}")
+            f"No results for countries={countries}, experiments={experiments} "
+            f"and horizon={horizon} in {input_dir}")
 
-    absent = sorted(set(experiments) - {k[0] for k in all_cases})
+    absent = [(country, experiment) for country in countries for experiment in experiments
+              if not any(c == country and e == experiment for c, e, _ in all_cases)]
     if absent:
-        raise ValueError(f"Missing NLD NetCDF files for experiment(s): {', '.join(absent)}")
+        raise ValueError("Missing NetCDF files for country/experiment pairs: "
+                         + ", ".join(f"{country}/{experiment}" for country, experiment in absent))
 
     if common_weather:
-        samples = [set(w for e, w in all_cases if e == experiment)
-                   for experiment in experiments]
-        shared = set.intersection(*samples)
-        if not shared:
-            raise ValueError(
-                f"No common {horizon} NLD weather samples across {experiments}; "
-                "use --unpaired-weather only if unequal sample sets are intended")
-        removed = sum(weather not in shared for (_, weather) in all_cases)
+        shared_by_country: dict[str, set[str]] = {}
+        for country in countries:
+            samples = [set(w for c, e, w in all_cases
+                           if c == country and e == experiment)
+                       for experiment in experiments]
+            shared = set.intersection(*samples)
+            if not shared:
+                raise ValueError(
+                    f"No common {horizon} weather samples for {country} across "
+                    f"{experiments}; use --unpaired-weather only if unequal "
+                    "sample sets are intended")
+            shared_by_country[country] = shared
+        removed = sum(weather not in shared_by_country[country]
+                      for country, _, weather in all_cases)
         if removed:
             warnings.warn(f"Excluded {removed} unmatched weather/experiment cases", stacklevel=2)
-        all_cases = {key: path for key, path in all_cases.items() if key[1] in shared}
-        print(f"Using {len(shared)} matched Dutch weather scenarios")
+        all_cases = {key: path for key, path in all_cases.items()
+                     if key[2] in shared_by_country[key[0]]}
+        print("Using matched weather scenarios: " + ", ".join(
+            f"{country}={len(shared_by_country[country])}" for country in countries))
 
-    return [(path, {"country": COUNTRY, "experiment": experiment, "weather": weather})
-            for (experiment, weather), path in sorted(all_cases.items())]
+    return [(path, {"country": country, "experiment": experiment, "weather": weather})
+            for (country, experiment, weather), path in sorted(all_cases.items())]
 
 
 def marginal_power_hours(flow_energy: np.ndarray, dt_hours: np.ndarray,
@@ -186,19 +204,11 @@ def _family_power_capacity(stores: list, experiment: str, design: pd.DataFrame,
 def read_case(path: Path, case: dict, bins: int,
               design_csv: Path | None) -> tuple[list[dict], dict]:
     """Extract DGF only, ignoring the SoC/energy-capacity calculations."""
-    try:
-        from .plot_storage_operations import (
-            _read_design_csv, _series, load_stores, model_case,
-        )
-    except ImportError:
-        from plot_storage_operations import (
-            _read_design_csv, _series, load_stores, model_case,
-        )
     import xarray as xr
 
     stores = [s for s in load_stores(path, allow_empty=True) if s.family == FAMILY]
     selected = bool(stores)
-    design = (_read_design_csv(design_csv, model_case(path))
+    design = (_read_design_csv(design_csv, {**case, "case": path.stem})
               if design_csv is not None else pd.DataFrame())
     dt = None
     flows = {}
@@ -256,12 +266,12 @@ def read_case(path: Path, case: dict, bins: int,
 
 
 def aggregate_curves(per_case: pd.DataFrame) -> pd.DataFrame:
-    """Equal-weather arithmetic mean of per-case, per-capacity-fraction curves."""
+    """Equal-case mean across countries/weather; unavailable curves stay NaN."""
     return (per_case.groupby(
-        ["country", "experiment", "technology", "metric",
+        ["experiment", "technology", "metric",
          "slice_index", "capacity_percentile"], as_index=False,
     ).agg(mean_value=("value", "mean"),
-          profiled_weather_scenarios=("value", "count")))
+          profiled_country_weather_cases=("value", "count")))
 
 
 def selection_summary(audit: pd.DataFrame) -> pd.DataFrame:
@@ -269,7 +279,7 @@ def selection_summary(audit: pd.DataFrame) -> pd.DataFrame:
     for experiment, group in audit.groupby("experiment", sort=False):
         selected = group.loc[group["selected"]]
         rows.append({
-            "country": COUNTRY, "technology": FAMILY, "experiment": experiment,
+            "technology": FAMILY, "experiment": experiment,
             "selected_scenarios": len(selected),
             "total_weather_scenarios": len(group),
             "injection_profile_scenarios": int(selected["injection_profile_available"].sum()),
@@ -365,8 +375,10 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--input-dir", type=Path, default=DEFAULT_INPUT_DIR)
     parser.add_argument("--output-dir", type=Path, default=DEFAULT_OUTPUT_DIR)
+    parser.add_argument("--countries", nargs="+", default=list(DEFAULT_COUNTRIES),
+                        help="Countries to pool (default: NLD GBR DEU)")
     parser.add_argument("--experiments", nargs="+", default=list(DEFAULT_EXPERIMENTS),
-                        help="NLD formulations to compare (default: B1 P1 F1 FX1)")
+                        help="Formulations to compare (default: B1 P1 F1 FX1)")
     parser.add_argument("--horizon", default="3y", help="Weather horizon (default 3y)")
     parser.add_argument("--bins", type=int, default=100,
                         help="Marginal capacity slices (default 100 = 1%% each)")
@@ -379,6 +391,11 @@ def main() -> None:
     parser.add_argument("--svg", action="store_true", help="Also save PowerPoint-friendly SVG")
     args = parser.parse_args()
 
+    countries = [str(country).upper() for country in args.countries]
+    if len(set(countries)) != len(countries):
+        parser.error("Duplicate countries supplied")
+    if any(re.fullmatch(r"[A-Z]{3}", country) is None for country in countries):
+        parser.error("Countries must be three-letter ISO codes, e.g. NLD GBR DEU")
     experiments = [str(e).upper() for e in args.experiments]
     if len(set(experiments)) != len(experiments):
         parser.error("Duplicate formulations supplied")
@@ -387,9 +404,10 @@ def main() -> None:
     if min(args.width_mm, args.height_mm) <= 0:
         parser.error("Figure dimensions must be positive")
 
-    cases = discover_cases(args.input_dir, experiments, args.horizon,
+    cases = discover_cases(args.input_dir, countries, experiments, args.horizon,
                            common_weather=not args.unpaired_weather)
-    print(f"Processing {len(cases)} {COUNTRY}/{FAMILY} cases", flush=True)
+    print(f"Processing {len(cases)} pooled {FAMILY} country/weather cases "
+          f"from {', '.join(countries)}", flush=True)
     profiles, audits = [], []
     for path, case in cases:
         print(f"Reading {path.name}", flush=True)
@@ -405,7 +423,7 @@ def main() -> None:
     selection = selection_summary(audit)
 
     args.output_dir.mkdir(parents=True, exist_ok=True)
-    prefix = "storage_marginal_power_DGF_NLD"
+    prefix = f"storage_marginal_power_{FAMILY}_" + "_".join(countries)
     for suffix, table in {
         "_per_case.csv": per_case,
         "_weather_means.csv": average,
